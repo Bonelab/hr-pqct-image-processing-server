@@ -214,7 +214,7 @@ def main():
     args = create_parser().parse_args()
     if args.start:
         print("Starting server")
-        subprocess.Popen("python3 /home/bonelab/server/bls/main_1.7.obj.py")
+        subprocess.Popen(["python3", "/home/bonelab/server/bls/main_1.7.obj.py"])
     else:
         CLIENT = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         CLIENT.connect(ADDR)
