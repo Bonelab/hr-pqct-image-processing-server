@@ -3,6 +3,7 @@
 # Description: This class is intended to manage and shared resources between the threads in main_1.7.py for the
 # Autosegment_Server project.
 # Created: 2023-06-20
+import os
 import threading
 from job import JobTracker
 from queue import Queue
@@ -14,6 +15,7 @@ DEST = 'destination'
 BATCHES = 'batches'
 DATE = "DATE_FINISHED"
 F_NAME = "EVAL_FNAME"
+DIRS = ["batches", "del", "destination", "failed", "models", "processed", "rec"]
 
 class State:
     def __init__(self):
@@ -21,6 +23,20 @@ class State:
         self.current = None
         self.JOB_QUEUE = Queue()
         self.perform_startup()
+
+    # TODO Create a method to go in init to create directories if they're not there
+    def _check_dirs(self):
+        dirs = os.listdir("/home/bonelab/server/bls")
+        if "del" not in dirs:
+            os.mkdir("del")
+        if "destination" not in dirs:
+            os.mkdir("destination")
+        if "failed" not in dirs:
+            os.mkdir("failed")
+        if "logs" not in dirs:
+            os.mkdir()
+
+
 
     def set_current(self, cur):
         self.lock.acquire()

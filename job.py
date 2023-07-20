@@ -126,6 +126,8 @@ class JobTracker:
 
     def process(self):
         print("Processing {}".format(self.get_com_name()))
+        time.sleep(10)
+        print("Done processing {}".format(self.get_com_name()))
         # proc = subprocess.Popen("cd {} && python3 segment.py --image-pattern {} --masks-subdirectory {}".format(BATCHES, self.get_image_name(), MASKS))
         # proc.wait()
 
@@ -150,7 +152,7 @@ class JobTracker:
     def send(self):
         # print("Sending {}".format(self.get_com_name()))
         # self.move_finished()
-        nm = self.get_image_name()
+        nm = self.get_image_name()  # nm should be the processed image's name
         hn = self.data.get("CLIENT_HOSTNAME")
         try:
             sftp_cmd = 'sftp -q -r {}@{}:{} <<< $\'put {}\''.format(self.data.get("CLIENT_USERNAME"), self.data.get("CLIENT_HOSTNAME"), convert_path(self.data.get("CLIENT_DESTINATION")), self.com_file)

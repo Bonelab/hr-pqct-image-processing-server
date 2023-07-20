@@ -135,7 +135,7 @@ def handle_args():
     nm = vars(args)
     if args.start:
         print("Starting server")
-        subprocess.run("python main_1.7.py")
+        subprocess.run("python main_1.7.obj.py")
     else:
         for key in nm:
             if not (nm.get(key) is None or nm.get(key) is False):
