@@ -148,18 +148,18 @@ class JobTracker:
         self.append_to_com()
 
     def send(self):
-        print("Sending {}".format(self.get_com_name()))
-        self.move_finished()
-        # nm = self.get_image_name()
-        # hn = self.data.get("CLIENT_HOSTNAME")
-        # try:
-        #     sftp_cmd = 'sftp -q -r {}@{}:{} <<< $\'put {}\''.format(self.data.get("CLIENT_USERNAME"), self.data.get("CLIENT_HOSTNAME"), convert_path(self.data.get("CLIENT_DESTINATION")), self.com_file)
-        #     subprocess.run(sftp_cmd, shell=True, check=True, executable='/bin/bash')
-        #     self.debug_logger.debug("{} successfully transferred to {}".format(nm, hn))
-        #     self.move_finished()
-        # except subprocess.CalledProcessError as e:
-        #     self.error_logger.error("Transfer to {} of {} failed".format(hn, nm))
-        #     self.move(FAILED)
+        # print("Sending {}".format(self.get_com_name()))
+        # self.move_finished()
+        nm = self.get_image_name()
+        hn = self.data.get("CLIENT_HOSTNAME")
+        try:
+            sftp_cmd = 'sftp -q -r {}@{}:{} <<< $\'put {}\''.format(self.data.get("CLIENT_USERNAME"), self.data.get("CLIENT_HOSTNAME"), convert_path(self.data.get("CLIENT_DESTINATION")), self.com_file)
+            subprocess.run(sftp_cmd, shell=True, check=True, executable='/bin/bash')
+            self.debug_logger.debug("{} successfully transferred to {}".format(nm, hn))
+            self.move_finished()
+        except subprocess.CalledProcessError as e:
+            self.error_logger.error("Transfer to {} of {} failed".format(hn, nm))
+            self.move(FAILED)
 
     def test_send(self):
         # Files get sent here and then timestamped
