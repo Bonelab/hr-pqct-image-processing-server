@@ -60,32 +60,64 @@ class Main:
             data = conn.recv(1024)
             cmd = pickle.loads(data)
             # Form [<command>, <arg1>, <arg2>, ..., <argn>]
-            match cmd[0]:
-                case "jobs":
-                    jbs = self.info.get_jobs()
-                    self.send(jbs, conn, cmd[0])
-                case "completed":
-                    comp = self.info.get_completed_jobs()
-                    self.send(comp, conn, cmd[0])
-                case "info":
-                    inf = self.info.get_job_com(cmd[1])
-                    self.send(inf, conn, cmd[0])
-                case "move":
-                    self.info.move_queue(cmd[1], cmd[2])
-                    jbs = self.info.get_jobs()
-                    self.send(jbs, conn, cmd[0])
-                case "restart":
-                    self.info.restart_job(cmd[1])
-                    jbs = self.info.get_jobs()
-                    self.send(jbs, conn, cmd[0])
-                case "delete":
-                    self.info.remove_from_queue(cmd[1])
-                    jbs = self.info.get_jobs()
-                    self.send(jbs, conn, cmd[0])
-                case "quit":
-                    quit()
-                case _:
-                    pass
+            command = cmd[0]
+
+            if command == "jobs":
+                jbs = self.info.get_jobs()
+                self.send(jbs, conn, cmd[0])
+            elif command == "completed":
+                comp = self.info.get_completed_jobs()
+                self.send(comp, conn, cmd[0])
+            elif command == "info":
+                inf = self.info.get_job_com(cmd[1])
+                self.send(inf, conn, cmd[0])
+            elif command == "move":
+                self.info.move_queue(cmd[1], cmd[2])
+                jbs = self.info.get_jobs()
+                self.send(jbs, conn, cmd[0])
+            elif command == "restart":
+                self.info.restart_job(cmd[1])
+                jbs = self.info.get_jobs()
+                self.send(jbs, conn, cmd[0])
+            elif command == "delete":
+                self.info.remove_from_queue(cmd[1])
+                jbs = self.info.get_jobs()
+                self.send(jbs, conn, cmd[0])
+            elif command == "quit":
+                quit()
+            else:
+                pass
+
+
+
+            # #TODO Delete
+            # match cmd[0]:
+            #     case "jobs":
+            #         jbs = self.info.get_jobs()
+            #         self.send(jbs, conn, cmd[0])
+            #     case "completed":
+            #         comp = self.info.get_completed_jobs()
+            #         self.send(comp, conn, cmd[0])
+            #     case "info":
+            #         inf = self.info.get_job_com(cmd[1])
+            #         self.send(inf, conn, cmd[0])
+            #     case "move":
+            #         self.info.move_queue(cmd[1], cmd[2])
+            #         jbs = self.info.get_jobs()
+            #         self.send(jbs, conn, cmd[0])
+            #     case "restart":
+            #         self.info.restart_job(cmd[1])
+            #         jbs = self.info.get_jobs()
+            #         self.send(jbs, conn, cmd[0])
+            #     case "delete":
+            #         self.info.remove_from_queue(cmd[1])
+            #         jbs = self.info.get_jobs()
+            #         self.send(jbs, conn, cmd[0])
+            #     case "quit":
+            #         quit()
+            #     case _:
+            #         pass
+            # #TODO Delete
 
 
     # This method is meant to be called on its own thread, it monitors the directory where the files will be transferred to

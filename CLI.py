@@ -153,24 +153,46 @@ def handle_args():
 
 
 def handle_response(data):
-    match data[0]:
-        case "jobs":
-            print("Jobs in queue: (0 is being processed)")
-            print_jobs(data[1])
-        case "move":
-            print("Job Moved:")
-            print_jobs(data[1])
-        case "restart":
-            print("Job Re-queued:")
-            print_jobs(data[1])
-        case "delete":
-            print("Job Deleted")
-            print_jobs(data[1])
-        case "completed":
-            print("Completed Jobs")
-            print_jobs(data[1])
-        case "info":
-            print_info(data[1])
+    command = data[0]
+    if command == "jobs":
+        print("Jobs in queue: (0 is being processed)")
+        print_jobs(data[1])
+    elif command == "move":
+        print("Job Moved:")
+        print_jobs(data[1])
+    elif command == "restart":
+        print("Job Re-queued:")
+        print_jobs(data[1])
+    elif command == "delete":
+        print("Job Deleted")
+        print_jobs(data[1])
+    elif command == "completed":
+        print("Completed Jobs")
+        print_jobs(data[1])
+    elif command == "info":
+        print_info(data[1])
+    else:
+        print("Invalid Command")
+
+
+    # match data[0]:
+    #     case "jobs":
+    #         print("Jobs in queue: (0 is being processed)")
+    #         print_jobs(data[1])
+    #     case "move":
+    #         print("Job Moved:")
+    #         print_jobs(data[1])
+    #     case "restart":
+    #         print("Job Re-queued:")
+    #         print_jobs(data[1])
+    #     case "delete":
+    #         print("Job Deleted")
+    #         print_jobs(data[1])
+    #     case "completed":
+    #         print("Completed Jobs")
+    #         print_jobs(data[1])
+    #     case "info":
+    #         print_info(data[1])
 
 
 def print_info(info):
