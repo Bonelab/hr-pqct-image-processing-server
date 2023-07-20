@@ -20,15 +20,15 @@ ip_addr = "127.0.0.1"
 PORT = 4000
 ADDR = (ip_addr, PORT)
 
-CLIENT = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-CLIENT.connect(ADDR)
+
+
 
 
 # Form [<command>, <arg1>, <arg2>, ..., <argn>]
 # SEND: Sends the command to the server
-def send(msg):
+def send(msg, cli):
     msg = pickle.dumps(msg)
-    CLIENT.sendall(msg)
+    cli.sendall(msg)
 
 
 # What needs to be done for each
@@ -130,21 +130,16 @@ def create_parser():
     return parser
 
 
-def handle_args():
-    args = create_parser().parse_args()
+def handle_args(cli, args):
     nm = vars(args)
-    if args.start:
-        print("Starting server")
-        subprocess.run("python main_1.7.obj.py")
-    else:
-        for key in nm:
-            if not (nm.get(key) is None or nm.get(key) is False):
-                cmd = [key]
-                if isinstance(nm.get(key), list):
-                    cmd = cmd + nm.get(key)
-                else:
-                    cmd.append(nm.get(key))
-                send(cmd)
+    for key in nm:
+        if not (nm.get(key) is None or nm.get(key) is False):
+            cmd = [key]
+            if isinstance(nm.get(key), list):
+                cmd = cmd + nm.get(key)
+            else:
+                cmd.append(nm.get(key))
+            send(cmd, cli)
 
     # Handle special cases (Start)
     # Turn namespace to dict
@@ -215,9 +210,16 @@ def print_jobs(job_list):
 
 
 def main():
-    handle_args()
-    response = pickle.loads(CLIENT.recv(32767))
-    handle_response(response)
+    args = create_parser().parse_args()
+    if args.start:
+        print("Starting server")
+        subprocess.run("python3 main_1.7.obj.py")
+    else:
+        CLIENT = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        CLIENT.connect(ADDR)
+        handle_args(CLIENT, args)
+        response = pickle.loads(CLIENT.recv(32767))
+        handle_response(response)
 
 
 if __name__ == "__main__":
