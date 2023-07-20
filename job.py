@@ -125,8 +125,9 @@ class JobTracker:
 
 
     def process(self):
-        proc = subprocess.Popen("cd {} && python3 segment.py --image-pattern {} --masks-subdirectory {}".format(BATCHES, self.get_image_name(), MASKS))
-        proc.wait()
+        print("Processing {}".format(self.get_com_name()))
+        # proc = subprocess.Popen("cd {} && python3 segment.py --image-pattern {} --masks-subdirectory {}".format(BATCHES, self.get_image_name(), MASKS))
+        # proc.wait()
 
     # METHOD to move the set of files between directories
     def move(self, directory):
