@@ -33,7 +33,7 @@ class JobTracker:
 
     # Creating loggers for error and debug
     def _create_logger(self, name, filename, level):
-        logger = logging.getLogger(f"{self.__class__.__name__}-{id(self)}-{name}")
+        logger = logging.getLogger("{}-{}-{}".format(self.__class__.__name__, id(self), name))
         logger.setLevel(level)
         if not logger.handlers:
             handler = logging.FileHandler(filename)
@@ -52,7 +52,7 @@ class JobTracker:
             self.name = self.data.get(FILENAME)
         else:
             nm = os.path.basename(file_path)
-            self.error_logger.error(f'Invalid extension for COM file in {nm}')
+            self.error_logger.error('Invalid extension for COM file in {}'.format(nm))
             raise ValueError('Invalid file extension for COM file')
 
     # Appends the date to the end of the com file, important for cleaning up the garbage after a week
@@ -60,7 +60,7 @@ class JobTracker:
         with open(self.com_file, 'a') as f:
             date = datetime.today()
             date_string = date.strftime("%Y-%m-%d")
-            f.write(f'$ DATE_FINISHED :== {date_string}')
+            f.write('$ DATE_FINISHED :== {}'.format(date_string))
 
     # Remove date at the end of the com file
     def rm_from_com(self):
@@ -84,14 +84,14 @@ class JobTracker:
                     if self.data.get(FILENAME).lower() in file.lower() and self.data.get("FEXT").lower() in file.lower():
                         self.set_image_file(file)
                         nm = self.data.get(FILENAME)
-                        self.debug_logger.debug(f"{nm} Received")
+                        self.debug_logger.debug("{} Received".format(nm))
                         self.rm_from_com()
                         return True
                 count += 1
                 time.sleep(1)
             if self.image_file is None:
                 nm = self.get_com_name()
-                self.error_logger.error(f'Could not find associated image file for {nm}')
+                self.error_logger.error('Could not find associated image file for {}'.format(nm))
                 raise FileNotFoundError("Image file not found")
         elif file_path.lower().endswith(".aim"):
             self.set_image_file(file_path)
@@ -104,14 +104,14 @@ class JobTracker:
                     if file_next.lower() in file.lower() and file.lower().endswith(".com"):
                         self.set_com_file(file)
                         nm = self.data.get(FILENAME)
-                        self.debug_logger.debug(f"{nm} Received")
+                        self.debug_logger.debug("{} Received".format(nm))
                         self.rm_from_com()
                         return True
                 count += 1
                 time.sleep(1)
             if self.com_file is None:
                 nm = self.get_image_name()
-                self.error_logger.error(f'Could not find associated COM file for {nm}')
+                self.error_logger.error('Could not find associated COM file for {}'.format(nm))
                 raise FileNotFoundError("COM file not found")
         else:
             raise FileNotFoundError
@@ -125,7 +125,7 @@ class JobTracker:
 
 
     def process(self):
-        proc = subprocess.Popen(f"cd {BATCHES} && python3 segment.py --image-pattern {self.get_image_name()} --masks-subdirectory {MASKS}")
+        proc = subprocess.Popen("cd {} && python3 segment.py --image-pattern {} --masks-subdirectory {}".format(BATCHES, self.get_image_name(), MASKS))
         proc.wait()
 
     # METHOD to move the set of files between directories
@@ -134,7 +134,7 @@ class JobTracker:
             self.com_file = shutil.move(self.com_file, directory)
             self.image_file = shutil.move(self.image_file, directory)
         except FileExistsError:
-            self.error_logger.error(f"Duplicate file of {self.get_image_name()} found in {directory}")
+            self.error_logger.error("Duplicate file of {} found in {}".format(self.get_image_name(), directory))
             os.remove(self.com_file)
             os.remove(self.image_file)
 
@@ -150,13 +150,12 @@ class JobTracker:
         nm = self.get_image_name()
         hn = self.data.get("CLIENT_HOSTNAME")
         try:
-            sftp_cmd = f'sftp -q -r {self.data.get("CLIENT_USERNAME")}@{self.data.get("CLIENT_HOSTNAME")}:' \
-                       f'{convert_path(self.data.get("CLIENT_DESTINATION"))} <<< $\'put {self.com_file}\''
+            sftp_cmd = 'sftp -q -r {}@{}:{} <<< $\'put {}\''.format(self.data.get("CLIENT_USERNAME"), self.data.get("CLIENT_HOSTNAME"), convert_path(self.data.get("CLIENT_DESTINATION")), self.com_file)
             subprocess.run(sftp_cmd, shell=True, check=True, executable='/bin/bash')
-            self.debug_logger.debug(f"{nm} successfully transferred to {hn}")
+            self.debug_logger.debug("{} successfully transferred to {}".format(nm, hn))
             self.move_finished()
         except subprocess.CalledProcessError as e:
-            self.error_logger.error(f"Transfer to {hn} of {nm} failed")
+            self.error_logger.error("Transfer to {} of {} failed".format(hn, nm))
             self.move(FAILED)
 
     def test_send(self):
@@ -174,11 +173,15 @@ class JobTracker:
     # On
     def log_action(self, action):
         nm = self.data.get(FILENAME)
-        self.debug_logger.debug(f"{nm} {action}")
+        self.debug_logger.debug("{} {}".format(nm, action))
 
-    def remove(self):
-        os.remove(self.image_file)
-        os.remove(self.com_file)
+
+def remove(self):
+    os.remove(self.image_file)
+    os.remove(self.com_file)
+
+
+
 
 
 # Converts a file path from the vms format to the linux format

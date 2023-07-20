@@ -198,19 +198,19 @@ def handle_response(data):
 def print_info(info):
     if info is not None:
         print("Job Information")
-        print(f"Job Name:\t\t{info.get(JOBNAME)}")
-        #    print(f"Job Type:\t\t{info.get(JOB_TYPE)}")
-        print(f"File Type:\t\t{info.get(FILE_TYPE)}")
-        print(f"Client Name:\t{info.get(ACCOUNT_NAME)}@{info.get(CLIENT_ADDR)}")
+        print("Job Name:\t\t{}".format(info.get(JOBNAME)))
+        #    print("Job Type:\t\t{}".format(info.get(JOB_TYPE)))
+        print("File Type:\t\t{}".format(info.get(FILE_TYPE)))
+        print("Client Name:\t{}@{}".format(info.get(ACCOUNT_NAME),info.get(CLIENT_ADDR)))
 
 
 def print_jobs(job_list):
     count = 0
     for job in job_list:
         if count % 4 == 0 and count != 0:
-            print(f"\n{count}: {job}\t\t\t", end="")
+            print("\n{}: {}\t\t\t".format(count, job), end="")
         else:
-            print(f"{count}: {job}\t\t\t", end="")
+            print("{}: {}\t\t\t".format(count, job), end="")
         count += 1
 
 

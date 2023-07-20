@@ -150,7 +150,7 @@ class Main:
             if self.info.JOB_QUEUE.not_empty:
                 item = self.info.dequeue()  # First item is gotten from the queue
                 self.info.set_current(item)
-                print(f'{item.name} dequeued')  # Log this
+                print('{} dequeued'.format(item.name))  # Debug
                 item.process()
                 # item.send()
                 item.test_send()  # TODO change in final ver to send
