@@ -8,6 +8,7 @@ import socket
 import pickle
 import argparse
 import subprocess
+import sys
 
 JOBNAME = "EVAL_FNAME"
 FILE_TYPE = "FEXT"
@@ -203,9 +204,9 @@ def print_jobs(job_list):
     count = 0
     for job in job_list:
         if count % 4 == 0 and count != 0:
-            print("\n{}: {}\t\t\t".format(count, job), end="")
+            sys.stdout.write("\n{}: {}\t\t\t".format(count, job))
         else:
-            print("{}: {}\t\t\t".format(count, job), end="")
+            sys.stdout.write("{}: {}\t\t\t".format(count, job))
         count += 1
 
 
