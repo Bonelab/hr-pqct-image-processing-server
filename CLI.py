@@ -215,7 +215,7 @@ def start_server():
     try:
         CLIENT = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         CLIENT.connect(ADDR)
-    except:
+    except ConnectionRefusedError:
         print("Starting Server")
         subprocess.Popen(["python3", "/home/bonelab/server/bls/main_1.7.obj.py"])
 
