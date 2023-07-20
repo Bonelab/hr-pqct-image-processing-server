@@ -99,7 +99,7 @@ class JobTracker:
             f_name = os.path.basename(file_path)
             file_next = os.path.splitext(f_name)[0]
             count = 0
-            while count < 1:  # TODO CHANGE BACK TO 60 IN FINAL VER
+            while count < 60:  # TODO CHANGE BACK TO 60 IN FINAL VER
                 pths = get_abs_paths(dir_path)
                 for file in pths:
                     if file_next.lower() in file.lower() and file.lower().endswith(".com"):

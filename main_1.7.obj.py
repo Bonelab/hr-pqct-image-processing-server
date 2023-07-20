@@ -4,7 +4,9 @@
 # the program
 # Created: 2023-05-19
 # Dependencies: pytorch, Anaconda, torchvision, cuda toolkit
+import os
 import shutil
+import subprocess
 import threading
 from job import JobTracker
 from state import State
@@ -84,7 +86,8 @@ class Main:
                 jbs = self.info.get_jobs()
                 self.send(jbs, conn, cmd[0])
             elif command == "quit":
-                quit()
+                pid = str(os.getpid())
+                subprocess.Popen(["kill", pid])
             else:
                 pass
 

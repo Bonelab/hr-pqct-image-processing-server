@@ -169,6 +169,7 @@ def handle_response(data):
         print_info(data[1])
     else:
         print("Invalid Command")
+    print()
 
 
     # match data[0]:
@@ -210,18 +211,33 @@ def print_jobs(job_list):
         count += 1
 
 
+def start_server():
+    print("Starting Server")
+    try:
+        CLIENT = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        CLIENT.connect(ADDR)
+    except:
+        subprocess.Popen(["python3", "/home/bonelab/server/bls/main_1.7.obj.py"])
+
+
+
 def main():
     args = create_parser().parse_args()
     if args.start:
         print("Starting server")
-        subprocess.Popen(["python3", "/home/bonelab/server/bls/main_1.7.obj.py"])
+
+
+
+
     else:
         CLIENT = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         CLIENT.connect(ADDR)
         handle_args(CLIENT, args)
-        response = pickle.loads(CLIENT.recv(32767))
-        handle_response(response)
-
+        try:
+            response = pickle.loads(CLIENT.recv(32767))
+            handle_response(response)
+        except EOFError:
+            print("No Response From Server")
 
 if __name__ == "__main__":
     main()
