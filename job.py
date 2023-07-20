@@ -137,7 +137,7 @@ class JobTracker:
         try:
             self.com_file = shutil.move(self.com_file, directory)
             self.image_file = shutil.move(self.image_file, directory)
-        except FileExistsError:
+        except shutil.Error:
             self.error_logger.error("Duplicate file of {} found in {}".format(self.get_image_name(), directory))
             os.remove(self.com_file)
             os.remove(self.image_file)
@@ -175,7 +175,7 @@ class JobTracker:
     def get_image_name(self):
         return os.path.basename(self.image_file)
 
-    # On
+
     def log_action(self, action):
         nm = self.data.get(FILENAME)
         self.debug_logger.debug("{} {}".format(nm, action))
