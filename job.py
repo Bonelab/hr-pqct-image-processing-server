@@ -12,8 +12,9 @@ from datetime import datetime
 
 FILENAME = "EVAL_FNAME"
 FAILED = "failed"
-BATCHES = r"/home/bonelab/Server/BLS/batches"
-MASKS = r"/home/bonelab/Server/BLS/processed"
+BATCHES = r"/home/bonelab/server/bls/batches"
+MASKS = r"/home/bonelab/server/bls/processed"
+DEST = r"/home/bonelab/server/bls/destination"
 
 
 class JobTracker:
@@ -145,8 +146,7 @@ class JobTracker:
     # can be restarted within some time after it being completed after that time though the datetime in the file is used
     # to track when to delete the file
     def move_finished(self):
-        self.com_file = shutil.move(self.com_file, 'destination')
-        self.image_file = shutil.move(self.image_file, 'destination')
+        self.move(DEST)
         self.append_to_com()
 
     def send(self):
