@@ -12,8 +12,8 @@ from datetime import datetime
 
 FILENAME = "EVAL_FNAME"
 FAILED = "failed"
-BATCHES = r"C:\Users\iangs\PycharmProjects\BoneLabServer\batches"
-MASKS = r"C:\Users\iangs\PycharmProjects\BoneLabServer\processed"
+BATCHES = r"/home/bonelab/Server/BLS/batches"
+MASKS = r"/home/bonelab/Server/BLS/processed"
 
 
 class JobTracker:
@@ -217,5 +217,4 @@ def parse_com(file_path):
                 split = line.split(":==")
                 if split[1] != "":
                     command_file[split[0].strip()] = split[1].strip()
-    print(command_file)
     return command_file
