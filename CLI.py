@@ -2,8 +2,7 @@
 # Author: Ian Smith
 # Description: Allows for communication with the main part of Autosegment_Server while it is daemonized
 # Created: 2023-06-16
-
-
+import os
 import socket
 import pickle
 import argparse
@@ -217,7 +216,8 @@ def start_server():
         CLIENT.connect(ADDR)
     except ConnectionRefusedError:
         print("Starting Server")
-        subprocess.Popen(["python3", "/home/bonelab/server/bls/main_1.7.obj.py"])
+        command = ["nohup", "python3", "/home/bonelab/server/bls/main_1.7.obj.py"]
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 
 
