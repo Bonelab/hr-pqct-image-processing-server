@@ -8,7 +8,7 @@ import pickle
 import argparse
 import sys
 from daemonize import Daemonize
-from main import main
+import main
 import psutil
 
 JOBNAME = "EVAL_FNAME"
@@ -23,17 +23,14 @@ PORT = 4000
 ADDR = (ip_addr, PORT)
 pid = "/tmp/main.pid"
 
-daemon = Daemonize(app="main.py", pid=pid, action=main)
-
 
 def is_daemonized():
     if os.path.exists(pid):
         with open(pid) as f:
             did = int(f.read().strip())
             return psutil.pid_exists(did)
-    return False
-
-
+    else:
+        return False
 
 
 # Form [<command>, <arg1>, <arg2>, ..., <argn>]
@@ -184,26 +181,6 @@ def handle_response(data):
     print()
 
 
-    # match data[0]:
-    #     case "jobs":
-    #         print("Jobs in queue: (0 is being processed)")
-    #         print_jobs(data[1])
-    #     case "move":
-    #         print("Job Moved:")
-    #         print_jobs(data[1])
-    #     case "restart":
-    #         print("Job Re-queued:")
-    #         print_jobs(data[1])
-    #     case "delete":
-    #         print("Job Deleted")
-    #         print_jobs(data[1])
-    #     case "completed":
-    #         print("Completed Jobs")
-    #         print_jobs(data[1])
-    #     case "info":
-    #         print_info(data[1])
-
-
 def print_info(info):
     if info is not None:
         print("Job Information")
@@ -225,6 +202,7 @@ def print_jobs(job_list):
 
 def start_server():
     if not is_daemonized():
+        daemon = Daemonize(app="main.py", pid=pid, action=main)
         daemon.start()
         print("Starting server")
 
