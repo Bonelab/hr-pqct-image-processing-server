@@ -33,8 +33,6 @@ ADDR = (ip_addr, port)
 
 class Main:
     def __init__(self):
-        print("Main Started")
-        print("Main Started")
         self.info = State()
         self.main()
 

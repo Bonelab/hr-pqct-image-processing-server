@@ -202,12 +202,12 @@ def print_jobs(job_list):
 
 def start_server():
     if not is_daemonized():
-        daemon = Daemonize(app="main.py", pid=pid, action=main)
+        daemon = Daemonize(app="main.py", pid=pid, action=cli)
         daemon.start()
         print("Starting server")
 
 
-def main():
+def cli():
     args = create_parser().parse_args()
     if args.start:
         start_server()
@@ -222,5 +222,4 @@ def main():
             print("No Response From Server")
 
 
-if __name__ == "__main__":
-    main()
+cli()
