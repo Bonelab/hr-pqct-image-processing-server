@@ -6,8 +6,10 @@ import os
 import socket
 import pickle
 import argparse
-import subprocess
 import sys
+from daemonize import Daemonize
+from main import main
+import psutil
 
 JOBNAME = "EVAL_FNAME"
 FILE_TYPE = "FEXT"
@@ -19,7 +21,17 @@ FORMAT = "utf-8"
 ip_addr = "127.0.0.1"
 PORT = 4000
 ADDR = (ip_addr, PORT)
+pid = "/tmp/main.pid"
 
+daemon = Daemonize(app="main.py", pid=pid, action=main)
+
+
+def is_daemonized():
+    if os.path.exists(pid):
+        with open(pid) as f:
+            did = int(f.read().strip())
+            return psutil.pid_exists(did)
+    return False
 
 
 
@@ -131,15 +143,16 @@ def create_parser():
 
 
 def handle_args(cli, args):
-    nm = vars(args)
-    for key in nm:
-        if not (nm.get(key) is None or nm.get(key) is False):
-            cmd = [key]
-            if isinstance(nm.get(key), list):
-                cmd = cmd + nm.get(key)
-            else:
-                cmd.append(nm.get(key))
-            send(cmd, cli)
+    if is_daemonized():
+        nm = vars(args)
+        for key in nm:
+            if not (nm.get(key) is None or nm.get(key) is False):
+                cmd = [key]
+                if isinstance(nm.get(key), list):
+                    cmd = cmd + nm.get(key)
+                else:
+                    cmd.append(nm.get(key))
+                send(cmd, cli)
 
     # Handle special cases (Start)
     # Turn namespace to dict
@@ -211,28 +224,25 @@ def print_jobs(job_list):
 
 
 def start_server():
-    try:
-        CLIENT = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        CLIENT.connect(ADDR)
-    except ConnectionRefusedError:
-        print("Starting Server")
-        command = ["python3", "/home/bonelab/server/bls/main_1.7.obj.py"]
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if not is_daemonized():
+        daemon.start()
+        print("Starting server")
 
 
 def main():
     args = create_parser().parse_args()
     if args.start:
-        print("Starting server")
+        start_server()
     else:
-        CLIENT = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        CLIENT.connect(ADDR)
-        handle_args(CLIENT, args)
         try:
+            CLIENT = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            CLIENT.connect(ADDR)
+            handle_args(CLIENT, args)
             response = pickle.loads(CLIENT.recv(32767))
             handle_response(response)
         except EOFError:
             print("No Response From Server")
+
 
 if __name__ == "__main__":
     main()

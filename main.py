@@ -163,4 +163,5 @@ class Main:
             time.sleep(1)
 
 
-Main()
+def main():
+    Main()
