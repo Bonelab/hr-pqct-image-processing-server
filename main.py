@@ -36,7 +36,6 @@ class Main:
         print("Main Started")
         print("Main Started")
         self.info = State()
-        self.main()
 
     # Main method of the program, sets up the threads for each individual process and performs startup routines
     def main(self):
@@ -164,4 +163,4 @@ class Main:
 
 
 def main():
-    Main()
+    Main().main()
