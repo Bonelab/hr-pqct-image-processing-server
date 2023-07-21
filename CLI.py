@@ -217,7 +217,7 @@ def start_server():
     except ConnectionRefusedError:
         print("Starting Server")
         command = ["nohup", "python3", "/home/bonelab/server/bls/main_1.7.obj.py"]
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 
 
 
