@@ -8,7 +8,7 @@ import pickle
 import argparse
 import sys
 import psutil
-import daemon
+import daemonocle
 import main
 
 JOBNAME = "EVAL_FNAME"
@@ -203,8 +203,8 @@ def print_jobs(job_list):
 def start_server():
     if not is_daemonized():
         print("Starting Server")
-        with daemon.DaemonContext(pidfile=pid):
-            main.main()
+        daemon = daemonocle.Daemon(pidfile=pid)
+        daemon.do_action(main.main())
         print("Server Started")
 
 
