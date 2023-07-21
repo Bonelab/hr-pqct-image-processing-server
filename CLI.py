@@ -197,7 +197,7 @@ def print_info(info):
         print("Job Name:\t\t{}".format(info.get(JOBNAME)))
         #    print("Job Type:\t\t{}".format(info.get(JOB_TYPE)))
         print("File Type:\t\t{}".format(info.get(FILE_TYPE)))
-        print("Client Name:\t{}@{}".format(info.get(ACCOUNT_NAME),info.get(CLIENT_ADDR)))
+        print("Client Name:\t{}@{}".format(info.get(ACCOUNT_NAME), info.get(CLIENT_ADDR)))
 
 
 def print_jobs(job_list):
@@ -216,19 +216,14 @@ def start_server():
         CLIENT.connect(ADDR)
     except ConnectionRefusedError:
         print("Starting Server")
-        command = ["nohup", "python3", "/home/bonelab/server/bls/main_1.7.obj.py"]
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-
+        command = ["python3", "/home/bonelab/server/bls/main_1.7.obj.py"]
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 
 def main():
     args = create_parser().parse_args()
     if args.start:
         print("Starting server")
-
-
-
-
     else:
         CLIENT = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         CLIENT.connect(ADDR)
