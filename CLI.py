@@ -8,7 +8,6 @@ import pickle
 import argparse
 import sys
 import psutil
-from main import Main
 import subprocess
 
 JOBNAME = "EVAL_FNAME"
@@ -140,16 +139,15 @@ def create_parser():
 
 
 def handle_args(cli, args):
-    if is_daemonized():
-        nm = vars(args)
-        for key in nm:
-            if not (nm.get(key) is None or nm.get(key) is False):
-                cmd = [key]
-                if isinstance(nm.get(key), list):
-                    cmd = cmd + nm.get(key)
-                else:
-                    cmd.append(nm.get(key))
-                send(cmd, cli)
+    nm = vars(args)
+    for key in nm:
+        if not (nm.get(key) is None or nm.get(key) is False):
+            cmd = [key]
+            if isinstance(nm.get(key), list):
+                cmd = cmd + nm.get(key)
+            else:
+                cmd.append(nm.get(key))
+            send(cmd, cli)
 
     # Handle special cases (Start)
     # Turn namespace to dict

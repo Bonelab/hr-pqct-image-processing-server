@@ -87,7 +87,7 @@ class Main:
                 jbs = self.info.get_jobs()
                 self.send(jbs, conn, cmd[0])
             elif command == "quit":
-                self.send("quitting", conn, cmd[0])
+                self.send("quit", conn, cmd[0])
                 quit()
             else:
                 pass
