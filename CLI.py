@@ -204,7 +204,7 @@ def start_server():
     if not is_daemonized():
         print("Starting Server")
         daemon = Daemonize(app="main", pid=pid, action=main)
-
+        daemon.start()
         print("Server Started")
 
 
