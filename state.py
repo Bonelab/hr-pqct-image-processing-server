@@ -29,10 +29,10 @@ class State:
 
     # TODO Create a method to go in init to create directories if they're not there
     def _check_dirs(self):
-        current_dirs = os.listdir("/home/bonelab/server/bls")
-        for dir in DIRS:
-            if dir not in current_dirs:
-                os.mkdir(dir)
+        current_dirs = os.listdir()
+        for folder in DIRS:
+            if folder not in current_dirs:
+                os.mkdir(folder)
 
 
     def set_current(self, cur):
