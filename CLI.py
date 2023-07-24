@@ -212,10 +212,15 @@ def cli():
         start_server()
     else:
         try:
+            print('1')
             CLIENT = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            print('2')
             CLIENT.connect(ADDR)
+            print('3')
             handle_args(CLIENT, args)
+            print('4')
             response = pickle.loads(CLIENT.recv(32767))
+            print('5')
             handle_response(response)
         except EOFError:
             print("No Response From Server")
