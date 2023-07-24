@@ -199,11 +199,10 @@ def print_jobs(job_list):
 
 
 def start_server():
-    if not is_daemonized():
-        print("Starting Server")
-        with open(os.devnull, 'w') as devnull:
-            subprocess.Popen(['python3', 'main.py'], stdout=devnull, stderr=devnull)
-        print("Server Started")
+    print("Starting Server")
+    with open(os.devnull, 'w') as devnull:
+        subprocess.Popen(['python3', 'main.py'], stdout=devnull, stderr=devnull)
+    print("Server Started")
 
 
 def cli():
