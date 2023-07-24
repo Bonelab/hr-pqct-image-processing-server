@@ -66,7 +66,6 @@ class Main:
 
             if command == "jobs":
                 jbs = self.info.get_jobs()
-                os.mkdir("debug")
                 self.send(jbs, conn, cmd[0])
             elif command == "completed":
                 comp = self.info.get_completed_jobs()
