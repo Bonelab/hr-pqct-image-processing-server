@@ -12,9 +12,9 @@ from datetime import datetime
 
 FILENAME = "EVAL_FNAME"
 FAILED = "failed"
-BATCHES = r"/home/bonelab/server/bls/batches"
-MASKS = r"/home/bonelab/server/bls/processed"
-DEST = r"/home/bonelab/server/bls/destination"
+BATCHES = "batches"
+MASKS = "processed"
+DEST = "destination"
 
 
 class JobTracker:

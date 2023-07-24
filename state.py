@@ -13,9 +13,16 @@ import job
 
 DEST = 'destination'
 BATCHES = 'batches'
+DEL = 'del'
+FAILED = 'failed'
+MODELS = 'models'
+MASKS = 'processed'
+REC = 'rec'
+TMP = 'tmp'
+
 DATE = "DATE_FINISHED"
 F_NAME = "EVAL_FNAME"
-DIRS = ["batches", "del", "destination", "failed", "models", "processed", "rec"]
+DIRS = [BATCHES, DEL, DEST, FAILED, MODELS, MASKS, REC, TMP]
 
 class State:
     def __init__(self):
@@ -28,7 +35,8 @@ class State:
 
 
     # TODO Create a method to go in init to create directories if they're not there
-    def _check_dirs(self):
+    @staticmethod
+    def _check_dirs():
         current_dirs = os.listdir()
         for folder in DIRS:
             if folder not in current_dirs:

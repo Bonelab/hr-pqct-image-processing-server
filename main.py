@@ -46,7 +46,8 @@ class Main:
         threading.Thread(target=self.cli_handle(), args=()).start()
 
 
-    def send(self, dat, con, cmd):
+    @staticmethod
+    def send(dat, con, cmd):
         to_send = [cmd, dat]
         to_send = pickle.dumps(to_send)
         con.sendall(to_send)
@@ -90,37 +91,6 @@ class Main:
                 subprocess.Popen(["kill", pid])
             else:
                 pass
-
-
-
-            # #TODO Delete
-            # match cmd[0]:
-            #     case "jobs":
-            #         jbs = self.info.get_jobs()
-            #         self.send(jbs, conn, cmd[0])
-            #     case "completed":
-            #         comp = self.info.get_completed_jobs()
-            #         self.send(comp, conn, cmd[0])
-            #     case "info":
-            #         inf = self.info.get_job_com(cmd[1])
-            #         self.send(inf, conn, cmd[0])
-            #     case "move":
-            #         self.info.move_queue(cmd[1], cmd[2])
-            #         jbs = self.info.get_jobs()
-            #         self.send(jbs, conn, cmd[0])
-            #     case "restart":
-            #         self.info.restart_job(cmd[1])
-            #         jbs = self.info.get_jobs()
-            #         self.send(jbs, conn, cmd[0])
-            #     case "delete":
-            #         self.info.remove_from_queue(cmd[1])
-            #         jbs = self.info.get_jobs()
-            #         self.send(jbs, conn, cmd[0])
-            #     case "quit":
-            #         quit()
-            #     case _:
-            #         pass
-            # #TODO Delete
 
 
     # This method is meant to be called on its own thread, it monitors the directory where the files will be transferred to
