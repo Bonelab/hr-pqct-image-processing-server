@@ -23,19 +23,16 @@ class State:
         self.current = None
         self.JOB_QUEUE = Queue()
         self.perform_startup()
+        self._check_dirs()
+
+
 
     # TODO Create a method to go in init to create directories if they're not there
     def _check_dirs(self):
-        dirs = os.listdir("/home/bonelab/server/bls")
-        if "del" not in dirs:
-            os.mkdir("del")
-        if "destination" not in dirs:
-            os.mkdir("destination")
-        if "failed" not in dirs:
-            os.mkdir("failed")
-        if "logs" not in dirs:
-            os.mkdir()
-
+        current_dirs = os.listdir("/home/bonelab/server/bls")
+        for dir in DIRS:
+            if dir not in current_dirs:
+                os.mkdir(dir)
 
 
     def set_current(self, cur):
