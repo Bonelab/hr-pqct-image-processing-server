@@ -8,8 +8,8 @@ import pickle
 import argparse
 import sys
 import psutil
-from daemonize import Daemonize
-import main
+from main import Main
+import daemon
 
 JOBNAME = "EVAL_FNAME"
 FILE_TYPE = "FEXT"
@@ -203,8 +203,8 @@ def print_jobs(job_list):
 def start_server():
     if not is_daemonized():
         print("Starting Server")
-        daemon = Daemonize(app="main", pid=pid, action=main)
-        daemon.start()
+        with daemon.DaemonContext():
+            Main.main()
         print("Server Started")
 
 
