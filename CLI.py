@@ -9,7 +9,7 @@ import argparse
 import sys
 import psutil
 from main import Main
-import daemon
+import subprocess
 
 JOBNAME = "EVAL_FNAME"
 FILE_TYPE = "FEXT"
@@ -203,8 +203,7 @@ def print_jobs(job_list):
 def start_server():
     if not is_daemonized():
         print("Starting Server")
-        with daemon.DaemonContext():
-            Main.main()
+        subprocess.Popen(['python3', 'main.py'])
         print("Server Started")
 
 
