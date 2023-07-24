@@ -200,8 +200,8 @@ def print_jobs(job_list):
 
 def start_server():
     print("Starting Server")
-    with open(os.devnull, 'w') as devnull:
-        subprocess.Popen(['python3', 'main.py'], stdout=devnull, stderr=devnull)
+    #with open(os.devnull, 'w') as devnull: ,stdout=devnull, stderr=devnull
+    subprocess.Popen(['python3', 'main.py'])
     print("Server Started")
 
 
@@ -213,7 +213,6 @@ def cli():
         try:
             print('1')
             CLIENT = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            print('2')
             CLIENT.connect(ADDR)
             print('3')
             handle_args(CLIENT, args)

@@ -6,7 +6,6 @@
 # Dependencies: pytorch, Anaconda, torchvision, cuda toolkit
 import os
 import shutil
-import subprocess
 import threading
 from job import JobTracker
 from state import State
