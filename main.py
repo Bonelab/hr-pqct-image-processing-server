@@ -87,8 +87,8 @@ class Main:
                 jbs = self.info.get_jobs()
                 self.send(jbs, conn, cmd[0])
             elif command == "quit":
-                pid = str(os.getpid())
-                subprocess.Popen(["kill", pid])
+                self.send("quitting", conn, cmd[0])
+                quit()
             else:
                 pass
 

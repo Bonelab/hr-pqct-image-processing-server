@@ -176,8 +176,8 @@ def handle_response(data):
         print_jobs(data[1])
     elif command == "info":
         print_info(data[1])
-    else:
-        print("Invalid Command")
+    elif command == "quit":
+        print("Shutting down program")
     print()
 
 
