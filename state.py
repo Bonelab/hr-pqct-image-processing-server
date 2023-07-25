@@ -24,6 +24,8 @@ DATE = "DATE_FINISHED"
 F_NAME = "EVAL_FNAME"
 DIRS = [BATCHES, DEL, DEST, FAILED, MODELS, MASKS, REC, TMP]
 
+
+# TODO logging should go in here
 class State:
     def __init__(self):
         self.lock = threading.Lock()
@@ -33,8 +35,6 @@ class State:
         self._check_dirs()
 
 
-
-    # TODO Create a method to go in init to create directories if they're not there
     @staticmethod
     def _check_dirs():
         current_dirs = os.listdir()

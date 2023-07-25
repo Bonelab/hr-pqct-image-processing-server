@@ -161,8 +161,11 @@ def handle_response(data):
         print("Jobs in queue: (0 is being processed)")
         print_jobs(data[1])
     elif command == "move":
-        print("Job Moved:")
-        print_jobs(data[1])
+        if data[1] == "Exception":
+            print("Job Moved:")
+            print_jobs(data[1])
+        else:
+            print("Index for job out of range")
     elif command == "restart":
         print("Job Re-queued:")
         print_jobs(data[1])
@@ -200,14 +203,14 @@ def print_jobs(job_list):
 
 def start_server():
     print("Starting Server")
-    #with open(os.devnull, 'w') as devnull: ,stdout=devnull, stderr=devnull
-    subprocess.Popen(['python3', 'main.py'])
+    with open(os.devnull, 'w') as devnull:
+        subprocess.Popen(['python3', 'main.py'], stdout=devnull, stderr=devnull)
     print("Server Started")
 
 
 def cli():
     args = create_parser().parse_args()
-    if args.start:
+    if args.start: # May not have to deal with this.
         start_server()
     else:
         try:

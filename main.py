@@ -4,7 +4,7 @@
 # the program
 # Created: 2023-05-19
 # Dependencies: pytorch, Anaconda, torchvision, cuda toolkit
-import os
+
 import shutil
 import threading
 from job import JobTracker
@@ -22,7 +22,7 @@ BATCHES = 'batches'
 FAILED = 'failed'
 DESTINATION = 'destination'
 
-FORMAT = "utf-8"
+
 ip_addr = "127.0.0.1"
 port = 4000
 ADDR = (ip_addr, port)
@@ -46,7 +46,7 @@ class Main:
 
 
     @staticmethod
-    def send(dat, con, cmd):
+    def send_to_cli(dat, con, cmd):
         to_send = [cmd, dat]
         to_send = pickle.dumps(to_send)
         con.sendall(to_send)
@@ -66,27 +66,31 @@ class Main:
 
             if command == "jobs":
                 jbs = self.info.get_jobs()
-                self.send(jbs, conn, cmd[0])
+                self.send_to_cli(jbs, conn, cmd[0])
             elif command == "completed":
                 comp = self.info.get_completed_jobs()
-                self.send(comp, conn, cmd[0])
+                self.send_to_cli(comp, conn, cmd[0])
             elif command == "info":
                 inf = self.info.get_job_com(cmd[1])
-                self.send(inf, conn, cmd[0])
+                self.send_to_cli(inf, conn, cmd[0])
             elif command == "move":
-                self.info.move_queue(cmd[1], cmd[2])
-                jbs = self.info.get_jobs()
-                self.send(jbs, conn, cmd[0])
+                try:
+                    self.info.move_queue(cmd[1], cmd[2])
+                    jbs = self.info.get_jobs()
+                    self.send_to_cli(jbs, conn, cmd[0])
+                except ValueError:
+                    pl = "Exception"
+                    self.send_to_cli(pl, conn, cmd[0])
             elif command == "restart":
                 self.info.restart_job(cmd[1])
                 jbs = self.info.get_jobs()
-                self.send(jbs, conn, cmd[0])
+                self.send_to_cli(jbs, conn, cmd[0])
             elif command == "delete":
                 self.info.remove_from_queue(cmd[1])
                 jbs = self.info.get_jobs()
-                self.send(jbs, conn, cmd[0])
+                self.send_to_cli(jbs, conn, cmd[0])
             elif command == "quit":
-                self.send("quit", conn, cmd[0])
+                self.send_to_cli("quit", conn, cmd[0])
                 quit()
             else:
                 pass
@@ -102,17 +106,16 @@ class Main:
                 last = time.time()
             file_list = job.get_abs_paths(PATH)
             if len(file_list) != 0:
-                batch = JobTracker()
+                item = JobTracker()
                 for file in file_list:
-                    try:
-                        batch.set_up_from_file(file)
-                        self.info.enqueue(batch)
-                        break
-                    except ValueError:
-                        shutil.move(file, FAILED)
-                    except FileNotFoundError:
-                        shutil.move(file, FAILED)
-                        break
+                    if file.lower().endswith(".com"):
+                        try:
+                            item.set_up_from_file(file)
+                            self.info.enqueue(item)
+                            break
+                        except FileNotFoundError:
+                            shutil.move(file, FAILED)
+                            break
             time.sleep(1)
 
     # This is the worker function, it pulls jobs off of the queue and processes them and sends back the processed images

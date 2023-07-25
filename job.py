@@ -11,6 +11,10 @@ import subprocess
 from datetime import datetime
 
 FILENAME = "EVAL_FNAME"
+TARGET_IMAGE = "TARGET_FILE"
+EXT = "FEXT"
+
+
 FAILED = "failed"
 BATCHES = "batches"
 MASKS = "processed"
@@ -73,53 +77,36 @@ class JobTracker:
                 if 'DATE_FINISHED' not in line:
                     f.write(line)
 
-    # Can set up the filetracker object from just the com file
+
+
+    # Can set up the object from just the com file
     def set_up_from_file(self, file_path):
+        print("SET up from com")
         dir_path = os.path.dirname(file_path)
-        if file_path.lower().endswith(".com"):
-            self.set_com_file(file_path)
-            count = 0
-            while count < 60:  # TODO CHANGE BACK TO 60 IN FINAL VER
-                pths = get_abs_paths(dir_path)
-                for file in pths:
-                    if self.data.get(FILENAME).lower() in file.lower() and self.data.get("FEXT").lower() in file.lower():
-                        self.set_image_file(file)
-                        nm = self.data.get(FILENAME)
-                        self.debug_logger.debug("{} Received".format(nm))
-                        self.rm_from_com()
-                        return True
-                count += 1
-                time.sleep(1)
-            if self.image_file is None:
-                nm = self.get_com_name()
-                self.error_logger.error('Could not find associated image file for {}'.format(nm))
-                raise FileNotFoundError("Image file not found")
-        elif file_path.lower().endswith(".aim"):
-            self.set_image_file(file_path)
-            f_name = os.path.basename(file_path)
-            file_next = os.path.splitext(f_name)[0]
-            count = 0
-            while count < 60:  # TODO CHANGE BACK TO 60 IN FINAL VER
-                pths = get_abs_paths(dir_path)
-                for file in pths:
-                    if file_next.lower() in file.lower() and file.lower().endswith(".com"):
-                        self.set_com_file(file)
-                        nm = self.data.get(FILENAME)
-                        self.debug_logger.debug("{} Received".format(nm))
-                        self.rm_from_com()
-                        return True
-                count += 1
-                time.sleep(1)
-            if self.com_file is None:
-                nm = self.get_image_name()
-                self.error_logger.error('Could not find associated COM file for {}'.format(nm))
-                raise FileNotFoundError("COM file not found")
-        else:
-            raise FileNotFoundError
+        self.set_com_file(file_path)
+        count = 0
+        while count < 60:  # TODO CHANGE BACK TO 60 IN FINAL VER
+            pths = get_abs_paths(dir_path)
+            target = self.data.get(TARGET_IMAGE)
+            for file in pths:
+                file_base = os.path.basename(file)
+                if file_base.lower() == target.lower():
+                    self.set_image_file(file)
+                    nm = self.data.get(FILENAME)
+                    self.debug_logger.debug("{} Received".format(nm))
+                    self.rm_from_com()
+                    return True
+            count += 1
+            time.sleep(1)
+        if self.image_file is None:
+            nm = self.get_com_name()
+            self.error_logger.error('Could not find associated image file for {}'.format(nm))
+            raise FileNotFoundError("Image file not found")
+
 
     # Set the image file for the JobTracker object
     def set_image_file(self, file_path):
-        if file_path.lower().endswith(".aim"):   # or file_path.lower().endswith(".isq") or file_path.lower(#).endswith(".gobj")
+        if file_path.lower().endswith(".aim"):   # or file_path.lower().endswith(".isq") or file_path.lower().endswith(".gobj")
             self.image_file = file_path
         else:
             raise ValueError("Invalid file extension for image file")
