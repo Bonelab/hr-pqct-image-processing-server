@@ -141,9 +141,20 @@ class JobTracker:
         nm = self.get_image_name()  # nm should be the processed image's name
         hn = self.data.get("CLIENT_HOSTNAME")
         try:
-            sftp_cmd = 'sftp -q {}@{}:{} <<< $\'put {}\''.format(self.data.get("CLIENT_USERNAME"), self.data.get("CLIENT_HOSTNAME"), convert_path(self.data.get("CLIENT_DESTINATION")), os.path.abspath(self.com_file))
-            print(sftp_cmd)
-            subprocess.run(sftp_cmd, shell=False)
+
+            sftp_cmd = ['sftp', '-q',
+                        '{}@{}:{}'.format(self.data.get("CLIENT_USERNAME"), self.data.get("CLIENT_HOSTNAME"),
+                        convert_path(self.data.get("CLIENT_DESTINATION")))]
+            put_cmd = ['put', os.path.abspath(self.com_file)]
+
+            # Use subprocess.Popen to execute the command
+            process = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
+            process.communicate(input='\n'.join(put_cmd).encode())
+            process.wait()  # Wait for the process to complete (optional)
+
+            # sftp_cmd = 'sftp -q {}@{}:{} <<< $\'put {}\''.format(self.data.get("CLIENT_USERNAME"), self.data.get("CLIENT_HOSTNAME"), convert_path(self.data.get("CLIENT_DESTINATION")), os.path.abspath(self.com_file))
+            # print(sftp_cmd)
+            # subprocess.run(sftp_cmd, shell=False)
             self.debug_logger.debug("{} successfully transferred to {}".format(nm, hn))
             self.move_finished()
         except subprocess.CalledProcessError as e:
