@@ -141,9 +141,9 @@ class JobTracker:
         nm = self.get_image_name()  # nm should be the processed image's name
         hn = self.data.get("CLIENT_HOSTNAME")
         try:
-            sftp_cmd = 'sftp -q -r {}@{}:{} <<< $\'put {}\''.format(self.data.get("CLIENT_USERNAME"), self.data.get("CLIENT_HOSTNAME"), convert_path(self.data.get("CLIENT_DESTINATION")), self.com_file)
+            sftp_cmd = 'sftp -q {}@{}:{} <<< $\'put {}\''.format(self.data.get("CLIENT_USERNAME"), self.data.get("CLIENT_HOSTNAME"), convert_path(self.data.get("CLIENT_DESTINATION")), self.com_file)
             print(sftp_cmd)
-            subprocess.run(sftp_cmd, shell=True)
+            subprocess.run(sftp_cmd, shell=False)
             self.debug_logger.debug("{} successfully transferred to {}".format(nm, hn))
             self.move_finished()
         except subprocess.CalledProcessError as e:

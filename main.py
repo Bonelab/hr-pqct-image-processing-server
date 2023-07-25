@@ -127,7 +127,6 @@ class Main:
                 self.info.set_current(item)
                 print('{} dequeued'.format(item.name))  # Debug
                 item.process()
-                # item.send()
                 item.send()  # TODO change in final ver to send
                 self.info.set_current(None)
             time.sleep(1)
