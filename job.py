@@ -145,7 +145,7 @@ class JobTracker:
             sftp_cmd = ['sftp', '-q',
                         '{}@{}:{}'.format(self.data.get("CLIENT_USERNAME"), self.data.get("CLIENT_HOSTNAME"),
                         convert_path(self.data.get("CLIENT_DESTINATION")))]
-            put_cmd = ['put', os.path.abspath(self.com_file)]
+            put_cmd = ['put {}'.format(os.path.abspath(self.com_file))]
 
             # Use subprocess.Popen to execute the command
             process = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
