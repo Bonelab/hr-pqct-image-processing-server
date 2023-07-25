@@ -81,7 +81,6 @@ class JobTracker:
 
     # Can set up the object from just the com file
     def set_up_from_file(self, file_path):
-        print("SET up from com")
         dir_path = os.path.dirname(file_path)
         self.set_com_file(file_path)
         count = 0
