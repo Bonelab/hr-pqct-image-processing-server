@@ -143,7 +143,7 @@ class JobTracker:
         try:
             sftp_cmd = 'sftp -q -r {}@{}:{} <<< $\'put {}\''.format(self.data.get("CLIENT_USERNAME"), self.data.get("CLIENT_HOSTNAME"), convert_path(self.data.get("CLIENT_DESTINATION")), self.com_file)
             print(sftp_cmd)
-            subprocess.Popen(sftp_cmd)
+            subprocess.run(sftp_cmd, shell=True)
             self.debug_logger.debug("{} successfully transferred to {}".format(nm, hn))
             self.move_finished()
         except subprocess.CalledProcessError as e:
