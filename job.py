@@ -141,7 +141,6 @@ class JobTracker:
         nm = self.get_image_name()  # nm should be the processed image's name
         hn = self.data.get("CLIENT_HOSTNAME")
         try:
-
             sftp_cmd = ['sftp', '-q',
                         '{}@{}:{}'.format(self.data.get("CLIENT_USERNAME"), self.data.get("CLIENT_HOSTNAME"),
                         convert_path(self.data.get("CLIENT_DESTINATION")))]
@@ -150,14 +149,11 @@ class JobTracker:
             # Use subprocess.Popen to execute the command
             process = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
             process.communicate(input='\n'.join(put_cmd).encode())
-            process.wait()  # Wait for the process to complete (optional)
+            process.wait()
 
-            # sftp_cmd = 'sftp -q {}@{}:{} <<< $\'put {}\''.format(self.data.get("CLIENT_USERNAME"), self.data.get("CLIENT_HOSTNAME"), convert_path(self.data.get("CLIENT_DESTINATION")), os.path.abspath(self.com_file))
-            # print(sftp_cmd)
-            # subprocess.run(sftp_cmd, shell=False)
             self.debug_logger.debug("{} successfully transferred to {}".format(nm, hn))
             self.move_finished()
-        except subprocess.CalledProcessError as e:
+        except Exception:
             self.error_logger.error("Transfer to {} of {} failed".format(hn, nm))
             self.move(FAILED)
 
@@ -178,10 +174,9 @@ class JobTracker:
         nm = self.data.get(FILENAME)
         self.debug_logger.debug("{} {}".format(nm, action))
 
-
-def remove(self):
-    os.remove(self.image_file)
-    os.remove(self.com_file)
+    def remove(self):
+        os.remove(self.image_file)
+        os.remove(self.com_file)
 
 
 

@@ -178,7 +178,6 @@ class State:
         for file in files:
             if file.lower().endswith(".com"):
                 cmd = job.parse_com(file)
-
                 if cmd.get(DATE) is None:
                     fle = JobTracker()
                     fle.set_up_from_file(file)
@@ -186,4 +185,4 @@ class State:
                 elif self.check_date(cmd.get(DATE)):
                     fle = JobTracker()
                     fle.set_up_from_file(file)
-                    fle.move("del")  # TODO change to delete, not just move os.remove(file)
+                    fle.remove()
