@@ -3,7 +3,10 @@
 # Description: Job object for Autosegment_Server, these objects are tracked by the state class. This class holds all the
 # functionality for moving, tracking, processing and sftping files
 # Created 2023-06-12
-import logging
+
+
+import ip_utils
+from ip_logging import Logger
 import os
 import shutil
 import time
@@ -21,95 +24,43 @@ MASKS = "processed"
 DEST = "destination"
 
 
-class JobTracker:
-    def __init__(self):
-        self.com_file = None
-        self.image_file = None
-        self.name = None
+class JobData:
+    def __init__(self, base_dir):
+        self.base = base_dir
+        self.initialize(self.base)
+        self.base_name = os.path.basename(base_dir)
+
+        self.com_file_path = None
+        self.com_file_name = None
         self.data = {}
-        self.setup_logging()
-        self.proc_image = None
 
-    # Setting up logging with this method makes it so that there is one logger for each error and debug shared across
-    # all filetracker objects
-    def setup_logging(self):
-        self.debug_logger = self._create_logger("debug", "logs/debug.log", logging.DEBUG)
-        self.error_logger = self._create_logger("error", "logs/error.log", logging.ERROR)
-
-    # Creating loggers for error and debug
-    def _create_logger(self, name, filename, level):
-        logger = logging.getLogger("{}-{}-{}".format(self.__class__.__name__, id(self), name))
-        logger.setLevel(level)
-        if not logger.handlers:
-            handler = logging.FileHandler(filename)
-            handler.setLevel(level)
-            form = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-            handler.setFormatter(form)
-            logger.addHandler(handler)
-            logger.propagate = False
-        return logger
-
-    # Set the com file for the filetracker Object
-    def set_com_file(self, file_path):
-        if file_path.lower().endswith(".com"):
-            self.com_file = file_path
-            self.data = parse_com(self.com_file)
-            self.name = self.data.get(FILENAME)
-        else:
-            nm = os.path.basename(file_path)
-            self.error_logger.error('Invalid extension for COM file in {}'.format(nm))
-            raise ValueError('Invalid file extension for COM file')
-
-    # Appends the date to the end of the com file, important for cleaning up the garbage after a week
-    def append_to_com(self):
-        with open(self.com_file, 'a') as f:
-            date = datetime.today()
-            date_string = date.strftime("%Y-%m-%d")
-            f.write('$ DATE_FINISHED :== {}'.format(date_string))
-
-    # Remove date at the end of the com file
-    def rm_from_com(self):
-        with open(self.com_file, 'r') as f:
-            lines = f.readlines()
-
-        with open(self.com_file, 'w') as f:
-            for line in lines:
-                if 'DATE_FINISHED' not in line:
-                    f.write(line)
+        self.image_file_path = None
+        self.image_file_name = None
 
 
+        self.proc_dir_name = None
+        self.proc_dir_path = None
 
-    # Can set up the object from just the com file
-    def set_up_from_file(self, file_path):
-        dir_path = os.path.dirname(file_path)
-        self.set_com_file(file_path)
-        count = 0
-        while count < 60:  # TODO CHANGE BACK TO 60 IN FINAL VER
-            pths = get_abs_paths(dir_path)
-            target = self.data.get(TARGET_IMAGE)
-            for file in pths:
-                file_base = os.path.basename(file)
-                if file_base.lower() == target.lower():
-                    self.set_image_file(file)
-                    nm = self.data.get(FILENAME)
-                    self.debug_logger.debug("{} Received".format(nm))
-                    self.rm_from_com()
-                    return True
-            count += 1
-            time.sleep(1)
-        if self.image_file is None:
-            nm = self.get_com_name()
-            self.error_logger.error('Could not find associated image file for {}'.format(nm))
-            raise FileNotFoundError("Image file not found")
+    def initialize(self, base_dir):
+        self.base = base_dir
+        contents = ip_utils.get_abs_paths(self.base)
+        for file in contents:
+            if file.lower.endswith(".com"):
+                self.com_file_path = file
+                self.com_file_name = os.path.basename(self.com_file_path)
+                self.data = ip_utils.parse_com(self.com_file_path)
+                break
+        for file in contents:
+            if file.lower.endswith(self.data.get("FEXT").lower):
+                self.image_file_path = file
+                self.image_file_name = os.path.basename(self.image_file_path)
 
-
-    # Set the image file for the JobTracker object
-    def set_image_file(self, file_path):
-        if file_path.lower().endswith(".aim"):   # or file_path.lower().endswith(".isq") or file_path.lower().endswith(".gobj")
-            self.image_file = file_path
-        else:
-            raise ValueError("Invalid file extension for image file")
-
+    def update(self, base_dir):
+        self.base = base_dir
+        self.com_file_path = os.path.join(self.base, self.com_file_name)
+        self.image_file_path = os.path.join(self.base, self.image_file_name)
+        if self.proc_dir_name is not None:
+            self.proc_dir_path = os.path.join(self.base, self.proc_dir_name)
 
     def process(self):
         print("Processing {}".format(self.get_com_name()))
@@ -124,7 +75,7 @@ class JobTracker:
             self.com_file = shutil.move(self.com_file, directory)
             self.image_file = shutil.move(self.image_file, directory)
         except shutil.Error:
-            self.error_logger.error("Duplicate file of {} found in {}".format(self.get_image_name(), directory))
+            self.logs.log_error("Duplicate file of {} found in {}".format(self.get_image_name(), directory))
             os.remove(self.com_file)
             os.remove(self.image_file)
 
@@ -135,27 +86,7 @@ class JobTracker:
         self.move(DEST)
         self.append_to_com()
 
-    def send(self):
-        # print("Sending {}".format(self.get_com_name()))
-        # self.move_finished()
-        nm = self.get_image_name()  # nm should be the processed image's name
-        hn = self.data.get("CLIENT_HOSTNAME")
-        try:
-            sftp_cmd = ['sftp', '-q',
-                        '{}@{}:{}'.format(self.data.get("CLIENT_USERNAME"), self.data.get("CLIENT_HOSTNAME"),
-                        convert_path(self.data.get("CLIENT_DESTINATION")))]
-            put_cmd = ['put {}'.format(os.path.abspath(self.com_file))]
 
-            # Use subprocess.Popen to execute the command
-            process = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
-            process.communicate(input='\n'.join(put_cmd).encode())
-            process.wait()
-
-            self.debug_logger.debug("{} successfully transferred to {}".format(nm, hn))
-            self.move_finished()
-        except Exception:
-            self.error_logger.error("Transfer to {} of {} failed".format(hn, nm))
-            self.move(FAILED)
 
     def test_send(self):
         # Files get sent here and then timestamped
@@ -169,50 +100,78 @@ class JobTracker:
     def get_image_name(self):
         return os.path.basename(self.image_file)
 
-
-    def log_action(self, action):
-        nm = self.data.get(FILENAME)
-        self.debug_logger.debug("{} {}".format(nm, action))
-
     def remove(self):
         os.remove(self.image_file)
         os.remove(self.com_file)
 
 
+class JobManager:
+    # One instance of JobManager per thread?
+    # What should JobManager do?
+    # 1. Format the files into this format
+    # | com file
+    # | image file(s)
+    # | system metadata
+    # |_ Masks
+    #   | cort_mask
+    #   | trab_mask
+    # 2. Create and retrieve checkpoints?
+    # 3. Moving Files
+    # 4. Removing Files
+
+
+    def __init__(self, logger, cwd):
+        self.logs = logger
+        self.cwd = cwd
+
+
+    def format_job_data(self, com_file, image_file):
+        self.logs.log_debug("Formatting {}".format(image_file))
+        com_file = os.path.abspath(com_file)
+        image_file = os.path.abspath(image_file)
+        metadata = ip_utils.parse_com(com_file)
+        os.mkdir(metadata.get("IPL_FNAME"))
+        base = os.path.abspath(metadata.get("IPL_FNAME"))
+        shutil.move(com_file, base)
+        shutil.move(image_file, base)
+        os.mkdir(base+"/masks")
+        return base
+
+
+    # Move fn, move the base directory of the data
+    # Call update paths fn
+    def move(self, job_data, destination):
+        base = job_data.base
+        try:
+            new_base = shutil.move(base, destination)
+            job_data.update(new_base)
+        except FileExistsError as e:
+            new_name = base + datetime.timestamp
+            os.rename(base, new_name)
+            job_data.base = new_name
+            self.move(job_data, destination)
+
+    # Takes in an absolute path of the com file
+    def create_association(self, com_file_path):
+        dir_path = os.path.dirname(com_file_path)
+        data = ip_utils.parse_com(com_file_path)
+        pths = ip_utils.get_abs_paths(dir_path)
+        target = data.get(TARGET_IMAGE)
+        if target is None:
+            raise ValueError
+        image_file_path = None
+        for file in pths:
+            file_base = os.path.basename(file)
+            if file_base.lower() == target.lower():
+                image_file_path = file
+                nm = data.get(FILENAME)
+                self.logs.log_debug("{} Received".format(nm))
+                return com_file_path, image_file_path
+        if image_file_path is None:
+            nm = os.path.basename(com_file_path)
+            self.logs.log_error('Could not find associated image file for {}'.format(nm))
+            os.remove(com_file_path)
+            raise FileNotFoundError("Image file not found for {}".format(nm))
 
 
 
-# Converts a file path from the vms format to the linux format
-def convert_path(path):
-    if "[" in path or "]" in path:
-        path = path.replace(":", "")
-        path = path.replace(".", "/")
-        path = path.replace("[", "/")
-        path = path.replace("]", "/")
-        path = "/" + path
-    return path
-
-def get_abs_paths(directory):
-    files = os.listdir(directory)
-    n_files = []
-    for f in files:
-        f = os.path.join(directory, f)
-        f = os.path.abspath(f)
-        f = os.path.normpath(f)
-        n_files.append(f)
-    return n_files
-
-def parse_com(file_path):
-    command_file = {}
-    with open(file_path, 'r') as f:
-        lines = f.readlines()
-        for line in lines:
-            line = line.strip("$").strip()
-            if "!" in line:
-                sp = line.split("!")
-                line = sp[0]
-            if ":==" in line:
-                split = line.split(":==")
-                if split[1] != "":
-                    command_file[split[0].strip()] = split[1].strip()
-    return command_file

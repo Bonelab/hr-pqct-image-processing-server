@@ -1,10 +1,10 @@
 import unittest
-from job import JobTracker
+from job import JobData
 import main
 class JobTests(unittest.TestCase):
 
     def setUp(self):
-        self.job = JobTracker()
+        self.job = JobData()
         self.job.set_up_from_file(r"C:\Users\iangs\PycharmProjects\BoneLabServer\test-res\TEST1_EVAL_AUTOSEG_TRNSFR.COM")
 
     def test_com(self):

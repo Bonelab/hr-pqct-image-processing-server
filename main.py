@@ -1,18 +1,25 @@
-# main_1.7.py Version 1.0
+# main.py Version 2.0
 # Author: Ian Smith
 # Description: Main file for Autosegment_Server, creates the threads with the event loops for the main functionality of
 # the program
 # Created: 2023-05-19
 # Dependencies: pytorch, Anaconda, torchvision, cuda toolkit
 
+
+from job import JobData
+from job import JobManager
+from queue_manager import State
+from ip_logging import Logger
+import ip_utils
+
 import shutil
 import threading
-from job import JobTracker
-from state import State
-import job
 import socket
 import pickle
 import time
+
+
+# TODO logging should be in here
 
 
 
@@ -30,10 +37,16 @@ ADDR = (ip_addr, port)
 
 
 
+
+
 class Main:
     def __init__(self):
-        self.info = State()
+        ip_utils.ensure_directories_exist()
+
+        self.logs = Logger()
+        self.job_queue = State(self.logs)
         self.main()
+        self.logs.log_debug("Server Started")
 
     # Main method of the program, sets up the threads for each individual process and performs startup routines
     def main(self):
@@ -65,29 +78,29 @@ class Main:
             command = cmd[0]
 
             if command == "jobs":
-                jbs = self.info.get_jobs()
+                jbs = self.job_queue.get_jobs()
                 self.send_to_cli(jbs, conn, cmd[0])
             elif command == "completed":
-                comp = self.info.get_completed_jobs()
+                comp = self.job_queue.get_completed_jobs()
                 self.send_to_cli(comp, conn, cmd[0])
             elif command == "info":
-                inf = self.info.get_job_com(cmd[1])
+                inf = self.job_queue.get_job_com(cmd[1])
                 self.send_to_cli(inf, conn, cmd[0])
             elif command == "move":
                 try:
-                    self.info.move_queue(cmd[1], cmd[2])
-                    jbs = self.info.get_jobs()
+                    self.job_queue.move_queue(cmd[1], cmd[2])
+                    jbs = self.job_queue.get_jobs()
                     self.send_to_cli(jbs, conn, cmd[0])
                 except ValueError:
                     pl = "Exception"
                     self.send_to_cli(pl, conn, cmd[0])
             elif command == "restart":
-                self.info.restart_job(cmd[1])
-                jbs = self.info.get_jobs()
+                self.job_queue.restart_job(cmd[1])
+                jbs = self.job_queue.get_jobs()
                 self.send_to_cli(jbs, conn, cmd[0])
             elif command == "delete":
-                self.info.remove_from_queue(cmd[1])
-                jbs = self.info.get_jobs()
+                self.job_queue.remove_from_queue(cmd[1])
+                jbs = self.job_queue.get_jobs()
                 self.send_to_cli(jbs, conn, cmd[0])
             elif command == "quit":
                 self.send_to_cli("quit", conn, cmd[0])
@@ -99,19 +112,21 @@ class Main:
     # This method is meant to be called on its own thread, it monitors the directory where the files will be transferred to
     # from vms
     def monitor(self):
+
         last = time.time()
         while True:
             if time.time() - last > 3600:                       # Checks every hour to clean up files that are more than a
-                self.info.cleanup(DESTINATION)                       # week old
+                self.job_queue.cleanup(DESTINATION)                       # week old
                 last = time.time()
-            file_list = job.get_abs_paths(PATH)
+            file_list = ip_utils.get_abs_paths(PATH)
             if len(file_list) != 0:
-                item = JobTracker()
                 for file in file_list:
                     if file.lower().endswith(".com"):
                         try:
-                            item.set_up_from_file(file)
-                            self.info.enqueue(item)
+
+
+
+                            self.job_queue.enqueue()
                             break
                         except FileNotFoundError:
                             shutil.move(file, FAILED)
@@ -122,13 +137,13 @@ class Main:
     # when done
     def processing(self):
         while True:
-            if self.info.JOB_QUEUE.not_empty:
-                item = self.info.dequeue()  # First item is gotten from the queue
-                self.info.set_current(item)
+            if self.job_queue.JOB_QUEUE.not_empty:
+                item = self.job_queue.dequeue()  # First item is gotten from the queue
+                self.job_queue.set_current(item)
                 print('{} dequeued'.format(item.name))  # Debug
                 item.process()
                 item.send()  # TODO change in final ver to send
-                self.info.set_current(None)
+                self.job_queue.set_current(None)
             time.sleep(1)
 
 
