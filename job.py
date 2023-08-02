@@ -41,7 +41,6 @@ class JobData:
 
     def initialize(self):
         self.com_file_name = self._find_com()
-        print(self.com_file_name)
         self.com_file_path = os.path.join(self.base, self.com_file_name)
         self.data = ip_utils.parse_com(self.com_file_path)
         image_path = self._find_image()
