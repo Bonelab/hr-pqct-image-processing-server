@@ -85,7 +85,6 @@ def rm_from_com(com_file):
 
 
 def check_date(date_str):
-    print(date_str)     # DEBUG
     dt = datetime.fromisoformat(date_str)
     cur = datetime.today()
     time_diff = cur - dt
