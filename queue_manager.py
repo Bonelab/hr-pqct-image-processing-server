@@ -136,13 +136,7 @@ class State:
 
     def perform_startup(self):
         lis = ip_utils.get_abs_paths(BATCHES)
-        to_queue = []
-        for file in lis:
-            if file.lower().endswith("com"):
-                to_queue.append(file)
-        for file in to_queue:
-            batch = JobData()
-            batch.set_up_from_file(file)
-            self.JOB_QUEUE.put(batch)
+        for item in lis:
+            self.JOB_QUEUE.put(item)
 
 
