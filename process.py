@@ -6,7 +6,7 @@ from job import JobData
 class Processor:
     def __init__(self, logger):
         self.logs = logger
-        self.radius_tibia_final = "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation"
+        self.radius_tibia_final = "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/"
 
     def process_image(self, job_base):
         job_data = JobData(job_base)
@@ -18,6 +18,6 @@ class Processor:
             self._radius_tibia_final(job_data)
 
     def _radius_tibia_final(self, job_data):
-        cmd = ["python", "segment.py", job_data.base, self.radius_tibia_final, "-ip {}".format(job_data.image_file_name)]
+        cmd = ["python", "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/segment.py", job_data.base, "radius_tibia_final", "-ip {}".format(job_data.image_file_name)]
         proc = subprocess.Popen(cmd)
         proc.wait()
