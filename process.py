@@ -18,6 +18,7 @@ class Processor:
             self._radius_tibia_final(job_data)
 
     def _radius_tibia_final(self, job_data):
-        cmd = ["python", "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/segment.py", job_data.base, "radius_tibia_final", "-ip {}".format(job_data.image_file_name)]
+        cmd = ["python", "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/segment.py", job_data.base, "radius_tibia_final", "-ip {}".format(str(job_data.image_file_name))]
+        print(cmd)
         proc = subprocess.Popen(cmd)
         proc.wait()

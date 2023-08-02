@@ -56,7 +56,6 @@ class JobData:
 
     def _find_com(self):
         contents = os.listdir(self.base)
-        print(contents)
         for file in contents:
             if file.lower().endswith(".com"):
                 return file
