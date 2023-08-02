@@ -11,7 +11,7 @@ import os
 import shutil
 import time
 import subprocess
-from datetime import datetime
+import datetime
 
 FILENAME = "EVAL_FNAME"
 TARGET_IMAGE = "TARGET_FILE"
@@ -26,8 +26,6 @@ DEST = "destination"
 class JobData:
     def __init__(self, base_dir):
         self.base = base_dir
-        self.initialize(self.base)
-        self.base_name = os.path.basename(base_dir)
 
         self.com_file_path = None
         self.com_file_name = None
@@ -36,42 +34,32 @@ class JobData:
         self.image_file_path = None
         self.image_file_name = None
 
-        self.proc_dir_name = None
-        self.proc_dir_path = None
+        self.proc_dir_name = 'masks'
+        self.proc_dir_path = os.path.join(base_dir, self.proc_dir_name)
 
-    def initialize(self, base_dir):
-        self.base = base_dir
-        contents = ip_utils.get_abs_paths(self.base)
+        self.initialize()
+
+    def initialize(self):
+        self.com_file_name = self._find_com()
+        print(self.com_file_name)
+        self.com_file_path = os.path.join(self.base, self.com_file_name)
+        self.data = ip_utils.parse_com(self.com_file_path)
+        image_path = self._find_image()
+        self.image_file_path = image_path
+        self.image_file_name = self.data.get("TARGET_FILE")
+
+    def _find_image(self):
+        image_name = self.data.get("TARGET_FILE")
+        image_path = os.path.join(self.base, image_name)
+        if os.path.exists(image_path):
+            return image_path
+
+    def _find_com(self):
+        contents = os.listdir(self.base)
+        print(contents)
         for file in contents:
-            if file.lower.endswith(".com"):
-                self.com_file_path = file
-                self.com_file_name = os.path.basename(self.com_file_path)
-                self.data = ip_utils.parse_com(self.com_file_path)
-                break
-        for file in contents:
-            if file.lower.endswith(self.data.get("FEXT").lower):
-                self.image_file_path = file
-                self.image_file_name = os.path.basename(self.image_file_path)
-
-
-    #
-    # def update(self, base_dir):
-    #     self.base = base_dir
-    #     self.com_file_path = os.path.join(self.base, self.com_file_name)
-    #     self.image_file_path = os.path.join(self.base, self.image_file_name)
-    #     if self.proc_dir_name is not None:
-    #         self.proc_dir_path = os.path.join(self.base, self.proc_dir_name)
-
-
-
-    # This function is meant to be used when a file is done being processed so a date is added to the com file so a job
-    # can be restarted within some time after it being completed after that time though the datetime in the file is used
-    # to track when to delete the file
-
-
-    # ON CALL: Returns just the file name of the .COM file
-
-
+            if file.lower().endswith(".com"):
+                return file
 
 
     # One instance of JobManager per thread?
@@ -98,7 +86,7 @@ class JobManager:
         return base
 
     def _format_job_data(self, com_file, image_file):
-        self.logs.log_debug("Formatting {}".format(image_file))
+        self.logs.log_debug("Formatting {}".format(os.path.basename(image_file)))
         com_file = os.path.abspath(com_file)
         dir_name = os.path.dirname(com_file)
         image_file = os.path.abspath(image_file)
@@ -137,10 +125,21 @@ class JobManager:
 
     # Move fn, move the base directory of the data
     # Call update paths fn
-    def move(self, job_base,destination):
+    def move(self, job_base, destination):
         try:
-            shutil.move(job_base, destination)
-        except shutil.Error as e:
-            new_name = job_base + datetime.timestamp
+            new_base = shutil.move(job_base, destination)
+        except FileExistsError:
+            now = datetime.datetime.now()
+            date = now.strftime("%Y_%m_%d_%H_%M_%S")
+            new_name = job_base + date
             os.rename(job_base, new_name)
-            self.move(new_name, destination)
+            self.logs.log_debug("{} renamed to {}".format(job_base, new_name))
+            new_base = shutil.move(new_name, destination)
+        except shutil.Error:
+            now = datetime.datetime.now()
+            date = now.strftime("%Y_%m_%d_%H_%M_%S")
+            new_name = job_base + date
+            os.rename(job_base, new_name)
+            self.logs.log_debug("{} renamed to {}".format(job_base, new_name))
+            new_base = shutil.move(new_name, destination)
+        return os.path.abspath(new_base)

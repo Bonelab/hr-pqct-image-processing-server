@@ -1,7 +1,7 @@
 import logging
 
-DEBUG = "debug.log"  # Change to logs/debug.log
-ERROR = "error.log"  # Change to logs/error.log
+DEBUG = "logs/debug.log"  # Change to logs/debug.log
+ERROR = "logs/error.log"  # Change to logs/error.log
 
 class Logger:
     def __init__(self):

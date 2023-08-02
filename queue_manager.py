@@ -60,7 +60,7 @@ class State:
     def dequeue(self):
         jd = JobData(self.JOB_QUEUE.get())
         self.logs.log_debug("Dequeued {}".format(jd.image_file_name))
-        return jd.base_name
+        return jd.base
 
     def queue_to_list(self):
         a = []

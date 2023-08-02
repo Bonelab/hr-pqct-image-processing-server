@@ -1,5 +1,9 @@
 import os
 from datetime import datetime
+from datetime import timedelta
+
+DATE = "DATE_FINISHED"
+
 
 DEST = 'destination'
 BATCHES = 'batches'

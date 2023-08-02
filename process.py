@@ -2,10 +2,11 @@ import subprocess
 
 from job import JobData
 
-
+# TODO add current tracking to here
 class Processor:
     def __init__(self, logger):
         self.logs = logger
+        self.radius_tibia_final = "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation"
 
     def process_image(self, job_base):
         job_data = JobData(job_base)
@@ -17,7 +18,6 @@ class Processor:
             self._radius_tibia_final(job_data)
 
     def _radius_tibia_final(self, job_data):
-        proc = subprocess.Popen("cd {} && python3 segment.py --image-pattern {} --masks-subdirectory {}".format(BATCHES, self.get_image_name(), MASKS))
+        cmd = ["python", "segment.py", job_data.base, self.radius_tibia_final, "-ip {}".format(job_data.image_file_name)]
+        proc = subprocess.Popen(cmd)
         proc.wait()
-        x = subprocess.Popen()
-        x.wait()
