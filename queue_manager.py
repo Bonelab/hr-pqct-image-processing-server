@@ -27,14 +27,12 @@ DIRS = [BATCHES, DEL, DEST, FAILED, MODELS, MASKS, REC, TMP]
 
 # TODO logging should go in here
 class State:
-    def __init__(self, logger, source, sink):
+    def __init__(self, logger):
         self.lock = threading.Lock()
         self.current = None
         self.JOB_QUEUE = Queue()
         self.perform_startup()
         self.logs = logger
-        self.source = source
-        self.sink = sink
 
 
     def set_current(self, cur):
@@ -54,15 +52,15 @@ class State:
         self.lock.release()
         return cur
 
-    def enqueue(self, obj):
-        obj.move(BATCHES)
-        self.logs.log_debug("Enqueued {}".format(obj.get_image_name()))
-        self.JOB_QUEUE.put(obj)
+    def enqueue(self, job_dir):
+        jd = JobData(job_dir)
+        self.logs.log_debug("Enqueued {}".format(jd.image_file_name))
+        self.JOB_QUEUE.put(job_dir)
 
     def dequeue(self):
-        obj = self.JOB_QUEUE.get()
-        self.logs.log_debug("Dequeued {}".format(obj.get_image_name()))
-        return obj
+        jd = JobData(self.JOB_QUEUE.get())
+        self.logs.log_debug("Dequeued {}".format(jd.image_file_name))
+        return jd.base_name
 
     def queue_to_list(self):
         a = []
@@ -87,14 +85,14 @@ class State:
         for item in a:                                              # Putting everything back on the queue
             self.JOB_QUEUE.put(item)
 
+
+
     # Functionality for remove command
     def remove_from_queue(self, jobname):
         a = self.queue_to_list()
         for item in a:
             if item.data.get(F_NAME).lower() == jobname.lower():
                 item.append_to_com()
-                item.move(DEST)
-                a.remove(item)
             else:
                 self.JOB_QUEUE.put(item)
 
@@ -148,27 +146,3 @@ class State:
             self.JOB_QUEUE.put(batch)
 
 
-    @staticmethod
-    def check_date(date_str):
-        print(date_str)     # DEBUG
-        dt = datetime.fromisoformat(date_str)
-        cur = datetime.today()
-        time_diff = cur - dt
-        if time_diff > timedelta(days=7):
-            return True
-        else:
-            return False
-
-    def cleanup(self, directory):
-        files = ip_utils.get_abs_paths(directory)
-        for file in files:
-            if file.lower().endswith(".com"):
-                cmd = ip_utils.parse_com(file)
-                if cmd.get(DATE) is None:
-                    fle = JobData()
-                    fle.set_up_from_file(file)
-                    fle.append_to_com()
-                elif self.check_date(cmd.get(DATE)):
-                    fle = JobData()
-                    fle.set_up_from_file(file)
-                    fle.remove()

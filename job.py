@@ -17,7 +17,6 @@ FILENAME = "EVAL_FNAME"
 TARGET_IMAGE = "TARGET_FILE"
 EXT = "FEXT"
 
-
 FAILED = "failed"
 BATCHES = "batches"
 MASKS = "processed"
@@ -37,7 +36,6 @@ class JobData:
         self.image_file_path = None
         self.image_file_name = None
 
-
         self.proc_dir_name = None
         self.proc_dir_path = None
 
@@ -55,57 +53,27 @@ class JobData:
                 self.image_file_path = file
                 self.image_file_name = os.path.basename(self.image_file_path)
 
-    def update(self, base_dir):
-        self.base = base_dir
-        self.com_file_path = os.path.join(self.base, self.com_file_name)
-        self.image_file_path = os.path.join(self.base, self.image_file_name)
-        if self.proc_dir_name is not None:
-            self.proc_dir_path = os.path.join(self.base, self.proc_dir_name)
 
-    def process(self):
-        print("Processing {}".format(self.get_com_name()))
-        time.sleep(10)
-        print("Done processing {}".format(self.get_com_name()))
-        # proc = subprocess.Popen("cd {} && python3 segment.py --image-pattern {} --masks-subdirectory {}".format(BATCHES, self.get_image_name(), MASKS))
-        # proc.wait()
+    #
+    # def update(self, base_dir):
+    #     self.base = base_dir
+    #     self.com_file_path = os.path.join(self.base, self.com_file_name)
+    #     self.image_file_path = os.path.join(self.base, self.image_file_name)
+    #     if self.proc_dir_name is not None:
+    #         self.proc_dir_path = os.path.join(self.base, self.proc_dir_name)
 
-    # METHOD to move the set of files between directories
-    def move(self, directory):
-        try:
-            self.com_file = shutil.move(self.com_file, directory)
-            self.image_file = shutil.move(self.image_file, directory)
-        except shutil.Error:
-            self.logs.log_error("Duplicate file of {} found in {}".format(self.get_image_name(), directory))
-            os.remove(self.com_file)
-            os.remove(self.image_file)
+
 
     # This function is meant to be used when a file is done being processed so a date is added to the com file so a job
     # can be restarted within some time after it being completed after that time though the datetime in the file is used
     # to track when to delete the file
-    def move_finished(self):
-        self.move(DEST)
-        self.append_to_com()
 
-
-
-    def test_send(self):
-        # Files get sent here and then timestamped
-        self.move_finished()
 
     # ON CALL: Returns just the file name of the .COM file
-    def get_com_name(self):
-        return os.path.basename(self.com_file)
-
-    # ON CALL: Returns just the file name of the image file
-    def get_image_name(self):
-        return os.path.basename(self.image_file)
-
-    def remove(self):
-        os.remove(self.image_file)
-        os.remove(self.com_file)
 
 
-class JobManager:
+
+
     # One instance of JobManager per thread?
     # What should JobManager do?
     # 1. Format the files into this format
@@ -120,39 +88,32 @@ class JobManager:
     # 4. Removing Files
 
 
-    def __init__(self, logger, cwd):
+class JobManager:
+    def __init__(self, logger):
         self.logs = logger
-        self.cwd = cwd
 
+    def create_job_data(self, com_file):
+        com, img = self._create_association(com_file)
+        base = self._format_job_data(com, img)
+        return base
 
-    def format_job_data(self, com_file, image_file):
+    def _format_job_data(self, com_file, image_file):
         self.logs.log_debug("Formatting {}".format(image_file))
         com_file = os.path.abspath(com_file)
+        dir_name = os.path.dirname(com_file)
         image_file = os.path.abspath(image_file)
         metadata = ip_utils.parse_com(com_file)
-        os.mkdir(metadata.get("IPL_FNAME"))
-        base = os.path.abspath(metadata.get("IPL_FNAME"))
+        base = os.path.join(dir_name, metadata.get("IPL_FNAME"))
+        os.mkdir(base)
         shutil.move(com_file, base)
         shutil.move(image_file, base)
-        os.mkdir(base+"/masks")
+        mask_dir = os.path.join(base, "masks")
+        os.mkdir(mask_dir)
         return base
 
 
-    # Move fn, move the base directory of the data
-    # Call update paths fn
-    def move(self, job_data, destination):
-        base = job_data.base
-        try:
-            new_base = shutil.move(base, destination)
-            job_data.update(new_base)
-        except FileExistsError as e:
-            new_name = base + datetime.timestamp
-            os.rename(base, new_name)
-            job_data.base = new_name
-            self.move(job_data, destination)
-
     # Takes in an absolute path of the com file
-    def create_association(self, com_file_path):
+    def _create_association(self, com_file_path):
         dir_path = os.path.dirname(com_file_path)
         data = ip_utils.parse_com(com_file_path)
         pths = ip_utils.get_abs_paths(dir_path)
@@ -174,4 +135,12 @@ class JobManager:
             raise FileNotFoundError("Image file not found for {}".format(nm))
 
 
-
+    # Move fn, move the base directory of the data
+    # Call update paths fn
+    def move(self, job_base,destination):
+        try:
+            shutil.move(job_base, destination)
+        except shutil.Error as e:
+            new_name = job_base + datetime.timestamp
+            os.rename(job_base, new_name)
+            self.move(new_name, destination)

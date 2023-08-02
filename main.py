@@ -35,16 +35,15 @@ port = 4000
 ADDR = (ip_addr, port)
 
 
-
-
-
-
 class Main:
     def __init__(self):
         ip_utils.ensure_directories_exist()
 
         self.logs = Logger()
         self.job_queue = State(self.logs)
+        self.rec_manager = JobManager(self.logs)
+
+
         self.main()
         self.logs.log_debug("Server Started")
 
@@ -112,24 +111,23 @@ class Main:
     # This method is meant to be called on its own thread, it monitors the directory where the files will be transferred to
     # from vms
     def monitor(self):
-
         last = time.time()
         while True:
             if time.time() - last > 3600:                       # Checks every hour to clean up files that are more than a
-                self.job_queue.cleanup(DESTINATION)                       # week old
+                ip_utils.cleanup(DESTINATION)                       # week old
                 last = time.time()
+
             file_list = ip_utils.get_abs_paths(PATH)
             if len(file_list) != 0:
                 for file in file_list:
                     if file.lower().endswith(".com"):
                         try:
-
-
-
-                            self.job_queue.enqueue()
+                            job_dir = self.rec_manager.create_job_data(file)
+                            self.rec_manager.move(job_dir, BATCHES)
+                            self.job_queue.enqueue(job_dir)
                             break
                         except FileNotFoundError:
-                            shutil.move(file, FAILED)
+                            shutil.move(FAILED, file)
                             break
             time.sleep(1)
 

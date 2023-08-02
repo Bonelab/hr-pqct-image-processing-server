@@ -78,3 +78,28 @@ def rm_from_com(com_file):
         for line in lines:
             if 'DATE_FINISHED' not in line:
                 f.write(line)
+
+
+def check_date(date_str):
+    print(date_str)     # DEBUG
+    dt = datetime.fromisoformat(date_str)
+    cur = datetime.today()
+    time_diff = cur - dt
+    if time_diff > timedelta(days=7):
+        return True
+    else:
+        return False
+
+def cleanup(self, directory):
+    files = get_abs_paths(directory)
+    for file in files:
+        if file.lower().endswith(".com"):
+            cmd = parse_com(file)
+            if cmd.get(DATE) is None:
+                fle = JobData()
+                fle.set_up_from_file(file)
+                fle.append_to_com()
+            elif self.check_date(cmd.get(DATE)):
+                fle = JobData()
+                fle.set_up_from_file(file)
+                fle.remove()
