@@ -11,10 +11,10 @@ DEL = 'del'
 FAILED = 'failed'
 LOGS = 'logs'
 MODELS = 'models'
-MASKS = 'processed'
+DONE = 'processed'
 REC = 'rec'
 TMP = 'tmp'
-DIRS = [BATCHES, DEL, DEST, FAILED, LOGS, MODELS, MASKS, REC, TMP]
+DIRS = [BATCHES, DEL, DEST, FAILED, LOGS, MODELS, DONE, REC, TMP]
 
 
 

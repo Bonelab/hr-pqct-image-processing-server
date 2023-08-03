@@ -25,7 +25,7 @@ F_NAME = "EVAL_FNAME"
 DIRS = [BATCHES, DEL, DEST, FAILED, MODELS, MASKS, REC, TMP]
 
 
-# TODO logging should go in here
+
 class State:
     def __init__(self, logger):
         self.lock = threading.Lock()

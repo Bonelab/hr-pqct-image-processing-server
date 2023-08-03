@@ -39,6 +39,13 @@ class JobData:
 
         self.initialize()
 
+    def __enter__(self):
+        self.initialize()
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        pass
+
+
     def initialize(self):
         self.com_file_name = self._find_com()
         self.com_file_path = os.path.join(self.base, self.com_file_name)
