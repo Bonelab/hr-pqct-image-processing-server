@@ -35,17 +35,6 @@ class State:
         self.logs = logger
 
 
-    def set_current(self, cur):
-        self.lock.acquire()
-        self.current = cur
-        self.lock.release()
-
-    def get_name(self):
-        if self.current is None:
-            return None
-        else:
-            return self.current.name
-
     def get_current(self):
         self.lock.acquire()
         cur = self.current
