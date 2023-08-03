@@ -4,7 +4,7 @@
 # the program
 # Created: 2023-05-19
 # Dependencies: pytorch, Anaconda, torchvision, cuda toolkit
-import os.path
+
 
 from job import JobManager
 from process import Processor
@@ -19,6 +19,7 @@ import threading
 import socket
 import pickle
 import time
+import os.path
 
 DEST = 'destination'
 BATCHES = 'batches'
