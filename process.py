@@ -1,12 +1,26 @@
+import shutil
 import subprocess
-
+import os
 from job import JobData
+
 
 # TODO add current tracking to here
 class Processor:
     def __init__(self, logger):
         self.logs = logger
         self.radius_tibia_final = "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/"
+
+    def _perform_startup(self):
+        if len(os.listdir("destination")) != 0:
+            files = os.listdir()
+            self.process_image(files[0])
+            files.pop(0)
+            for i in files:
+                shutil.move(i, "batches")
+
+
+
+
 
     def process_image(self, job_base):
         job_data = JobData(job_base)
@@ -23,3 +37,4 @@ class Processor:
         print(cmd)
         proc = subprocess.Popen(cmd)
         proc.wait()
+
