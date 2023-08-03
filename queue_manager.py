@@ -25,32 +25,18 @@ F_NAME = "EVAL_FNAME"
 DIRS = [BATCHES, DEL, DEST, FAILED, MODELS, MASKS, REC, TMP]
 
 
-
 class State:
     def __init__(self, logger):
         self.lock = threading.Lock()
         self.current = None
         self.JOB_QUEUE = Queue()
-        self.perform_startup()
+        self._perform_startup()
         self.logs = logger
 
-
-    def set_current(self, cur):
-        self.lock.acquire()
-        self.current = cur
-        self.lock.release()
-
-    def get_name(self):
-        if self.current is None:
-            return None
-        else:
-            return self.current.name
-
-    def get_current(self):
-        self.lock.acquire()
-        cur = self.current
-        self.lock.release()
-        return cur
+    def _perform_startup(self):
+        lis = ip_utils.get_abs_paths(BATCHES)
+        for item in lis:
+            self.JOB_QUEUE.put(item)
 
     def enqueue(self, job_dir):
         jd = JobData(job_dir)
@@ -71,21 +57,19 @@ class State:
     # Functionality for move function
     def move_queue(self, jobname, index):
         index = int(index)
-        index = index-1
+        index = index - 1
         a = self.queue_to_list()
-        if index > len(a)-1:
+        if index > len(a) - 1:
             raise ValueError("Index out of range of the queue")
         to_move = None
-        for item in a:                                              # Finding item that needs to be moved in the queue
+        for item in a:  # Finding item that needs to be moved in the queue
             if item.data.get(F_NAME).lower() == jobname.lower():
                 a.remove(item)
                 to_move = item
                 break
-        a.insert(index, to_move)                                    # Moving requested item
-        for item in a:                                              # Putting everything back on the queue
+        a.insert(index, to_move)  # Moving requested item
+        for item in a:  # Putting everything back on the queue
             self.JOB_QUEUE.put(item)
-
-
 
     # Functionality for remove command
     def remove_from_queue(self, jobname):
@@ -133,10 +117,3 @@ class State:
                 batch = JobData()
                 batch.set_up_from_file(item)
                 self.enqueue(batch)
-
-    def perform_startup(self):
-        lis = ip_utils.get_abs_paths(BATCHES)
-        for item in lis:
-            self.JOB_QUEUE.put(item)
-
-

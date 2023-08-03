@@ -1,25 +1,25 @@
 # main.py Version 2.0
 # Author: Ian Smith
-# Description: Main file for Autosegment_Server, creates the threads with the event loops for the main functionality of
-# the program
+# Description: Main file for HR-pQCT Image Processing Server, creates the threads with the event loops for the
+# main functionality of the program
 # Created: 2023-05-19
 # Dependencies: pytorch, Anaconda, torchvision, cuda toolkit
 
 
 from job import JobManager
+from send import Send
 from process import Processor
 from queue_manager import State
 from ip_logging import Logger
 from send import Send
 import ip_utils
 
-
-import shutil
-import threading
+import os
 import socket
-import pickle
 import time
-import os.path
+import threading
+import shutil
+import pickle
 
 DEST = 'destination'
 BATCHES = 'batches'
@@ -32,12 +32,12 @@ REC = 'rec'
 TMP = 'tmp'
 DIRS = [BATCHES, DEL, DEST, FAILED, LOGS, MODELS, DONE, REC, TMP]
 
+
 # Change to 2 paths, rec-img and rec-com
-PATH = 'rec'    # Some directory path where incoming files will go
+PATH = 'rec'  # Some directory path where incoming files will go
 BATCHES = 'batches'
 FAILED = 'failed'
 DESTINATION = 'destination'
-
 
 ip_addr = "127.0.0.1"
 port = 4000
@@ -49,11 +49,11 @@ class Main:
         ip_utils.ensure_directories_exist()
 
         self.logs = Logger()
-        self.job_queue = State(self.logs)
         self.file_manager = JobManager(self.logs)
-
+        self.job_queue = State(self.logs)
         self.processor = Processor(self.logs)
         self.transfer = Send(self.logs)
+        self.file_manager = JobManager(self.logs)
 
 
         self.main()
@@ -68,15 +68,14 @@ class Main:
         # CLI thread
         threading.Thread(target=self.cli_handle(), args=()).start()
 
-
     @staticmethod
     def send_to_cli(dat, con, cmd):
         to_send = [cmd, dat]
         to_send = pickle.dumps(to_send)
         con.sendall(to_send)
 
-
-    # This method is meant to be called in its own thread, it uses a socket to communicate with the command line interface
+    # This method is meant to be called in its own thread, it uses a socket to communicate with the command line
+    # interface
     def cli_handle(self):
         server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server.bind(ADDR)
@@ -119,13 +118,12 @@ class Main:
             else:
                 pass
 
-
-    # This method is meant to be called on its own thread, it monitors the directory where the files will be transferred to
-    # from vms
+    # This method is meant to be called on its own thread, it monitors the directory where the files will be
+    # transferred to from vms
     def monitor(self):
         last = time.time()
         while True:
-            if time.time() - last > 3600:                       # Checks every hour to clean up files that are more than a
+            if time.time() - last > 3600:  # Checks every hour to clean up files that are more than a
                 # ip_utils.cleanup(DESTINATION)                       # week old
                 last = time.time()
             file_list = ip_utils.get_abs_paths(PATH)
@@ -153,6 +151,7 @@ class Main:
                 self.processor.process_image(job_path1)
                 job_path2 = self.file_manager.move(job_path1, DONE)
                 self.transfer.send(job_path2)
+
             time.sleep(1)
 
 
