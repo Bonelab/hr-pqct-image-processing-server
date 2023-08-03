@@ -19,10 +19,6 @@ class Processor:
             for i in files:
                 shutil.move(i, "batches")
 
-
-
-
-
     def process_image(self, job_base):
         job_data = JobData(job_base)
         job_type = job_data.data.get("JOB")
@@ -40,4 +36,3 @@ class Processor:
         print(cmd)
         proc = subprocess.Popen(cmd)
         proc.wait()
-

@@ -8,7 +8,6 @@ class Logger:
         self.debug_logger = self._create_logger("debug", DEBUG, logging.DEBUG)
         self.error_logger = self._create_logger("error", ERROR, logging.ERROR)
 
-
     def _create_logger(self, name, filename, level):
         logger = logging.getLogger("{}-{}-{}".format(self.__class__.__name__, id(self), name))
         logger.setLevel(level)

@@ -7,7 +7,6 @@
 
 
 from job import JobManager
-from send import Send
 from process import Processor
 from queue_manager import State
 from ip_logging import Logger
@@ -46,8 +45,6 @@ ADDR = (ip_addr, port)
 
 class Main:
     def __init__(self):
-        ip_utils.ensure_directories_exist()
-
         self.logs = Logger()
         self.file_manager = JobManager(self.logs)
         self.job_queue = State(self.logs)
@@ -149,6 +146,7 @@ class Main:
                 job_path = self.job_queue.dequeue()  # First item is gotten from the queue
                 job_path1 = self.file_manager.move(job_path, DESTINATION)
                 self.processor.process_image(job_path1)
+                print("After Processing")
                 job_path2 = self.file_manager.move(job_path1, DONE)
                 self.transfer.send(job_path2)
 

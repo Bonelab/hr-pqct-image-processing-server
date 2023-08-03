@@ -17,10 +17,16 @@ FILENAME = "EVAL_FNAME"
 TARGET_IMAGE = "TARGET_FILE"
 EXT = "FEXT"
 
-FAILED = "failed"
-BATCHES = "batches"
-MASKS = "processed"
-DEST = "destination"
+DEST = 'destination'
+BATCHES = 'batches'
+DEL = 'del'
+FAILED = 'failed'
+LOGS = 'logs'
+MODELS = 'models'
+DONE = 'processed'
+REC = 'rec'
+TMP = 'tmp'
+DIRS = [BATCHES, DEL, DEST, FAILED, LOGS, MODELS, DONE, REC, TMP]
 
 
 class JobData:
@@ -43,11 +49,8 @@ class JobData:
         self.initialize()
         return self
 
-
     def __exit__(self, exc_type, exc_val, exc_tb):
-
         pass
-
 
     def initialize(self):
         self.com_file_name = self._find_com()
@@ -70,23 +73,10 @@ class JobData:
                 return file
 
 
-    # One instance of JobManager per thread?
-    # What should JobManager do?
-    # 1. Format the files into this format
-    # | com file
-    # | image file(s)
-    # | system metadata
-    # |_ Masks
-    #   | cort_mask
-    #   | trab_mask
-    # 2. Create and retrieve checkpoints?
-    # 3. Moving Files
-    # 4. Removing Files
-
-
 class JobManager:
     def __init__(self, logger):
         self.logs = logger
+        self._ensure_directories_exist()
 
     def create_job_data(self, com_file):
         com, img = self._create_association(com_file)
@@ -106,7 +96,6 @@ class JobManager:
         mask_dir = os.path.join(base, "masks")
         os.mkdir(mask_dir)
         return base
-
 
     # Takes in an absolute path of the com file
     def _create_association(self, com_file_path):
@@ -130,9 +119,7 @@ class JobManager:
             os.remove(com_file_path)
             raise FileNotFoundError("Image file not found for {}".format(nm))
 
-
-    # Move fn, move the base directory of the data
-    # Call update paths fn
+    # Function to move job data once formatted into the standard format
     def move(self, job_base, destination):
         try:
             new_base = shutil.move(job_base, destination)
@@ -151,3 +138,15 @@ class JobManager:
             self.logs.log_debug("{} renamed to {}".format(job_base, new_name))
             new_base = shutil.move(new_name, destination)
         return os.path.abspath(new_base)
+
+    def _ensure_directories_exist(self, dirs=None):
+        if dirs is None:
+            dirs = DIRS
+        for folder in dirs:
+            self._create_directory_if_not_exist(folder)
+
+    def _create_directory_if_not_exist(self, folder):
+        full_path = os.path.join(os.getcwd(), folder)
+        if not os.path.exists(full_path):
+            os.mkdir(full_path)
+            self.logs.log_debug("Creating {}".format(folder))

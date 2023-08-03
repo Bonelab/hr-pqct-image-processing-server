@@ -22,14 +22,10 @@ class Send:
             self.dat = jd.data
             self.image_dir = jd.proc_dir_path
             self.image_name = jd.image_file_name
-        # with JobData(base_dir) as jd:
-        #     self.dat = jd.data
-        #     self.image_dir = jd.proc_dir_path
-        #     self.image_name = jd.image_file_name
+
         self.username = self.dat.get("CLIENT_USERNAME")
         self.hostname = self.dat.get("CLIENT_HOSTNAME")
         self.destination = self.dat.get("CLIENT_DESTINATION")
-
 
     def send(self, base_dir):
         self._prepare(base_dir)

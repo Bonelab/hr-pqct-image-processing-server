@@ -16,19 +16,6 @@ TMP = 'tmp'
 DIRS = [BATCHES, DEL, DEST, FAILED, LOGS, MODELS, DONE, REC, TMP]
 
 
-def ensure_directories_exist(dirs=None):
-    if dirs is None:
-        dirs = DIRS
-    for folder in dirs:
-        _create_directory_if_not_exist(folder)
-
-
-def _create_directory_if_not_exist(folder):
-    full_path = os.path.join(os.getcwd(), folder)
-    if not os.path.exists(full_path):
-        os.mkdir(full_path)
-
-
 def get_abs_paths(directory):
     files = os.listdir(directory)
     n_files = []
