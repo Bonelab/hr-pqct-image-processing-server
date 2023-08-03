@@ -21,6 +21,6 @@ class Processor:
         self.logs.log_debug("Processing {}".format(job_data.image_file_name))
         cmd = ["python", "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/segment.py", job_data.base, "radius_tibia_final", "--image-pattern", job_data.image_file_name.lower()]
         print(cmd)
-        #proc = subprocess.Popen(cmd)
-        #proc.wait()
+        proc = subprocess.Popen(cmd)
+        proc.wait()
         print("FAKE Processing")
