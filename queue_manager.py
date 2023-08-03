@@ -8,7 +8,7 @@ import threading
 from job import JobData
 from queue import Queue
 import copy
-from datetime import datetime, timedelta
+
 import ip_utils
 
 DEST = 'destination'
