@@ -9,6 +9,7 @@ class Processor:
     def __init__(self, logger):
         self.logs = logger
         self.radius_tibia_final = "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/"
+        self.current = None
 
     def _perform_startup(self):
         if len(os.listdir("destination")) != 0:
@@ -25,7 +26,9 @@ class Processor:
     def process_image(self, job_base):
         job_data = JobData(job_base)
         job_type = job_data.data.get("JOB")
+        self.current = job_data.image_file_name
         self._get_processor(job_type, job_data)
+        self.current = None
 
     def _get_processor(self, job_type, job_data):
         if job_type == "radius_tibia_final":

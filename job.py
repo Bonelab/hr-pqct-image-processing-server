@@ -43,7 +43,9 @@ class JobData:
         self.initialize()
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+
         pass
 
 
@@ -143,7 +145,7 @@ class JobManager:
             new_base = shutil.move(new_name, destination)
         except shutil.Error:
             now = datetime.datetime.now()
-            date = now.strftime("%Y_%m_%d_%H_%M_%S")
+            date = now.strftime("_%Y%m%d%H%M%S")
             new_name = job_base + date
             os.rename(job_base, new_name)
             self.logs.log_debug("{} renamed to {}".format(job_base, new_name))

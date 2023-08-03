@@ -5,11 +5,13 @@
 # Created: 2023-05-19
 # Dependencies: pytorch, Anaconda, torchvision, cuda toolkit
 
+
 from job import JobManager
 from send import Send
 from process import Processor
 from queue_manager import State
 from ip_logging import Logger
+from send import Send
 import ip_utils
 
 import os
@@ -25,10 +27,10 @@ DEL = 'del'
 FAILED = 'failed'
 LOGS = 'logs'
 MODELS = 'models'
-MASKS = 'processed'
+DONE = 'processed'
 REC = 'rec'
 TMP = 'tmp'
-DIRS = [BATCHES, DEL, DEST, FAILED, LOGS, MODELS, MASKS, REC, TMP]
+DIRS = [BATCHES, DEL, DEST, FAILED, LOGS, MODELS, DONE, REC, TMP]
 
 
 # Change to 2 paths, rec-img and rec-com
@@ -51,6 +53,8 @@ class Main:
         self.job_queue = State(self.logs)
         self.processor = Processor(self.logs)
         self.transfer = Send(self.logs)
+        self.file_manager = JobManager(self.logs)
+
 
         self.main()
         self.logs.log_debug("Server Started")
@@ -128,8 +132,8 @@ class Main:
                     file = os.path.abspath(file)
                     if file.lower().endswith(".com"):
                         try:
-                            job_dir = self.rec_manager.create_job_data(file)
-                            job_path = self.rec_manager.move(job_dir, BATCHES)
+                            job_dir = self.file_manager.create_job_data(file)
+                            job_path = self.file_manager.move(job_dir, BATCHES)
                             self.job_queue.enqueue(job_path)
                             break
                         except FileNotFoundError:
@@ -143,10 +147,11 @@ class Main:
         while True:
             if self.job_queue.JOB_QUEUE.not_empty:
                 job_path = self.job_queue.dequeue()  # First item is gotten from the queue
-                new_job_path = self.file_manager.move(job_path, DESTINATION)
-                self.processor.process_image(new_job_path)
-                self.transfer.send(new_job_path)
-                self.file_manager.move()
+                job_path1 = self.file_manager.move(job_path, DESTINATION)
+                self.processor.process_image(job_path1)
+                job_path2 = self.file_manager.move(job_path1, DONE)
+                self.transfer.send(job_path2)
+
             time.sleep(1)
 
 
