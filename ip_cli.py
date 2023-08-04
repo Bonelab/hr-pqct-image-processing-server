@@ -1,12 +1,8 @@
 import pickle
 import socket
-import multiprocessing
-
 
 from job import JobData
 import ip_utils
-
-
 
 
 ip_addr = "127.0.0.1"
@@ -63,10 +59,15 @@ class CLI:
         else:
             pass
 
-    def _handle_jobs(self):
+    def _get_jobs(self):
         jbs = self.queue.get_jobs()
         if self.processor.current is not None:
-            jbs.insert(0, self.processor.current)
+            jbs. insert(0, self.processor.current)
+        return jbs
+
+
+    def _handle_jobs(self):
+        jbs = self._get_jobs()
         self._send_to_cli(jbs, "jobs")
 
     def _handle_completed(self):
@@ -77,7 +78,7 @@ class CLI:
         self._send_to_cli(b, "completed")
 
     def _handle_info(self, jobname):
-        jbs = self.queue.get_jobs()
+        jbs = self._get_jobs()
         for job in jbs:
             if jobname.lower() in job.image_file_name.lower():
                 self._send_to_cli(job, "info")
@@ -86,8 +87,8 @@ class CLI:
     def _handle_move(self, cmd):
         try:
             self.queue.move_queue(cmd[1], cmd[2])
-            jbs = self.queue.get_jobs()
-            self._send_to_cli(jbs,"move")
+            jbs = self._get_jobs()
+            self._send_to_cli(jbs, "move")
         except ValueError:
             self._send_to_cli("Exception", "move")
 
@@ -96,11 +97,11 @@ class CLI:
         for path in paths:
             if jobname.lower() in JobData(path).image_file_name.lower():
                 self.queue.enqueue(path)
-                jbs = self.queue.get_jobs()
+                jbs = self._get_jobs()
                 self._send_to_cli(jbs, "restart")
                 return
     def _handle_remove(self, jobname):
         self.queue.remove_from_queue(jobname)
-        jbs = self.queue.get_jobs()
+        jbs = self._get_jobs()
         self._send_to_cli(jbs,  "delete")
 

@@ -49,14 +49,15 @@ class Main:
         self.processor = Processor(self.logs, self.file_manager)
         self.job_queue = State(self.logs)
         self.transfer = Send(self.logs)
-        self.file_manager = JobManager(self.logs)
         self.Cli = CLI(self.job_queue, self.processor, self.transfer, self.file_manager)
 
-        self.main()
+        self.can_process = True
+
+        self.start()
         self.logs.log_debug("Server Started")
 
     # Main method of the program, sets up the threads for each individual process and performs startup routines
-    def main(self):
+    def start(self):
         # Monitor directory thread
         threading.Thread(target=self.monitor, args=()).start()  # Passing fn as reference
         # Worker thread
@@ -102,7 +103,6 @@ class Main:
                 job_path = self.job_queue.dequeue()  # First item is gotten from the queue
                 job_path1 = self.file_manager.move(job_path, DESTINATION)
                 self.processor.process_image(job_path1)  # Should be blocking
-                time.sleep(10000)
                 job_path2 = self.file_manager.move(job_path1, DONE)
                 self.transfer.send(job_path2)
 

@@ -1,4 +1,4 @@
-# job.py Version 1.0
+# job.py Version 2.0
 # Author: Ian Smith
 # Description: This file contains a JobData and a JobManager class. The JobData class is a context managed class meant
 # to be able to read data from formatted folders and import the data into the program here. JobManager is a class that
@@ -29,9 +29,14 @@ TMP = 'tmp'
 DIRS = [BATCHES, DEL, DEST, FAILED, LOGS, MODELS, DONE, REC, TMP]
 
 
+# JobData Class, can be context managed for easier resource management
+# Used as an access point for job data
+# Only internal functions are to initialize the data
+# On __init__ takes input of the base dir of a job, imports the data from there
 class JobData:
     def __init__(self, base_dir):
         self.base = base_dir
+        self.base_name = os.path.basename(base_dir)
 
         self.com_file_path = None
         self.com_file_name = None
@@ -52,6 +57,8 @@ class JobData:
     def __exit__(self, exc_type, exc_val, exc_tb):
         pass
 
+
+    # Initialize the data within the class from base dir
     def initialize(self):
         self.com_file_name = self._find_com()
         self.com_file_path = os.path.join(self.base, self.com_file_name)
@@ -60,17 +67,20 @@ class JobData:
         self.image_file_path = image_path
         self.image_file_name = self.data.get("TARGET_FILE")
 
+    # Find the target image file just from the data from the com file
     def _find_image(self):
         image_name = self.data.get("TARGET_FILE")
         image_path = os.path.join(self.base, image_name)
         if os.path.exists(image_path):
             return image_path
 
+    # Finds the com file from the base dir
     def _find_com(self):
         contents = os.listdir(self.base)
         for file in contents:
             if file.lower().endswith(".com"):
                 return file
+
 
 
 class JobManager:

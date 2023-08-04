@@ -89,14 +89,3 @@ class State:
             b.append(JobData(path))
             self.JOB_QUEUE.put(path)
         return b
-
-    # Functionality for info command
-    def get_job_com(self, j_name):
-        a = self.queue_to_list()
-        com = None
-        for obj in a:
-            fname = obj.data.get(F_NAME)
-            if fname.lower() == j_name.lower():
-                com = copy.deepcopy(obj.data)
-            self.JOB_QUEUE.put(obj)
-        return com
