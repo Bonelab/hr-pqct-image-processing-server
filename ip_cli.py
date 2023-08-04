@@ -59,6 +59,8 @@ class CLI:
 
     def _handle_jobs(self):
         jbs = self.queue.get_jobs()
+        if self.processor.current is not None:
+            jbs.insert(0, self.processor.current)
         self._send_to_cli(jbs, "jobs")
 
     def _handle_completed(self):

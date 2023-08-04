@@ -185,9 +185,9 @@ def print_jobs(job_list):
     count = 0
     for job in job_list:
         if count % 4 == 0 and count != 0:
-            sys.stdout.write("\n{}: {}\t\t\t".format(count, job))
+            sys.stdout.write("\n{}: {}\t\t\t".format(count, job.image_file_name))
         else:
-            sys.stdout.write("{}: {}\t\t\t".format(count, job))
+            sys.stdout.write("{}: {}\t\t\t".format(count, job.image_file_name))
         count += 1
 
 

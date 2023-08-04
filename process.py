@@ -22,7 +22,7 @@ class Processor:
     def process_image(self, job_base):
         job_data = JobData(job_base)
         job_type = job_data.data.get("JOB")
-        self.current = job_data.image_file_name
+        self.current = job_data
         self._get_processor(job_type, job_data)
         self.current = None
 
