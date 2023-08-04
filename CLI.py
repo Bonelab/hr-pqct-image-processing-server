@@ -176,10 +176,11 @@ def print_info(info):
     if info is not None:
         print("Job Information")
         print("Job Name:\t\t{}".format(info.data.get(JOBNAME)))
+        print("COM Name:\t\t{}".format(info.com_file_name))
         print("Image file:\t\t{}".format(info.image_file_name))
         print("Job Type:\t\t{}".format(info.data.get(JOB_TYPE)))
         print("File Type:\t\t{}".format(info.data.get(FILE_TYPE)))
-        print("Client Name:\t{}@{}".format(info.data.get(ACCOUNT_NAME), info.get(CLIENT_ADDR)))
+        print("Client Name:\t{}@{}".format(info.data.get(ACCOUNT_NAME), info.data.get(CLIENT_ADDR)))
 
 
 def print_jobs(job_list):
@@ -205,10 +206,15 @@ def cli():
         start_server()
     else:
         try:
+            print(1)
             CLIENT = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            print(2)
             CLIENT.connect(ADDR)
+            print(3)
             handle_args(CLIENT, args)
+            print(4)
             response = pickle.loads(CLIENT.recv(32767))
+            print(5)
             handle_response(response)
         except Exception as e:
             print("No Response From Server", e)
