@@ -63,7 +63,7 @@ class State:
             raise ValueError("Index out of range of the queue")
         to_move = None
         for item in a:  # Finding item that needs to be moved in the queue
-            if item.data.get(F_NAME).lower() == jobname.lower():
+            if jobname.lower() in JobData(item).data.get(F_NAME):
                 a.remove(item)
                 to_move = item
                 break
@@ -75,8 +75,9 @@ class State:
     def remove_from_queue(self, jobname):
         a = self.queue_to_list()
         for item in a:
-            if item.data.get(F_NAME).lower() == jobname.lower():
+            if JobData(item).data.get(F_NAME).lower() == jobname.lower():
                 item.append_to_com()
+                os.remove(item)
             else:
                 self.JOB_QUEUE.put(item)
 
@@ -84,13 +85,9 @@ class State:
     def get_jobs(self, arg=F_NAME):
         a = self.queue_to_list()
         b = []
-        for obj in a:
-            b.append(obj.data.get(arg))
-            self.JOB_QUEUE.put(obj)
-        if self.current is not None:
-            b.insert(0, self.current.name)
-        else:
-            b.insert(0, 'None')
+        for path in a:
+            b.append(JobData(path))
+            self.JOB_QUEUE.put(path)
         return b
 
     # Functionality for info command
@@ -103,17 +100,3 @@ class State:
                 com = copy.deepcopy(obj.data)
             self.JOB_QUEUE.put(obj)
         return com
-
-    # Functionality for completed command
-    @staticmethod
-    def get_completed_jobs():
-        return ip_utils.get_abs_paths(DEST)
-
-    # Functionality for restart command
-    def restart_job(self, j_name):
-        comp = self.get_completed_jobs()
-        for item in comp:
-            if j_name.casefold() in item.casefold():
-                batch = JobData()
-                batch.set_up_from_file(item)
-                self.enqueue(batch)

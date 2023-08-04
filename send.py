@@ -29,7 +29,7 @@ class Send:
 
     def send(self, base_dir):
         self._prepare(base_dir)
-        self.logs.log_debug("Sending {}".format(self.image))
+        self.logs.log_debug("Sending {}".format(self.image_name))
         try:
             sftp_cmd = ['sftp', '-q',
                         '{}@{}:{}'.format(self.username, self.hostname,

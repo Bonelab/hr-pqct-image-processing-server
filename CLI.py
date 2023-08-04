@@ -7,7 +7,6 @@ import socket
 import pickle
 import argparse
 import sys
-import psutil
 import subprocess
 
 JOBNAME = "EVAL_FNAME"
@@ -21,15 +20,6 @@ ip_addr = "127.0.0.1"
 PORT = 4000
 ADDR = (ip_addr, PORT)
 pid = "/tmp/main.pid"
-
-
-def is_daemonized():
-    if os.path.exists(pid):
-        with open(pid) as f:
-            did = int(f.read().strip())
-            return psutil.pid_exists(did)
-    else:
-        return False
 
 
 # Form [<command>, <arg1>, <arg2>, ..., <argn>]

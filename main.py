@@ -11,6 +11,7 @@ from process import Processor
 from queue_manager import State
 from ip_logging import Logger
 from send import Send
+from ip_cli import CLI
 import ip_utils
 
 import os
@@ -51,7 +52,7 @@ class Main:
         self.processor = Processor(self.logs)
         self.transfer = Send(self.logs)
         self.file_manager = JobManager(self.logs)
-
+        self.Cli = CLI(self.job_queue, self.processor, self.transfer, self.file_manager)
 
         self.main()
         self.logs.log_debug("Server Started")
@@ -65,55 +66,12 @@ class Main:
         # CLI thread
         threading.Thread(target=self.cli_handle(), args=()).start()
 
-    @staticmethod
-    def send_to_cli(dat, con, cmd):
-        to_send = [cmd, dat]
-        to_send = pickle.dumps(to_send)
-        con.sendall(to_send)
-
     # This method is meant to be called in its own thread, it uses a socket to communicate with the command line
     # interface
     def cli_handle(self):
-        server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server.bind(ADDR)
-        server.listen()
         while True:
-            conn, client_addr = server.accept()  # Blocking code, use conn to send data back to the cli
-            data = conn.recv(1024)
-            cmd = pickle.loads(data)
-            # Form [<command>, <arg1>, <arg2>, ..., <argn>]
-            command = cmd[0]
+            self.Cli.cli()
 
-            if command == "jobs":
-                jbs = self.job_queue.get_jobs()
-                self.send_to_cli(jbs, conn, cmd[0])
-            elif command == "completed":
-                comp = self.job_queue.get_completed_jobs()
-                self.send_to_cli(comp, conn, cmd[0])
-            elif command == "info":
-                inf = self.job_queue.get_job_com(cmd[1])
-                self.send_to_cli(inf, conn, cmd[0])
-            elif command == "move":
-                try:
-                    self.job_queue.move_queue(cmd[1], cmd[2])
-                    jbs = self.job_queue.get_jobs()
-                    self.send_to_cli(jbs, conn, cmd[0])
-                except ValueError:
-                    pl = "Exception"
-                    self.send_to_cli(pl, conn, cmd[0])
-            elif command == "restart":
-                self.job_queue.restart_job(cmd[1])
-                jbs = self.job_queue.get_jobs()
-                self.send_to_cli(jbs, conn, cmd[0])
-            elif command == "delete":
-                self.job_queue.remove_from_queue(cmd[1])
-                jbs = self.job_queue.get_jobs()
-                self.send_to_cli(jbs, conn, cmd[0])
-            elif command == "quit":
-                self.send_to_cli("quit", conn, cmd[0])
-                quit()
-            else:
-                pass
 
     # This method is meant to be called on its own thread, it monitors the directory where the files will be
     # transferred to from vms
