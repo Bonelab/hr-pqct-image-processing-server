@@ -1,23 +1,22 @@
-import shutil
-import subprocess
-import os
+import ip_utils
 from job import JobData
 
+import subprocess
 
-# TODO add current tracking to here
+
 class Processor:
-    def __init__(self, logger):
+    def __init__(self, logger, file_manager):
         self.logs = logger
+        self.file_manager = file_manager
         self.radius_tibia_final = "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/"
         self.current = None
+        self._perform_startup()
 
     def _perform_startup(self):
-        if len(os.listdir("destination")) != 0:
-            files = os.listdir()
-            self.process_image(files[0])
-            files.pop(0)
-            for i in files:
-                shutil.move(i, "batches")
+        self.logs.log_debug("Clearing out destination dir")
+        files = ip_utils.get_abs_paths("/home/bonelab/bls/destination")
+        for i in files:
+            self.file_manager.move(i, "batches")
 
     def process_image(self, job_base):
         job_data = JobData(job_base)

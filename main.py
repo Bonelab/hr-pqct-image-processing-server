@@ -15,11 +15,9 @@ from ip_cli import CLI
 import ip_utils
 
 import os
-import socket
 import time
 import threading
 import shutil
-import pickle
 
 DEST = 'destination'
 BATCHES = 'batches'
@@ -48,8 +46,8 @@ class Main:
     def __init__(self):
         self.logs = Logger()
         self.file_manager = JobManager(self.logs)
+        self.processor = Processor(self.logs, self.file_manager)
         self.job_queue = State(self.logs)
-        self.processor = Processor(self.logs)
         self.transfer = Send(self.logs)
         self.file_manager = JobManager(self.logs)
         self.Cli = CLI(self.job_queue, self.processor, self.transfer, self.file_manager)

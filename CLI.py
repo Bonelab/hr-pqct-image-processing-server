@@ -11,7 +11,7 @@ import subprocess
 
 JOBNAME = "EVAL_FNAME"
 FILE_TYPE = "FEXT"
-JOB_TYPE = ""
+JOB_TYPE = "JOB"
 CLIENT_ADDR = "CLIENT_HOSTNAME"
 ACCOUNT_NAME = "CLIENT_USERNAME"
 
@@ -175,10 +175,11 @@ def handle_response(data):
 def print_info(info):
     if info is not None:
         print("Job Information")
-        print("Job Name:\t\t{}".format(info.get(JOBNAME)))
-        #    print("Job Type:\t\t{}".format(info.get(JOB_TYPE)))
-        print("File Type:\t\t{}".format(info.get(FILE_TYPE)))
-        print("Client Name:\t{}@{}".format(info.get(ACCOUNT_NAME), info.get(CLIENT_ADDR)))
+        print("Job Name:\t\t{}".format(info.data.get(JOBNAME)))
+        print("Image file:\t\t{}".format(info.image_file_name))
+        print("Job Type:\t\t{}".format(info.data.get(JOB_TYPE)))
+        print("File Type:\t\t{}".format(info.data.get(FILE_TYPE)))
+        print("Client Name:\t{}@{}".format(info.data.get(ACCOUNT_NAME), info.get(CLIENT_ADDR)))
 
 
 def print_jobs(job_list):
@@ -209,8 +210,8 @@ def cli():
             handle_args(CLIENT, args)
             response = pickle.loads(CLIENT.recv(32767))
             handle_response(response)
-        except:
-            print("No Response From Server")
+        except Exception as e:
+            print("No Response From Server", e)
 
 
 cli()

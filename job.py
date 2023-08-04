@@ -1,16 +1,16 @@
 # job.py Version 1.0
 # Author: Ian Smith
-# Description: Job object for Autosegment_Server, these objects are tracked by the state class. This class holds all the
-# functionality for moving, tracking, processing and sftping files
+# Description: This file contains a JobData and a JobManager class. The JobData class is a context managed class meant
+# to be able to read data from formatted folders and import the data into the program here. JobManager is a class that
+# sort of serves as a filemanager, with the ability to format files into the folder structure recognized by job data.
+# It also handles things like movement of files within the program
 # Created 2023-06-12
 
 
 import ip_utils
-from ip_logging import Logger
+
 import os
 import shutil
-import time
-import subprocess
 import datetime
 
 FILENAME = "EVAL_FNAME"
