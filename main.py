@@ -31,7 +31,6 @@ TMP = 'tmp'
 DIRS = [BATCHES, DEL, DEST, FAILED, LOGS, MODELS, DONE, REC, TMP]
 
 
-# Change to 2 paths, rec-img and rec-com
 PATH = 'rec'  # Some directory path where incoming files will go
 BATCHES = 'batches'
 FAILED = 'failed'

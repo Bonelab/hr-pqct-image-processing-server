@@ -1,7 +1,7 @@
 import logging
 
 DEBUG = "/home/bonelab/bls/logs/debug.log"  # Change to logs/debug.log
-ERROR = "/home/bonelab/bls/logs/error.log"  # Change to logs/error.log
+ERROR = "/home/bonelab/bls/logs/error.log"  # Change to logs/error.log /home/bonelab/bls
 
 class Logger:
     def __init__(self):

@@ -30,10 +30,9 @@ class Processor:
             self._radius_tibia_final(job_data)
 
     def _radius_tibia_final(self, job_data):
-        command = "conda activate bl_torch ; python /home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/segment.py {} radius_tibia_final --image-pattern {}".format(job_data.base, job_data.image_file_name.lower())
         self.logs.log_debug("Processing {}".format(job_data.image_file_name))
-        env_cmd = ["conda", "activate", "bl_torch"]
+        # env_cmd = ["conda", "activate", "bl_torch"]
         cmd = ["python", "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/segment.py", job_data.base, "radius_tibia_final", "--image-pattern", job_data.image_file_name.lower()]
-        print(command)
-        proc = subprocess.Popen(command)
+        print(cmd)
+        proc = subprocess.Popen(cmd)
         proc.wait()

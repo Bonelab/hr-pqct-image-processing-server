@@ -26,6 +26,7 @@ MODELS = 'models'
 DONE = 'processed'
 REC = 'rec'
 TMP = 'tmp'
+JOB_DIRS = [BATCHES, DEST, DONE]
 DIRS = [BATCHES, DEL, DEST, FAILED, LOGS, MODELS, DONE, REC, TMP]
 
 
@@ -98,14 +99,41 @@ class JobManager:
         com_file = os.path.abspath(com_file)
         dir_name = os.path.dirname(com_file)
         image_file = os.path.abspath(image_file)
-        metadata = ip_utils.parse_com(com_file)
-        base = os.path.join(dir_name, metadata.get("IPL_FNAME"))
+        base = os.path.join(dir_name, self._name_dir(com_file))
         os.mkdir(base)
+
         shutil.move(com_file, base)
         shutil.move(image_file, base)
         mask_dir = os.path.join(base, "masks")
         os.mkdir(mask_dir)
         return base
+
+    def _name_dir(self, com_file):
+        metadata = ip_utils.parse_com(com_file)
+        job_names = self._get_all_jobs()
+        cur_job_name = metadata.get("IPL_FNAME")
+        count = 0
+
+        for name in job_names:
+            if cur_job_name in name:
+                count += 1
+
+        if count > 0:
+            cur_job_name = cur_job_name + "({})".format(count)
+        # TODO change job name within com file? or just add
+
+        return cur_job_name
+
+    def _get_all_jobs(self):
+        job_names = []
+        for folder in JOB_DIRS:
+            print(folder)
+            job_names = job_names + ip_utils.get_abs_paths(folder)
+        for path in job_names:
+            print(path)
+            with JobData(path) as jd:
+                job_names = list(map(lambda x: x.replace(path, jd.base_name), job_names))
+        return job_names
 
     # Takes in an absolute path of the com file
     def _create_association(self, com_file_path):
