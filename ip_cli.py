@@ -55,7 +55,8 @@ class CLI:
             self._handle_restart(cmd[1])
         elif command == "delete":
             self._handle_remove(cmd[1])
-        else:
+        elif command == "failed":
+            self._handle_failed()
             pass
 
     def _get_jobs(self):
@@ -64,16 +65,27 @@ class CLI:
             jbs.insert(0, self.processor.current)
         return jbs
 
+    def _jobs_from_dir(self, directory):
+        jobs = ip_utils.get_abs_paths(directory)
+        for path in jobs:
+            with JobData(path) as jd:
+                jobs = list(map(lambda x: x.replace(path, jd), jobs))
+        return jobs
+
     def _handle_jobs(self):
         jbs = self._get_jobs()
         self._send_to_cli(jbs, "jobs")
 
     def _handle_completed(self):
-        a = ip_utils.get_abs_paths("processed")
-        b = []
-        for job in a:
-            b.append(JobData(job))
-        self._send_to_cli(b, "completed")
+        comp = self._jobs_from_dir("processed")
+        self._send_to_cli(comp, "completed")
+
+    def _handle_failed(self):
+        fail = self._jobs_from_dir("failed")
+        self._send_to_cli(fail, "failed")
+
+
+
 
     def _handle_info(self, jobname):
         jbs = self._get_jobs()

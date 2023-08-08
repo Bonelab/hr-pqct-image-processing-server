@@ -2,12 +2,10 @@
 # Author: Ian Smith
 # Description: Allows for communication with the main part of Autosegment_Server while it is daemonized
 # Created: 2023-06-16
-import os
 import socket
 import pickle
 import argparse
 import sys
-import subprocess
 
 JOBNAME = "EVAL_FNAME"
 FILE_TYPE = "FEXT"
@@ -19,14 +17,13 @@ FORMAT = "utf-8"
 ip_addr = "127.0.0.1"
 PORT = 4000
 ADDR = (ip_addr, PORT)
-pid = "/tmp/main.pid"
 
 
 # Form [<command>, <arg1>, <arg2>, ..., <argn>]
 # SEND: Sends the command to the server
-def send(msg, cli):
+def send(msg, client):
     msg = pickle.dumps(msg)
-    cli.sendall(msg)
+    client.sendall(msg)
 
 
 # What needs to be done for each
@@ -111,24 +108,16 @@ def create_parser():
         help="Move an item within the queue"
     )
     parser.add_argument(
-        "-s",
-        "--start",
+        "-f",
+        "--failed",
         action="store_true",
         default=False,
-        help="Starts the segmentation server"
+        help="Shows failed jobs within the last week"
     )
-    parser.add_argument(
-        "-q",
-        "--quit",
-        action="store_true",
-        default=False,
-        help="Shuts down segmentation server"
-    )
-
     return parser
 
 
-def handle_args(cli, args):
+def handle_args(client, args):
     nm = vars(args)
     for key in nm:
         if not (nm.get(key) is None or nm.get(key) is False):
@@ -137,12 +126,7 @@ def handle_args(cli, args):
                 cmd = cmd + nm.get(key)
             else:
                 cmd.append(nm.get(key))
-            send(cmd, cli)
-
-    # Handle special cases (Start)
-    # Turn namespace to dict
-    # Get args that are not None or False
-    # Send command + args to server side code
+            send(cmd, client)
 
 
 def handle_response(data):
@@ -167,9 +151,9 @@ def handle_response(data):
         print_jobs(data[1])
     elif command == "info":
         print_info(data[1])
-    elif command == "quit":
-        print("Shutting down program")
-    print()
+    elif command == "failed":
+        print_jobs(data[1])
+
 
 
 def print_info(info):
@@ -180,7 +164,7 @@ def print_info(info):
         print("Image file:\t\t{}".format(info.image_file_name))
         print("Job Type:\t\t{}".format(info.data.get(JOB_TYPE)))
         print("File Type:\t\t{}".format(info.data.get(FILE_TYPE)))
-        print("Client Name:\t{}@{}".format(info.data.get(ACCOUNT_NAME), info.data.get(CLIENT_ADDR)))
+        print("Client Name:\t\t{}@{}".format(info.data.get(ACCOUNT_NAME), info.data.get(CLIENT_ADDR)))
 
 
 def print_jobs(job_list):
@@ -193,26 +177,16 @@ def print_jobs(job_list):
         count += 1
 
 
-def start_server():
-    print("Starting Server")
-    with open(os.devnull, 'w') as devnull:
-        subprocess.Popen(['python3', 'main.py'], stdout=devnull, stderr=devnull)
-    print("Server Started")
-
-
 def cli():
     args = create_parser().parse_args()
-    if args.start: # May not have to deal with this.
-        start_server()
-    else:
-        try:
-            CLIENT = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            CLIENT.connect(ADDR)
-            handle_args(CLIENT, args)
-            response = pickle.loads(CLIENT.recv(32767))
-            handle_response(response)
-        except Exception as e:
-            print("No Response From Server", e)
+    try:
+        client_connect = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client_connect.connect(ADDR)
+        handle_args(client_connect, args)
+        response = pickle.loads(client_connect.recv(32767))
+        handle_response(response)
+    except Exception as e:
+        print("No Response From Server", e)
 
 
 cli()
