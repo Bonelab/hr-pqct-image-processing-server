@@ -175,7 +175,7 @@ def handle_response(data):
 def print_info(info):
     if info is not None:
         print("Job Information")
-        print("Job Name:\t\t{}".format(info.data.get(JOBNAME)))
+        print("Job Name:\t\t{}".format(info.base_name))
         print("COM Name:\t\t{}".format(info.com_file_name))
         print("Image file:\t\t{}".format(info.image_file_name))
         print("Job Type:\t\t{}".format(info.data.get(JOB_TYPE)))

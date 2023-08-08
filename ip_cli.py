@@ -9,6 +9,7 @@ ip_addr = "127.0.0.1"
 port = 4000
 ADDR = (ip_addr, port)
 
+
 class CLI:
     def __init__(self, queue, processor, send, file_manager):
         self.queue = queue
@@ -30,7 +31,6 @@ class CLI:
         self.conn = None
         self.client_addr = None
 
-
     def _bind_socket(self):
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.bind(ADDR)
@@ -40,7 +40,6 @@ class CLI:
         to_send = [cmd, dat]
         to_send = pickle.dumps(to_send)
         self.conn.sendall(to_send)
-
 
     def _cli_handle(self, cmd):
         command = cmd[0]
@@ -62,9 +61,8 @@ class CLI:
     def _get_jobs(self):
         jbs = self.queue.get_jobs()
         if self.processor.current is not None:
-            jbs. insert(0, self.processor.current)
+            jbs.insert(0, self.processor.current)
         return jbs
-
 
     def _handle_jobs(self):
         jbs = self._get_jobs()
@@ -80,7 +78,7 @@ class CLI:
     def _handle_info(self, jobname):
         jbs = self._get_jobs()
         for job in jbs:
-            if jobname.lower() in job.image_file_name.lower():
+            if jobname.lower() in job.base_name.lower():
                 self._send_to_cli(job, "info")
                 return
 
@@ -100,8 +98,9 @@ class CLI:
                 jbs = self._get_jobs()
                 self._send_to_cli(jbs, "restart")
                 return
+
     def _handle_remove(self, jobname):
         self.queue.remove_from_queue(jobname)
         jbs = self._get_jobs()
-        self._send_to_cli(jbs,  "delete")
+        self._send_to_cli(jbs, "delete")
 
