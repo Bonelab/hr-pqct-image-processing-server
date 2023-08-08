@@ -20,19 +20,31 @@ class Processor:
 
     def process_image(self, job_base):
         job_data = JobData(job_base)
-        job_type = job_data.data.get("JOB")
         self.current = job_data
-        self._get_processor(job_type, job_data)
-        self.current = None
+        try:
+            self._get_processor(job_data)
+            self.current = None
+            return True
+        except Exception as e:
+            self.logs.log_error("An error has occured with {}: {}".format(job_data.base_name, e))
+            return False
+        finally:
+            self.current = None
 
-    def _get_processor(self, job_type, job_data):
+    def _get_processor(self, job_data):
+        job_type = job_data.data.get("JOB")
         if job_type == "radius_tibia_final":
             self._radius_tibia_final(job_data)
 
     def _radius_tibia_final(self, job_data):
         self.logs.log_debug("Processing {}".format(job_data.image_file_name))
-        # env_cmd = ["conda", "activate", "bl_torch"]
-        cmd = ["python", "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/segment.py", job_data.base, "radius_tibia_final", "--image-pattern", job_data.image_file_name.lower()]
-        print(cmd)
+        cmd = ["python", "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/segment.py", job_data.base,
+               "radius_tibia_final", "--image-pattern", job_data.image_file_name.lower()]
         proc = subprocess.Popen(cmd)
-        proc.wait()
+
+        return_code = proc.wait()
+
+        if return_code == 0:
+            self.logs.log_debug("radius-tibia-final job {} finished successfully".format(job_data.base_name))
+        else:
+            raise ChildProcessError

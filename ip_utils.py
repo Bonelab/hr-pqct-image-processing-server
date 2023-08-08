@@ -15,6 +15,7 @@ REC = 'rec'
 TMP = 'tmp'
 DIRS = [BATCHES, DEL, DEST, FAILED, LOGS, MODELS, DONE, REC, TMP]
 
+
 def get_abs_paths(directory):
     files = os.listdir(directory)
     n_files = []
@@ -24,6 +25,7 @@ def get_abs_paths(directory):
         f = os.path.normpath(f)
         n_files.append(f)
     return n_files
+
 def parse_com(file_path):
     command_file = {}
     with open(file_path, 'r') as f:
