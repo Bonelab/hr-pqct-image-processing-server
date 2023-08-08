@@ -26,7 +26,7 @@ MODELS = 'models'
 DONE = 'processed'
 REC = 'rec'
 TMP = 'tmp'
-JOB_DIRS = [BATCHES, DEST, DONE]
+JOB_DIRS = [BATCHES, DEST, DONE, FAILED]
 DIRS = [BATCHES, DEL, DEST, FAILED, LOGS, MODELS, DONE, REC, TMP]
 
 
@@ -162,19 +162,19 @@ class JobManager:
         try:
             new_base = shutil.move(job_base, destination)
         except FileExistsError:
-            now = datetime.datetime.now()
-            date = now.strftime("_%Y%m%d%H%M%S")
-            new_name = job_base + date
-            os.rename(job_base, new_name)
-            self.logs.log_debug("{} renamed to {}".format(job_base, new_name))
-            new_base = shutil.move(new_name, destination)
+            rename = self._name_dir(job_base)
+            path = os.path.dirname(job_base)
+            new_path = os.path.join(path, rename)
+            os.rename(job_base, rename)
+            self.logs.log_debug("{} renamed to {}".format(os.path.basename(job_base), rename))
+            new_base = shutil.move(new_path, destination)
         except shutil.Error:
-            now = datetime.datetime.now()
-            date = now.strftime("_%Y%m%d%H%M%S")
-            new_name = job_base + date
-            os.rename(job_base, new_name)
-            self.logs.log_debug("{} renamed to {}".format(job_base, new_name))
-            new_base = shutil.move(new_name, destination)
+            rename = self._name_dir(job_base)
+            path = os.path.dirname(job_base)
+            new_path = os.path.join(path, rename)
+            os.rename(job_base, rename)
+            self.logs.log_debug("{} renamed to {}".format(os.path.basename(job_base), rename))
+            new_base = shutil.move(new_path, destination)
         return os.path.abspath(new_base)
 
     def _ensure_directories_exist(self, dirs=None):
