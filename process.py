@@ -3,7 +3,7 @@ from job import JobData
 
 import subprocess
 
-TMP_OUT = "/logs/output.txt"
+TMP_OUT = "logs/output.txt"
 
 class Processor:
     def __init__(self, logger, file_manager):
