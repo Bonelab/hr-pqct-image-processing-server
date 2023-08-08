@@ -3,6 +3,7 @@ from job import JobData
 
 import subprocess
 
+TMP_OUT = "/logs/output.txt"
 
 class Processor:
     def __init__(self, logger, file_manager):
@@ -40,11 +41,10 @@ class Processor:
         self.logs.log_debug("Processing {}".format(job_data.image_file_name))
         cmd = ["python", "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/segment.py", job_data.base,
                "radius_tibia_final", "--image-pattern", job_data.image_file_name.lower()]
-        proc = subprocess.Popen(cmd)
+        with open(TMP_OUT, "w") as f:
+            proc = subprocess.run(cmd, stdout=f, stderr=subprocess.STDOUT, text=True)
 
-        return_code = proc.wait()
-
-        if return_code == 0:
+        if proc.returncode == 0:
             self.logs.log_debug("radius-tibia-final job {} finished successfully".format(job_data.base_name))
         else:
             raise ChildProcessError
