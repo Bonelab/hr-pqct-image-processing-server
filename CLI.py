@@ -153,6 +153,7 @@ def handle_response(data):
         print_info(data[1])
     elif command == "failed":
         print_jobs(data[1])
+    print()
 
 
 

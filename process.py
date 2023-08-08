@@ -3,6 +3,7 @@ from job import JobData
 
 import subprocess
 
+# TODO remove
 TMP_OUT = "logs/output.txt"
 
 class Processor:

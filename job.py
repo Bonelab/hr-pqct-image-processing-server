@@ -89,6 +89,26 @@ class JobManager:
         self.logs = logger
         self._ensure_directories_exist()
 
+    # Function to move job data once formatted into the standard format
+    def move(self, job_base, destination):
+        try:
+            new_base = shutil.move(job_base, destination)
+        except FileExistsError:
+            rename = self._name_dir(job_base)
+            path = os.path.dirname(job_base)
+            new_path = os.path.join(path, rename)
+            os.rename(job_base, rename)
+            self.logs.log_debug("{} renamed to {}".format(os.path.basename(job_base), rename))
+            new_base = shutil.move(new_path, destination)
+        except shutil.Error:
+            rename = self._name_dir(job_base)
+            path = os.path.dirname(job_base)
+            new_path = os.path.join(path, rename)
+            os.rename(job_base, rename)
+            self.logs.log_debug("{} renamed to {}".format(os.path.basename(job_base), rename))
+            new_base = shutil.move(new_path, destination)
+        return os.path.abspath(new_base)
+
     def create_job_data(self, com_file):
         com, img = self._create_association(com_file)
         base = self._format_job_data(com, img)
@@ -124,13 +144,13 @@ class JobManager:
 
         return cur_job_name
 
-    def _get_all_jobs(self):
+    # TODO fix possible bug here may also be in move. Currently unsure.
+    @staticmethod
+    def _get_all_jobs():
         job_names = []
         for folder in JOB_DIRS:
-            print(folder)
             job_names = job_names + ip_utils.get_abs_paths(folder)
         for path in job_names:
-            print(path)
             with JobData(path) as jd:
                 job_names = list(map(lambda x: x.replace(path, jd.base_name), job_names))
         return job_names
@@ -157,25 +177,6 @@ class JobManager:
             os.remove(com_file_path)
             raise FileNotFoundError("Image file not found for {}".format(nm))
 
-    # Function to move job data once formatted into the standard format
-    def move(self, job_base, destination):
-        try:
-            new_base = shutil.move(job_base, destination)
-        except FileExistsError:
-            rename = self._name_dir(job_base)
-            path = os.path.dirname(job_base)
-            new_path = os.path.join(path, rename)
-            os.rename(job_base, rename)
-            self.logs.log_debug("{} renamed to {}".format(os.path.basename(job_base), rename))
-            new_base = shutil.move(new_path, destination)
-        except shutil.Error:
-            rename = self._name_dir(job_base)
-            path = os.path.dirname(job_base)
-            new_path = os.path.join(path, rename)
-            os.rename(job_base, rename)
-            self.logs.log_debug("{} renamed to {}".format(os.path.basename(job_base), rename))
-            new_base = shutil.move(new_path, destination)
-        return os.path.abspath(new_base)
 
     def _ensure_directories_exist(self, dirs=None):
         if dirs is None:

@@ -85,12 +85,10 @@ class CLI:
         self._send_to_cli(fail, "failed")
 
 
-
-
     def _handle_info(self, jobname):
         jbs = self._get_jobs()
         for job in jbs:
-            if jobname.lower() in job.base_name.lower():
+            if jobname.lower() == job.base_name.lower():
                 self._send_to_cli(job, "info")
                 return
 
