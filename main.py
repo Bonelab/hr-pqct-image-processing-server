@@ -101,10 +101,12 @@ class Main:
             if self.job_queue.JOB_QUEUE.not_empty:
                 job_path = self.job_queue.dequeue()  # First item is gotten from the queue
                 job_path1 = self.file_manager.move(job_path, DESTINATION)
-                self.processor.process_image(job_path1)
-                job_path2 = self.file_manager.move(job_path1, DONE)
-                self.transfer.send(job_path2)
-
+                is_successful = self.processor.process_image(job_path1)
+                if is_successful:
+                    job_path2 = self.file_manager.move(job_path1, DONE)
+                    self.transfer.send(job_path2)
+                else:
+                    self.file_manager.move(job_path1, FAILED)
             time.sleep(1)
 
 
