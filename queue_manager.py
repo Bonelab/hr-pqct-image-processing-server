@@ -5,10 +5,9 @@
 # Created: 2023-06-20
 import os
 import threading
-from job import JobData
 from queue import Queue
-import copy
 
+from job import JobData
 import ip_utils
 
 DEST = 'destination'
@@ -28,7 +27,6 @@ DIRS = [BATCHES, DEL, DEST, FAILED, MODELS, MASKS, REC, TMP]
 class State:
     def __init__(self, logger):
         self.lock = threading.Lock()
-        self.current = None
         self.JOB_QUEUE = Queue()
         self._perform_startup()
         self.logs = logger

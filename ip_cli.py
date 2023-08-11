@@ -60,12 +60,13 @@ class CLI:
             pass
 
     def _get_jobs(self):
-        jbs = self.queue.get_jobs()
+        jobs = self.queue.get_jobs()
         if self.processor.current is not None:
-            jbs.insert(0, self.processor.current)
-        return jbs
+            jobs.insert(0, self.processor.current)
+        return jobs
 
-    def _jobs_from_dir(self, directory):
+    @staticmethod
+    def _jobs_from_dir(directory):
         jobs = ip_utils.get_abs_paths(directory)
         for path in jobs:
             with JobData(path) as jd:
@@ -83,7 +84,6 @@ class CLI:
     def _handle_failed(self):
         fail = self._jobs_from_dir("failed")
         self._send_to_cli(fail, "failed")
-
 
     def _handle_info(self, jobname):
         jbs = self._get_jobs()

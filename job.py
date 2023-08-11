@@ -58,7 +58,6 @@ class JobData:
     def __exit__(self, exc_type, exc_val, exc_tb):
         pass
 
-
     # Initialize the data within the class from base dir
     def initialize(self):
         self.com_file_name = self._find_com()
@@ -176,7 +175,6 @@ class JobManager:
             self.logs.log_error('Could not find associated image file for {}'.format(nm))
             os.remove(com_file_path)
             raise FileNotFoundError("Image file not found for {}".format(nm))
-
 
     def _ensure_directories_exist(self, dirs=None):
         if dirs is None:
