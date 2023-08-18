@@ -1,3 +1,8 @@
+"""
+send.py
+Author: Ian Smith
+Description: Class to handle sending data back to the openVMS system
+"""
 import ip_utils
 import subprocess
 import os
