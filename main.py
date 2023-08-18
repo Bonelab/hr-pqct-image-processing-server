@@ -64,7 +64,7 @@ class Main:
     def cli_handle(self):
         """
         Method for activating CLI event loop
-        :return:
+        :return: None
         """
         while self.running:
             self.Cli.cli()
@@ -98,7 +98,7 @@ class Main:
     def processing(self):
         """
         Method to handle the event loop for processing jobs
-        :return:
+        :return: None
         """
         while self.running:
             if self.job_queue.JOB_QUEUE.not_empty:
@@ -113,6 +113,9 @@ class Main:
                 else:
                     self.file_manager.move(job_path, constants.FAILED)
             time.sleep(1)
+
+    def handle_signal(self):
+        pass
 
 def main():
     Main()
