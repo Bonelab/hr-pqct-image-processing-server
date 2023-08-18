@@ -9,25 +9,11 @@ Created 2023-06-12
 """
 
 import ip_utils
+import constants
 
 import os
 import shutil
 
-FILENAME = "EVAL_FNAME"
-TARGET_IMAGE = "TARGET_FILE"
-EXT = "FEXT"
-
-DEST = 'destination'
-BATCHES = 'batches'
-DEL = 'del'
-FAILED = 'failed'
-LOGS = 'logs'
-MODELS = 'models'
-DONE = 'processed'
-REC = 'rec'
-TMP = 'tmp'
-JOB_DIRS = [BATCHES, DEST, DONE, FAILED]
-DIRS = [BATCHES, DEL, DEST, FAILED, LOGS, MODELS, DONE, REC, TMP]
 
 
 # JobData Class, can be context managed for easier resource management
@@ -131,7 +117,7 @@ class JobManager:
         Method to move job data directories
         :param job_base: Name of directory you want to move
         :param destination: Destination location of where you want to move the dir
-        :return: Returns the path of the moved directoey
+        :return: Returns the path of the moved directory
         """
         try:
             new_base = shutil.move(job_base, destination)
@@ -210,7 +196,7 @@ class JobManager:
         :return: returns the list of job names
         """
         job_names = []
-        for folder in JOB_DIRS:
+        for folder in constants.JOB_DIRS:
             job_names = job_names + ip_utils.get_abs_paths(folder)
         for path in job_names:
             with JobData(path) as jd:
@@ -227,7 +213,7 @@ class JobManager:
         dir_path = os.path.dirname(com_file_path)
         data = ip_utils.parse_com(com_file_path)
         pths = ip_utils.get_abs_paths(dir_path)
-        target = data.get(TARGET_IMAGE)
+        target = data.get(constants.TARGET_IMAGE)
         if target is None:
             raise ValueError
         image_file_path = None
@@ -235,7 +221,7 @@ class JobManager:
             file_base = os.path.basename(file)
             if file_base.lower() == target.lower():
                 image_file_path = file
-                nm = data.get(FILENAME)
+                nm = data.get(constants.F_NAME)
                 self.logs.log_debug("{} Received".format(nm))
                 return com_file_path, image_file_path
         if image_file_path is None:
@@ -251,7 +237,7 @@ class JobManager:
         :return: None
         """
         if dirs is None:
-            dirs = DIRS
+            dirs = constants.DIRS
         for folder in dirs:
             self._create_directory_if_not_exist(folder)
 

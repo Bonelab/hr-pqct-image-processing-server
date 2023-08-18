@@ -1,7 +1,7 @@
 """
 send.py
 Author: Ian Smith
-Description: Class to handle sending data back to the openVMS system
+Description: Class to handle sending data back to the OpenVMS system
 """
 import ip_utils
 import subprocess
@@ -9,11 +9,13 @@ import os
 
 from job import JobData
 
-FAILED = "failed"
-
 
 class Send:
     def __init__(self, logger):
+        """
+        Constructor method
+        :param logger: Injected Logger from ip_logging
+        """
         self.image_dir = None
         self.image_name = None
         self.destination = None
@@ -23,6 +25,11 @@ class Send:
         self.logs = logger
 
     def _prepare(self, base_dir):
+        """
+        Prepares data for sending, extracts username/hostname etc...
+        :param base_dir:
+        :return:
+        """
         with JobData(base_dir) as jd:
             self.dat = jd.data
             self.image_dir = jd.proc_dir_path
@@ -32,7 +39,24 @@ class Send:
         self.hostname = self.dat.get("CLIENT_HOSTNAME")
         self.destination = self.dat.get("CLIENT_DESTINATION")
 
+    def _reset(self):
+        """
+        Resets class parameters
+        :return: None
+        """
+        self.image_dir = None
+        self.image_name = None
+        self.destination = None
+        self.hostname = None
+        self.username = None
+        self.dat = None
+
     def send(self, base_dir):
+        """
+        Method for using sftp to send the data back to OpenVMS
+        :param base_dir: Base directory/reference to job data
+        :return: True on success, False on fail
+        """
         self._prepare(base_dir)
         self.logs.log_debug("Sending {}".format(self.image_name))
         try:
@@ -47,8 +71,9 @@ class Send:
             process.wait()
          
             self.logs.log_debug("{} successfully transferred to {}".format(self.image_name, self.hostname))
+            self._reset()
             return True
-        except Exception:
-            self.logs.log_error("Transfer to {} of {} failed".format(self.image_name, self.hostname))
+        except subprocess.CalledProcessError as e:
+            self.logs.log_error("Transfer to {} of {} failed: Error {}".format(self.image_name, self.hostname, e))
+            self._reset()
             return False
-

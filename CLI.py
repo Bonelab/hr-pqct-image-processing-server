@@ -20,43 +20,11 @@ ADDR = (ip_addr, PORT)
 
 
 # Form [<command>, <arg1>, <arg2>, ..., <argn>]
+# In the future change to {"command":<command>, "args": [<arg0>, <arg1>, <arg2>, ..., <argn>]}
 # SEND: Sends the command to the server
 def send(msg, client):
     msg = pickle.dumps(msg)
     client.sendall(msg)
-
-
-# What needs to be done for each
-# Several commands need to be created as args here
-# Jobs      -j: Prints a list of jobs on queue and whichever is currently processing
-#           What is needed for this command
-#           * State.py must be able to return a list of all jobs on its queue and what is currently being processed
-# Completed -c: Prints off a list of recently completed jobs
-#           Should we have a list of all completed jobs as well or just recently completed?
-#           What is needed here
-#           * Server side needs to be able to track and store recently completed jobs
-#           * Server side needs to handle deleting jobs after a certain timeframe (1 week?)
-#           * Server side needs to be able to return a list of recently competed jobs
-# restart   -r <jobname>: restarts a job
-#           What is needed here
-#           * Ability to find a job by EVAL_FNAME upper or lower
-#           * Meshes well with case above
-#           * Signal to server what job in completed should eb put back on queue
-# info      -i <jobname>: Prints out info about a job
-#           What is needed here
-#           * By default returns info of job currently being processed
-#           * Ability to find job by EVAL_FNAME
-#           * Return com file dictionary and display needed data from that
-# Start     -start: Starts the server
-#           What is needed here
-#           * Check if the process is already running (Set the PID and check for it?)
-#           * Run command as subprocess.run
-# Stop      -stop: stops the server
-#           * Check if it is running
-#           * End process/change scheduling
-# Move      -m <jobname><new_pos>
-#           What is needed for this
-#           * Ability to rearrange queue
 
 
 def create_parser():
