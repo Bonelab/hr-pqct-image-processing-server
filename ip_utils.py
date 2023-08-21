@@ -1,3 +1,5 @@
+from job import JobData
+import constants
 import os
 from datetime import datetime
 from datetime import timedelta
@@ -53,44 +55,28 @@ def convert_path(path):
     return path
 
 
-# Appends the date to the end of the com file, important for cleaning up the garbage after a week
-def append_to_com(com_file):
-    with open(com_file, 'a') as f:
-        date = datetime.today()
-        date_string = date.strftime("%Y-%m-%d")
-        f.write('$ DATE_FINISHED :== {}'.format(date_string))
-
-
-# Remove date at the end of the com file
-def rm_from_com(com_file):
-    with open(com_file, 'r') as f:
-        lines = f.readlines()
-    with open(com_file, 'w') as f:
-        for line in lines:
-            if 'DATE_FINISHED' not in line:
-                f.write(line)
-
-
 def check_date(date_str):
     dt = datetime.fromisoformat(date_str)
     cur = datetime.today()
     time_diff = cur - dt
-    if time_diff > timedelta(days=7):
+    if time_diff > timedelta(days=constants.TIME_TO_DELETE):
         return True
     else:
         return False
 
 
-def cleanup(self, directory):
+def cleanup(directory):
     files = get_abs_paths(directory)
     for file in files:
-        if file.lower().endswith(".com"):
-            cmd = parse_com(file)
-            if cmd.get(DATE) is None:
-                fle = JobData()
-                fle.set_up_from_file(file)
-                fle.append_to_com()
-            elif self.check_date(cmd.get(DATE)):
-                fle = JobData()
-                fle.set_up_from_file(file)
-                fle.remove()
+        to_del = False
+        with JobData as jd:
+            if jd.data.get(constants.DATE) is None:
+                date = datetime.today()
+                date_str = date.strftime("%Y-%m-%d")
+                jd.data[constants.DATE] = date_str
+                jd.data[constants.DATE] = date_str
+            elif check_date(jd.data.get(constants.DATE)):
+                to_del = True
+        if to_del:
+            os.remove(file)
+

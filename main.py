@@ -22,11 +22,6 @@ import shutil
 import signal
 
 
-ip_addr = "127.0.0.1"
-port = 4000
-ADDR = (ip_addr, port)
-
-
 class Main:
     def __init__(self):
         """
@@ -44,7 +39,6 @@ class Main:
         self.start()
         self.logs.log_debug("Server Started")
 
-
     def start(self):
         """
         Method to start the main threads for the program
@@ -60,7 +54,6 @@ class Main:
         # CLI thread
         threading.Thread(target=self.cli_handle(), args=()).start()
 
-
     def cli_handle(self):
         """
         Method for activating CLI event loop
@@ -68,7 +61,6 @@ class Main:
         """
         while self.running:
             self.Cli.cli()
-
 
     def monitor(self):
         """
@@ -78,7 +70,8 @@ class Main:
         last = time.time()
         while self.running:
             if time.time() - last > 3600:  # Checks every hour to clean up files that are more than a
-                # ip_utils.cleanup(DESTINATION)                       # week old
+                ip_utils.cleanup(constants.FAILED)                       # week old
+                ip_utils.cleanup(constants.DONE)
                 last = time.time()
             file_list = ip_utils.get_abs_paths(constants.REC)
             if len(file_list) != 0:
@@ -115,11 +108,9 @@ class Main:
             time.sleep(1)
 
     def handle_signal(self):
-        pass
-
-def main():
-    Main()
+        self.processor.shutdown()
+        exit()
 
 
 if __name__ == "__main__":
-    main()
+    Main()

@@ -1,8 +1,4 @@
-from job import JobManager
-from ip_logging import Logger
+from job import JobData
 
-log = Logger
-jm = JobManager(log)
-
-jb = jm._get_all_jobs()
-print(jb)
+with JobData(r"C:\Users\iangs\repos\bls\test-res\TEST2") as jd:
+    jd.data["date"] = "10"

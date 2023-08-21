@@ -1,6 +1,6 @@
 # CLI.py
 # Author: Ian Smith
-# Description: Allows for communication with the main part of Autosegment_Server while it is daemonized
+# Description: Allows for communication with the main part of the image processing server while it is daemonized
 # Created: 2023-06-16
 import socket
 import pickle
@@ -124,7 +124,6 @@ def handle_response(data):
     print()
 
 
-
 def print_info(info):
     if info is not None:
         print("Job Information")
@@ -140,9 +139,9 @@ def print_jobs(job_list):
     count = 0
     for job in job_list:
         if count % 4 == 0 and count != 0:
-            sys.stdout.write("\n{}: {}\t\t\t".format(count, job.image_file_name))
+            sys.stdout.write("\n{}: {}\t\t\t".format(count, job.base_name))
         else:
-            sys.stdout.write("{}: {}\t\t\t".format(count, job.image_file_name))
+            sys.stdout.write("{}: {}\t\t\t".format(count, job.base_name))
         count += 1
 
 

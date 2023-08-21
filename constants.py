@@ -16,8 +16,12 @@ DIRS = [BATCHES, DEL, DEST, FAILED, DONE, REC, TMP]
 JOB_DIRS = [BATCHES, DEST, DONE, FAILED]
 
 
+# Time before a file gets deleted in days
+TIME_TO_DELETE = 7
+
+
 # Important Values from COM file
-DATE = "DATE_FINISHED"
+DATE = "DATE"
 F_NAME = "EVAL_FNAME"
 TARGET_IMAGE = "TARGET_FILE"
 EXT = "FEXT"

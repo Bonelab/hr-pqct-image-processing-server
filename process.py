@@ -25,6 +25,7 @@ class Processor:
         self.file_manager = file_manager
         self.radius_tibia_final = "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/"
         self.current = None
+        self.process = None
         self._perform_startup()
 
     def _perform_startup(self):
@@ -53,6 +54,7 @@ class Processor:
             self.logs.log_error("An error has occurred with {}: {}".format(job_data.base_name, e))
             return False
         finally:
+            self.process = None
             self.current = None
 
     def _get_processor(self, job_data):
@@ -68,16 +70,19 @@ class Processor:
     def _radius_tibia_final(self, job_data):
         """
         Method to execute the radius-tibia image segmentation, raises error on failed processing job
-        :param job_data: JobData
+        :param job_data: JobData instance
         :return: None
         """
         self.logs.log_debug("Processing {}".format(job_data.image_file_name))
         cmd = ["python", "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/segment.py", job_data.base,
                "radius_tibia_final", "--image-pattern", job_data.image_file_name.lower()]
 
-        proc = subprocess.run(cmd)
+        self.process = subprocess.run(cmd)
 
-        if proc.returncode == 0:
+        if self.process.returncode == 0:
             self.logs.log_debug("radius-tibia-final job {} finished successfully".format(job_data.base_name))
         else:
             raise subprocess.CalledProcessError
+
+    def shutdown(self):
+        self.process.kill()

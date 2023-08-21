@@ -13,16 +13,13 @@ import constants
 
 import os
 import shutil
+from datetime import datetime
 
 
-
-# JobData Class, can be context managed for easier resource management
-# Used as an access point for job data
-# Only internal functions are to initialize the data
-# On __init__ takes input of the base dir of a job, imports the data from there
 class JobData:
     """
     A class to act as a common interface to access job images and metadata
+    This class allows the job data to behave like a file
     """
     def __init__(self, base_dir):
         """
@@ -56,14 +53,14 @@ class JobData:
     def __exit__(self, exc_type, exc_val, exc_tb):
         """
         Method to implement opening up job data via a context manager
+        Whatever is changed in the data attribute will be written to the com file
         :param exc_type:
         :param exc_val:
         :param exc_tb:
         :return:
         """
-        pass
+        self.write_com()
 
-    # Initialize the data within the class from base dir
     def initialize(self):
         """
         Initializes job data, finds com file and then associated image file
@@ -71,12 +68,11 @@ class JobData:
         """
         self.com_file_name = self._find_com()
         self.com_file_path = os.path.join(self.base, self.com_file_name)
-        self.data = ip_utils.parse_com(self.com_file_path)
+        self.data = self._parse_com()
         image_path = self._find_image()
         self.image_file_path = image_path
         self.image_file_name = self.data.get("TARGET_FILE")
 
-    # Find the target image file just from the data from the com file
     def _find_image(self):
         """
         Function to find associated image file from the associated com file
@@ -87,7 +83,6 @@ class JobData:
         if os.path.exists(image_path):
             return image_path
 
-    # Finds the com file from the base dir
     def _find_com(self):
         """
         Finds com file within base directory
@@ -97,6 +92,27 @@ class JobData:
         for file in contents:
             if file.lower().endswith(".com"):
                 return file
+
+    def _parse_com(self):
+        command_file = {}
+        with open(self.com_file_path, 'r') as f:
+            lines = f.readlines()
+            for line in lines:
+                line = line.strip("$").strip()
+                if "!" in line:
+                    sp = line.split("!")
+                    line = sp[0]
+                if ":==" in line:
+                    split = line.split(":==")
+                    if split[1] != "":
+                        command_file[split[0].strip()] = split[1].strip()
+        return command_file
+
+    def write_com(self):
+        with open(self.com_file_path, 'w') as f:
+            for field in self.data:
+                f.write(f"$ {field} :== {self.data.get(field)} \n")
+
 
 
 class JobManager:
@@ -119,6 +135,11 @@ class JobManager:
         :param destination: Destination location of where you want to move the dir
         :return: Returns the path of the moved directory
         """
+        with JobData(job_base) as jd:
+            date = datetime.today()
+            date_str = date.strftime("%Y-%m-%d")
+            jd.data[constants.DATE] = date_str
+
         try:
             new_base = shutil.move(job_base, destination)
         except FileExistsError:
