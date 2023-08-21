@@ -70,8 +70,8 @@ class Main:
         last = time.time()
         while self.running:
             if time.time() - last > 3600:  # Checks every hour to clean up files that are more than a
-                ip_utils.cleanup(constants.FAILED)                       # week old
-                ip_utils.cleanup(constants.DONE)
+                self.file_manager.cleanup(constants.FAILED)                       # week old
+                self.file_manager.cleanup(constants.DONE)
                 last = time.time()
             file_list = ip_utils.get_abs_paths(constants.REC)
             if len(file_list) != 0:

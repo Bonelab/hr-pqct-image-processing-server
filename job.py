@@ -14,6 +14,7 @@ import constants
 import os
 import shutil
 from datetime import datetime
+from datetime import timedelta
 
 
 class JobData:
@@ -194,7 +195,7 @@ class JobManager:
         :param com_file: com file
         :return: Returns the job name
         """
-        metadata = ip_utils.parse_com(com_file)
+        metadata = self._parse_com(com_file)
         job_names = self._get_all_jobs()
         cur_job_name = metadata.get("IPL_FNAME")
         count = 0
@@ -224,6 +225,21 @@ class JobManager:
                 job_names = list(map(lambda x: x.replace(path, jd.base_name), job_names))
         return job_names
 
+    def _parse_com(self, file_path):
+        command_file = {}
+        with open(file_path, 'r') as f:
+            lines = f.readlines()
+            for line in lines:
+                line = line.strip("$").strip()
+                if "!" in line:
+                    sp = line.split("!")
+                    line = sp[0]
+                if ":==" in line:
+                    split = line.split(":==")
+                    if split[1] != "":
+                        command_file[split[0].strip()] = split[1].strip()
+        return command_file
+
     # Takes in an absolute path of the com file
     def _create_association(self, com_file_path):
         """
@@ -232,7 +248,7 @@ class JobManager:
         :return: returns the com and image file paths
         """
         dir_path = os.path.dirname(com_file_path)
-        data = ip_utils.parse_com(com_file_path)
+        data = self._parse_com(com_file_path)
         pths = ip_utils.get_abs_paths(dir_path)
         target = data.get(constants.TARGET_IMAGE)
         if target is None:
@@ -272,3 +288,27 @@ class JobManager:
         if not os.path.exists(full_path):
             os.mkdir(full_path)
             self.logs.log_debug("Creating {}".format(folder))
+
+    def cleanup(self, directory):
+        files = ip_utils.get_abs_paths(directory)
+        for file in files:
+            to_del = False
+            with JobData as jd:
+                if jd.data.get(constants.DATE) is None:
+                    date = datetime.today()
+                    date_str = date.strftime("%Y-%m-%d")
+                    jd.data[constants.DATE] = date_str
+                    jd.data[constants.DATE] = date_str
+                elif self._check_date(jd.data.get(constants.DATE)):
+                    to_del = True
+            if to_del:
+                os.remove(file)
+
+    def _check_date(self, date_str):
+        dt = datetime.fromisoformat(date_str)
+        cur = datetime.today()
+        time_diff = cur - dt
+        if time_diff > timedelta(days=constants.TIME_TO_DELETE):
+            return True
+        else:
+            return False
