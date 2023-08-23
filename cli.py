@@ -1,4 +1,4 @@
-# CLI.py
+# cli.py
 # Author: Ian Smith
 # Description: Allows for communication with the main part of the image processing server while it is daemonized
 # Created: 2023-06-16
@@ -6,6 +6,8 @@ import socket
 import pickle
 import argparse
 import sys
+
+import constants
 
 JOBNAME = "EVAL_FNAME"
 FILE_TYPE = "FEXT"
@@ -55,7 +57,7 @@ def create_parser():
         "--completed",
         action="store_true",
         default=False,
-        help="Shows jobs completed within the last week"
+        help="Shows jobs completed within the last {} days".format(constants.TIME_TO_DELETE)
     )
     parser.add_argument(
         "-i",
@@ -80,7 +82,7 @@ def create_parser():
         "--failed",
         action="store_true",
         default=False,
-        help="Shows failed jobs within the last week"
+        help="Shows failed jobs within the last {} days".format(constants.TIME_TO_DELETE)
     )
     return parser
 

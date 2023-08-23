@@ -85,7 +85,6 @@ class CLI:
             self._handle_remove(cmd[1])
         elif command == "failed":
             self._handle_failed()
-            pass
 
     def _get_jobs(self):
         """

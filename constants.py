@@ -36,3 +36,10 @@ ADDR = (ip_addr, port)
 # Log Locations
 DEBUG = "/home/bonelab/bls/logs/debug.log"
 ERROR = "/home/bonelab/bls/logs/error.log"
+
+# Model setup parameters
+RAD_TIB_PATH_TO_ENV = "/home/bonelab/.conda/envs/bl_torch/bin/python"
+RAD_TIB_PATH_TO_START = "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/segment.py"
+RAD_TIB_TRAINED_MODELS = "radius_tibia_final"
+
+

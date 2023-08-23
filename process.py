@@ -3,7 +3,7 @@ process.py
 Author: Ian Smith
 Description: This module should contain all operations related to calling/executing image processing algorithms.
 """
-
+import constants
 import ip_utils
 from job import JobData
 
@@ -23,7 +23,6 @@ class Processor:
         """
         self.logs = logger
         self.file_manager = file_manager
-        self.radius_tibia_final = "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/"
         self.current = None
         self.process = None
         self._perform_startup()
@@ -75,8 +74,8 @@ class Processor:
         """
         self.logs.log_debug("Processing {}".format(job_data.image_file_name))
         # the first item in the list is the path to the python interpreter with the conda env and the 2nd is the path to run the model
-        cmd = ["/home/bonelab/.conda/envs/bl_torch/bin/python", "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/segment.py", job_data.base,
-               "radius_tibia_final", "--image-pattern", job_data.image_file_name.lower()]
+        cmd = [constants.RAD_TIB_PATH_TO_ENV, constants.RAD_TIB_PATH_TO_START, job_data.base,
+               constants.RAD_TIB_TRAINED_MODELS, "--image-pattern", job_data.image_file_name.lower()]
 
         self.process = subprocess.run(cmd)
 
@@ -86,4 +85,9 @@ class Processor:
             raise subprocess.CalledProcessError
 
     def shutdown(self):
-        self.process.kill()
+        """
+        Method to shut down the processing module
+        :return:
+        """
+        if self.process is not None:
+            self.process.kill()
