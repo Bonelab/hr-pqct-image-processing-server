@@ -225,7 +225,8 @@ class JobManager:
                 job_names = list(map(lambda x: x.replace(path, jd.base_name), job_names))
         return job_names
 
-    def _parse_com(self, file_path):
+    @staticmethod
+    def _parse_com(file_path):
         command_file = {}
         with open(file_path, 'r') as f:
             lines = f.readlines()
@@ -304,7 +305,8 @@ class JobManager:
             if to_del:
                 os.remove(file)
 
-    def _check_date(self, date_str):
+    @staticmethod
+    def _check_date(date_str):
         dt = datetime.fromisoformat(date_str)
         cur = datetime.today()
         time_diff = cur - dt
