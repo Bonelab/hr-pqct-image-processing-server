@@ -293,7 +293,7 @@ class JobManager:
         files = ip_utils.get_abs_paths(directory)
         for file in files:
             to_del = False
-            with JobData as jd:
+            with JobData(file) as jd:
                 if jd.data.get(constants.DATE) is None:
                     date = datetime.today()
                     date_str = date.strftime("%Y-%m-%d")
