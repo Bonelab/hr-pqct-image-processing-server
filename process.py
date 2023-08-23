@@ -74,7 +74,8 @@ class Processor:
         :return: None
         """
         self.logs.log_debug("Processing {}".format(job_data.image_file_name))
-        cmd = ["python", "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/segment.py", job_data.base,
+        # the first item in the list is the path to the python interpreter with the conda env and the 2nd is the path to run the model
+        cmd = ["/home/bonelab/.conda/envs/bl_torch/bin/python", "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/segment.py", job_data.base,
                "radius_tibia_final", "--image-pattern", job_data.image_file_name.lower()]
 
         self.process = subprocess.run(cmd)

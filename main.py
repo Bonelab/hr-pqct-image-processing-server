@@ -107,9 +107,15 @@ class Main:
                     self.file_manager.move(job_path, constants.FAILED)
             time.sleep(1)
 
-    def handle_signal(self):
+    def handle_signal(self, sig, frame):
+        """
+        Method for handling sigint or sigterm (ctrl + c, terminating process)
+        :param sig:
+        :param frame:
+        :return: None
+        """
         self.processor.shutdown()
-        exit()
+        exit(0)
 
 
 if __name__ == "__main__":
