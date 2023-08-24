@@ -117,11 +117,12 @@ def handle_response(data):
         print("Job Deleted")
         print_jobs(data[1])
     elif command == "completed":
-        print("Completed Jobs")
+        print("Completed Jobs:")
         print_jobs(data[1])
     elif command == "info":
         print_info(data[1])
     elif command == "failed":
+        print("Failed Jobs:")
         print_jobs(data[1])
     print()
 
