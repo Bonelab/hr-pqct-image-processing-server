@@ -60,16 +60,15 @@ class Send:
         :return: True on success, False on fail
         """
         self._prepare(base_dir)
-        self.logs.log_debug("Sending {}".format(self.image_name))
+        self.logs.log_debug("Sending {} to {} at {}".format(self.image_name, self.hostname, self.destination))
         sftp_cmd = ['sftp',
                     '{}@{}:{}'.format(self.username, self.hostname,
                                       ip_utils.convert_path(self.destination))]
         put_cmd = ['put', '-r', os.path.abspath(self.image_dir)]
         try:
+            # Use subprocess.run to execute the command to sftp
             process = subprocess.run(sftp_cmd+put_cmd, input=b'\n', text=True, check=True)
-            # Use subprocess.run to execute the command
-            process = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
-            process.wait()
+
 
             self.logs.log_debug("{} successfully transferred to {} at {}".format(self.image_name, self.hostname, self.destination))
             self._reset()
