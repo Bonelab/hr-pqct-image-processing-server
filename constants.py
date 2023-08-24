@@ -5,6 +5,8 @@ Module to hold needed constants for this program
 """
 
 # Important Directories
+BASE_DIR = "/home/bonelab/bls"
+
 DEST = 'destination'
 BATCHES = 'batches'
 DEL = 'del'
@@ -14,6 +16,7 @@ REC = 'rec'
 TMP = 'tmp'
 DIRS = [BATCHES, DEL, DEST, FAILED, DONE, REC, TMP]
 JOB_DIRS = [BATCHES, DEST, DONE, FAILED]
+
 
 
 # Time before a file gets deleted in days
