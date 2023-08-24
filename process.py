@@ -48,8 +48,7 @@ class Processor:
         job_data = JobData(job_base)
         self.current = job_data
         try:
-            self._skip()
-            #self._get_processor(job_data)
+            self._get_processor(job_data)
             self.current = None
             return True
         except Exception as e:
@@ -95,5 +94,3 @@ class Processor:
         if self.process is not None:
             self.process.kill()
 
-    def _skip(self):
-        pass

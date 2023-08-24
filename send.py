@@ -34,9 +34,7 @@ class Send:
         """
         with JobData(base_dir) as jd:
             self.dat = jd.data
-            #TODO change back
-            #self.image_dir = jd.proc_dir_path
-            self.image_dir = jd.base
+            self.image_dir = jd.proc_dir_path
             self.image_name = jd.image_file_name
 
         self.username = self.dat.get("CLIENT_USERNAME")
