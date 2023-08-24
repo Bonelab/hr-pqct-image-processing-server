@@ -62,15 +62,15 @@ class Send:
         self._prepare(base_dir)
         self.logs.log_debug("Sending {} to {} at {}".format(self.image_name, self.hostname, self.destination))
         try:
-            print("Sending files")
-            for file in ip_utils.get_abs_paths(self.image_dir):
-                sftp_cmd = ['sftp',
-                            '{}@{}:{}'.format(self.username, self.hostname,
-                                              self.destination)]
-                put_cmd = ['put', os.path.abspath(file)]
+            sftp_cmd = ['sftp', '-q',
+                        '{}@{}:{}'.format(self.username, self.hostname,
+                                          ip_utils.convert_path(self.destination))]
+            put_cmd = ['put', '-r', os.path.abspath(self.image_dir)]
 
-                subprocess.run(sftp_cmd + put_cmd, input='\n', text=True, check=True)
-
+            # Use subprocess.Popen to execute the command
+            process = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
+            process.communicate(input='\n'.join(put_cmd).encode())
+            process.wait()
 
             self.logs.log_debug("{} successfully transferred to {} at {}".format(self.image_name, self.hostname, self.destination))
             self._reset()

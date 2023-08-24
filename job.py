@@ -303,7 +303,7 @@ class JobManager:
                 elif self._check_date(jd.data.get(constants.DATE)):
                     to_del = True
             if to_del:
-                os.remove(file)
+                shutil.rmtree(file)
 
     @staticmethod
     def _check_date(date_str):
