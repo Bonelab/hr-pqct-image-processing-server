@@ -85,8 +85,10 @@ class Send:
         put_cmd1 = ['put {}'.format(masks[0])]
         put_cmd2 = ['put {}'.format(masks[1])]
 
+        f = open("/logs/output.txt", "w")
         # Use subprocess.Popen to execute the command
-        process = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
+        process = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE, stdout=f)
         process.communicate(input='\n'.join(put_cmd1).encode())
         process.communicate(input='\n'.join(put_cmd2).encode())
         process.wait()
+        f.close()
