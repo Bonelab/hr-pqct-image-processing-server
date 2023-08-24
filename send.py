@@ -63,14 +63,14 @@ class Send:
             sftp_cmd = ['sftp', '-q',
                         '{}@{}:{}'.format(self.username, self.hostname,
                                           ip_utils.convert_path(self.destination))]
-            put_cmd = ['put -r {}'.format(os.path.abspath(self.image_dir))]
+            put_cmd = ['put', '-r', os.path.abspath(self.image_dir)]
 
             # Use subprocess.Popen to execute the command
             process = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
             process.communicate(input='\n'.join(put_cmd).encode())
             process.wait()
          
-            self.logs.log_debug("{} successfully transferred to {}".format(self.image_name, self.hostname))
+            self.logs.log_debug("{} successfully transferred to {} at {}".format(self.image_name, self.hostname, self.destination))
             self._reset()
             return True
         except subprocess.CalledProcessError as e:
