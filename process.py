@@ -3,6 +3,8 @@ process.py
 Author: Ian Smith
 Description: This module should contain all operations related to calling/executing image processing algorithms.
 """
+import shutil
+
 import constants
 import ip_utils
 from job import JobData
@@ -46,7 +48,11 @@ class Processor:
         job_data = JobData(job_base)
         self.current = job_data
         try:
-            self._get_processor(job_data)
+            self._skip()
+            f = open(job_data.proc_dir_path + "test.txt")
+            f.write("test")
+            f.close()
+            #self._get_processor(job_data)
             self.current = None
             return True
         except Exception as e:
@@ -91,3 +97,6 @@ class Processor:
         """
         if self.process is not None:
             self.process.kill()
+
+    def _skip(self):
+        pass
