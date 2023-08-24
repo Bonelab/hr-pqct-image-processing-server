@@ -48,11 +48,11 @@ class Main:
         signal.signal(signal.SIGTERM, self.handle_signal)
 
         # Monitor directory thread
-        threading.Thread(target=self.monitor, args=()).start()  # Passing fn as reference
+        self.mon = threading.Thread(target=self.monitor, args=()).start()  # Passing fn as reference
         # Worker thread
-        threading.Thread(target=self.processing).start()
+        self.proc = threading.Thread(target=self.processing).start()
         # CLI thread
-        threading.Thread(target=self.cli_handle(), args=()).start()
+        self.cl = threading.Thread(target=self.cli_handle(), args=()).start()
 
     def cli_handle(self):
         """
@@ -114,7 +114,6 @@ class Main:
         :param frame:
         :return: None
         """
-        self.logs.log_debug("Shutting down")
         exit(0)
 
 

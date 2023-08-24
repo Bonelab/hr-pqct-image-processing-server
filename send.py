@@ -77,8 +77,6 @@ class Send:
         if self.job_type == "radius_tibia_final":
             self._send_radius_tibia_final()
 
-
-
     def _send_radius_tibia_final(self):
         sftp_cmd = ['sftp', '-q',
                     '{}@{}:{}'.format(self.username, self.hostname,
