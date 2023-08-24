@@ -48,11 +48,11 @@ class Main:
         signal.signal(signal.SIGTERM, self.handle_signal)
 
         # Monitor directory thread
-        self.mon = threading.Thread(target=self.monitor, args=()).start()  # Passing fn as reference
+        threading.Thread(target=self.monitor, args=()).start()  # Passing fn as reference
         # Worker thread
-        self.proc = threading.Thread(target=self.processing).start()
+        threading.Thread(target=self.processing).start()
         # CLI thread
-        self.cl = threading.Thread(target=self.cli_handle(), args=()).start()
+        threading.Thread(target=self.cli_handle(), args=()).start()
 
     def cli_handle(self):
         """
