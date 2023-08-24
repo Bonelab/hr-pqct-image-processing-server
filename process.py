@@ -49,8 +49,7 @@ class Processor:
         self.current = job_data
         try:
             self._skip()
-            f = open(job_data.proc_dir_path + "test.txt")
-            f.write("test")
+            f = open(job_data.proc_dir_path + "/test.txt")
             f.close()
             #self._get_processor(job_data)
             self.current = None
