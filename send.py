@@ -66,9 +66,9 @@ class Send:
                 sftp_cmd = ['sftp',
                             '{}@{}:{}'.format(self.username, self.hostname,
                                               self.destination)]
-                put_cmd = ['put', '-r', os.path.abspath(file)]
+                put_cmd = ['put', os.path.abspath(file)]
 
-                subprocess.run(sftp_cmd + put_cmd, input=b'\n', text=True, check=True)
+                subprocess.run(sftp_cmd + put_cmd, input='\n', text=True, check=True)
 
 
             self.logs.log_debug("{} successfully transferred to {} at {}".format(self.image_name, self.hostname, self.destination))
