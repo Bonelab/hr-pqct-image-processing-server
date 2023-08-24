@@ -254,6 +254,15 @@ class JobManager:
         target = data.get(constants.TARGET_IMAGE)
         if target is None:
             raise ValueError
+        fname = data.get(constants.EVAL_FEXT) + data.get(constants.EVAL_FEXT)
+        if fname.lower() not in target.lower():
+            try:
+                os.remove(fname.lower())
+            except Exception:
+                os.remove(fname)
+            finally:
+                os.remove(com_file_path)
+                raise FileNotFoundError("Image file not found")
         image_file_path = None
         for file in pths:
             file_base = os.path.basename(file)

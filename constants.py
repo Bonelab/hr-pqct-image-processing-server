@@ -26,6 +26,7 @@ F_NAME = "EVAL_FNAME"
 TARGET_IMAGE = "TARGET_FILE"
 EXT = "FEXT"
 EVAL_FEXT = "EVAL_FEXT"
+JOB = "JOB"
 
 
 # Socket details for communicating from CLI to daemon
@@ -43,5 +44,4 @@ RAD_TIB_PATH_TO_ENV = "/home/bonelab/.conda/envs/bl_torch/bin/python"
 RAD_TIB_PATH_TO_START = "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/segment.py"
 RAD_TIB_TRAINED_MODELS = "radius_tibia_final"
 
-PRIVATE_KEY = "/home/bonelab/.ssh/id_rsa"
 
