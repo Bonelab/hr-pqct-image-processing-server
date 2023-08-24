@@ -62,16 +62,23 @@ class Send:
         self._prepare(base_dir)
         self.logs.log_debug("Sending {}".format(self.image_name))
         try:
+            print(1)
             transport = paramiko.Transport((self.hostname, 22))
+            print(2)
             transport.get_security_options().kex = "diffie-hellman-group1-sha1"
+            print(3)
             transport.get_security_options().kex = "ssh-dss"
+            print(4)
             private_key = paramiko.RSAKey(filename=constants.PRIVATE_KEY)
-
+            print(5)
             transport.connect(self.username, pkey=private_key)
-
+            print(6)
             sftp = transport.open_sftp_client()
+            print(7)
             sftp.put(os.path.abspath(self.image_dir), ip_utils.convert_path(self.destination))
+            print(8)
             sftp.close()
+            print(9)
             transport.close()
 
 
