@@ -62,6 +62,7 @@ class Send:
         self._prepare(base_dir)
         self.logs.log_debug("Sending {} to {} at {}".format(self.image_name, self.hostname, self.destination))
         try:
+            print("Sending files")
             for file in ip_utils.get_abs_paths(self.image_dir):
                 sftp_cmd = ['sftp',
                             '{}@{}:{}'.format(self.username, self.hostname,
