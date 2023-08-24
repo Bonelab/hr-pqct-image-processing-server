@@ -105,7 +105,7 @@ def handle_response(data):
         print("Jobs in queue: (0 is being processed)")
         print_jobs(data[1])
     elif command == "move":
-        if data[1] == "Exception":
+        if data[1] != "Exception":
             print("Job Moved:")
             print_jobs(data[1])
         else:

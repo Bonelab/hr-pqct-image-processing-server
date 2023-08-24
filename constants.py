@@ -25,6 +25,7 @@ DATE = "DATE"
 F_NAME = "EVAL_FNAME"
 TARGET_IMAGE = "TARGET_FILE"
 EXT = "FEXT"
+EVAL_FEXT = "EVAL_FEXT"
 
 
 # Socket details for communicating from CLI to daemon

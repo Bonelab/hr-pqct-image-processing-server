@@ -73,7 +73,7 @@ class ManagedQueue:
         index = int(index)
         index = index - 1  # index - 1 because when the queue is displayed via the CLI 0 represents the item being processed
         a = self.queue_to_list()
-        if index > len(a) - 1:
+        if index > len(a) - 1 or index < 0:
             raise ValueError("Index out of range of the queue")
         to_move = None
         for item in a:  # Finding item that needs to be moved in the queue
@@ -93,7 +93,7 @@ class ManagedQueue:
         """
         a = self.queue_to_list()
         for item in a:
-            if JobData(item).data.get(constants.F_NAME).lower() == jobname.lower():
+            if JobData(item).base_name.lower() == jobname.lower():
                 item.append_to_com()
                 os.remove(item)
             else:

@@ -100,13 +100,13 @@ class CLI:
     def _jobs_from_dir(directory):
         """
         Get jobs from a specific directory
-        :param directory:
-        :return:
+        :param directory: directory you want to get the jobs from
+        :return: List of jobs as JobData
         """
-        jobs = ip_utils.get_abs_paths(directory)
-        for path in jobs:
-            with JobData(path) as jd:
-                jobs = list(map(lambda x: x.replace(path, jd), jobs))
+        job_pths = ip_utils.get_abs_paths(directory)
+        jobs = []
+        for path in job_pths:
+            jobs.append(JobData(path))
         return jobs
 
     def _handle_jobs(self):
@@ -166,7 +166,7 @@ class CLI:
         """
         paths = ip_utils.get_abs_paths("processed")
         for path in paths:
-            if jobname.lower() in JobData(path).image_file_name.lower():
+            if jobname.lower() == JobData(path).base_name.lower():
                 self.queue.enqueue(path)
                 jbs = self._get_jobs()
                 self._send_to_cli(jbs, "restart")
@@ -181,3 +181,10 @@ class CLI:
         self.queue.remove_from_queue(jobname)
         jbs = self._get_jobs()
         self._send_to_cli(jbs, "delete")
+
+    def _skip_current(self):
+        """
+        Unimplemented command to kill the currently processing job
+        :return:
+        """
+        self.processor.shutdown()
