@@ -153,7 +153,15 @@ def cli():
         client_connect = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         client_connect.connect(ADDR)
         handle_args(client_connect, args)
-        response = pickle.loads(client_connect.recv(32767))
+
+        response_data = b''
+        while True:
+            chunk = client_connect.recv(1024)
+            if not chunk:
+                break
+            response_data += chunk
+
+        response = pickle.loads(response_data)
         handle_response(response)
     except Exception as e:
         print("No Response From Server", e)
