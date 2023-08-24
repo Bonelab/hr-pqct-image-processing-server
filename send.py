@@ -61,36 +61,15 @@ class Send:
         """
         self._prepare(base_dir)
         self.logs.log_debug("Sending {}".format(self.image_name))
+        sftp_cmd = ['sftp',
+                    '{}@{}:{}'.format(self.username, self.hostname,
+                                      ip_utils.convert_path(self.destination))]
+        put_cmd = ['put', '-r', os.path.abspath(self.image_dir)]
         try:
-            print(1)
-            transport = paramiko.Transport((self.hostname, 22))
-            print(2)
-            transport.get_security_options().kex = "diffie-hellman-group1-sha1"
-            print(3)
-            transport.get_security_options().kex = "ssh-dss"
-            print(4)
-            private_key = paramiko.RSAKey(filename=constants.PRIVATE_KEY)
-            print(5)
-            transport.connect(self.username, pkey=private_key)
-            print(6)
-            sftp = transport.open_sftp_client()
-            print(7)
-            sftp.put(os.path.abspath(self.image_dir), ip_utils.convert_path(self.destination))
-            print(8)
-            sftp.close()
-            print(9)
-            transport.close()
-
-
-            # sftp_cmd = ['sftp',
-            #             '{}@{}:{}'.format(self.username, self.hostname,
-            #                               ip_utils.convert_path(self.destination))]
-            # put_cmd = ['put', '-r', os.path.abspath(self.image_dir)]
-            #
-            # # Use subprocess.Popen to execute the command
-            # process = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
-            # process.communicate(input='\n'.join(put_cmd).encode())
-            # process.wait()
+            process = subprocess.run(sftp_cmd+put_cmd, input=b'\n', text=True, check=True)
+            # Use subprocess.run to execute the command
+            process = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
+            process.wait()
 
             self.logs.log_debug("{} successfully transferred to {} at {}".format(self.image_name, self.hostname, self.destination))
             self._reset()
