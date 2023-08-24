@@ -70,7 +70,7 @@ class Send:
             transport.connect(self.username, pkey=private_key)
 
             sftp = transport.open_sftp_client()
-            sftp.put(os.path.abspath(self.image_dir), self.destination)
+            sftp.put(os.path.abspath(self.image_dir), ip_utils.convert_path(self.destination))
             sftp.close()
             transport.close()
 
