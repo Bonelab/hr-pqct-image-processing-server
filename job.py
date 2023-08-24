@@ -205,7 +205,7 @@ class JobManager:
                 count += 1
 
         if count > 0:
-            cur_job_name = cur_job_name + "({})".format(count)
+            cur_job_name = cur_job_name + "-{}".format(count)
         # TODO change job name within com file? or just add
 
         return cur_job_name
