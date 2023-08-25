@@ -3,9 +3,7 @@ send.py
 Author: Ian Smith
 Description: Class to handle sending data back to the OpenVMS system
 """
-import paramiko
 import subprocess
-import os
 
 import constants
 from job import JobData
@@ -75,11 +73,20 @@ class Send:
             return False
 
     def _get_send_for_job(self):
+        """
+        Selects method for sending, allows for sending in different formats
+        :return:
+        """
         if self.job_type == "radius_tibia_final":
             self._send_radius_tibia_final()
 
     def _send_radius_tibia_final(self):
-        sftp_cmd = ['sftp', '{}@{}:{}'.format(self.username, self.hostname, ip_utils.convert_path(self.destination))]
+        """
+        Send method for radius_tibia_final job type
+        :return:
+        """
+        destination = ip_utils.convert_path(self.destination).replace("DK0", "DISK2")
+        sftp_cmd = ['sftp', '{}@{}:{}'.format(self.username, self.hostname, destination)]
         masks = ip_utils.get_abs_paths(self.image_dir)
         self.logs.log_debug("Sending {} and {}".format(masks[0], masks[1]))
         put_cmd1 = ['put ' + masks[0], "quit"]
