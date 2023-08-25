@@ -66,6 +66,7 @@ class Send:
         self.logs.log_debug("Sending {} to {} at {}".format(self.image_name, self.hostname, self.destination))
         try:
             self.logs.log_debug("{} successfully transferred to {} at {}".format(self.image_name, self.hostname, self.destination))
+            self._get_send_for_job()
             self._reset()
             return True
         except Exception as e:
