@@ -252,7 +252,7 @@ class JobManager:
         data = self._parse_com(com_file_path)
         pths = ip_utils.get_abs_paths(dir_path)
         target = data.get(constants.TARGET_IMAGE)
-        if target is None:
+        if target is None or target.endswith(".ISQ"):
             raise ValueError
         image_file_path = None
         for file in pths:

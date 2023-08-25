@@ -5,6 +5,8 @@ Module to hold needed constants for this program
 """
 
 # Important Directories
+BASE_DIR = "/home/bonelab/bls"
+
 DEST = 'destination'
 BATCHES = 'batches'
 DEL = 'del'
@@ -14,6 +16,7 @@ REC = 'rec'
 TMP = 'tmp'
 DIRS = [BATCHES, DEL, DEST, FAILED, DONE, REC, TMP]
 JOB_DIRS = [BATCHES, DEST, DONE, FAILED]
+
 
 
 # Time before a file gets deleted in days
@@ -26,6 +29,7 @@ F_NAME = "EVAL_FNAME"
 TARGET_IMAGE = "TARGET_FILE"
 EXT = "FEXT"
 EVAL_FEXT = "EVAL_FEXT"
+JOB = "JOB"
 
 
 # Socket details for communicating from CLI to daemon
@@ -43,5 +47,4 @@ RAD_TIB_PATH_TO_ENV = "/home/bonelab/.conda/envs/bl_torch/bin/python"
 RAD_TIB_PATH_TO_START = "/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/segment.py"
 RAD_TIB_TRAINED_MODELS = "radius_tibia_final"
 
-PRIVATE_KEY = "/home/bonelab/.ssh/id_rsa"
 

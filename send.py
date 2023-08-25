@@ -24,6 +24,7 @@ class Send:
         self.hostname = None
         self.username = None
         self.dat = None
+        self.job_type = None
         self.logs = logger
 
     def _prepare(self, base_dir):
@@ -36,6 +37,7 @@ class Send:
             self.dat = jd.data
             self.image_dir = jd.proc_dir_path
             self.image_name = jd.image_file_name
+            self.job_type = jd.data.get(constants.JOB)
 
         self.username = self.dat.get("CLIENT_USERNAME")
         self.hostname = self.dat.get("CLIENT_HOSTNAME")
@@ -52,6 +54,7 @@ class Send:
         self.hostname = None
         self.username = None
         self.dat = None
+        self.job_type = None
 
     def send(self, base_dir):
         """
@@ -62,22 +65,32 @@ class Send:
         self._prepare(base_dir)
         self.logs.log_debug("Sending {} to {} at {}".format(self.image_name, self.hostname, self.destination))
         try:
-            destination = ip_utils.convert_path(self.destination)
-            destination =  destination.replace("DK0", "DISK2")
-            sftp_cmd = ['sftp', '-q',
-                        '{}@{}:{}'.format(self.username, self.hostname,
-                                          ip_utils.convert_path(self.destination))]
-            put_cmd = ['put -r {}'.format(os.path.abspath(self.image_dir))]
-
-            # Use subprocess.Popen to execute the command
-            process = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
-            process.communicate(input='\n'.join(put_cmd).encode())
-            process.wait()
-
             self.logs.log_debug("{} successfully transferred to {} at {}".format(self.image_name, self.hostname, self.destination))
+            self._get_send_for_job()
             self._reset()
             return True
         except Exception as e:
             self.logs.log_error("Transfer to {} of {} failed: Error {}".format(self.image_name, self.hostname, e))
             self._reset()
             return False
+
+    def _get_send_for_job(self):
+        if self.job_type == "radius_tibia_final":
+            self._send_radius_tibia_final()
+
+    def _send_radius_tibia_final(self):
+        sftp_cmd = ['sftp', '{}@{}:{}'.format(self.username, self.hostname, ip_utils.convert_path(self.destination))]
+        masks = ip_utils.get_abs_paths(self.image_dir)
+        self.logs.log_debug("Sending {} and {}".format(masks[0], masks[1]))
+        put_cmd1 = ['put ' + masks[0], "quit"]
+        put_cmd2 = ['put ' + masks[1], "quit"]
+        # Use subprocess.Popen to execute the command
+        p1 = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
+        p1.communicate(input='\n'.join(put_cmd1).encode())
+        p2 = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
+        p2.communicate(input='\n'.join(put_cmd2).encode())
+
+
+
+
+

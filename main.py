@@ -114,7 +114,6 @@ class Main:
         :param frame:
         :return: None
         """
-        self.logs.log_debug("Shutting down")
         exit(0)
 
 
