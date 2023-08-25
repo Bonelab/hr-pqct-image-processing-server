@@ -62,6 +62,8 @@ class Send:
         self._prepare(base_dir)
         self.logs.log_debug("Sending {} to {} at {}".format(self.image_name, self.hostname, self.destination))
         try:
+            destination = ip_utils.convert_path(self.destination)
+            destination =  destination.replace("DK0", "DISK2")
             sftp_cmd = ['sftp', '-q',
                         '{}@{}:{}'.format(self.username, self.hostname,
                                           ip_utils.convert_path(self.destination))]
