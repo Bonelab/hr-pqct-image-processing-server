@@ -3,7 +3,6 @@ process.py
 Author: Ian Smith
 Description: This module should contain all operations related to calling/executing image processing algorithms.
 """
-import shutil
 
 import constants
 import ip_utils
