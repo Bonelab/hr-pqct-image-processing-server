@@ -12,7 +12,7 @@ from packages.queue_manager import ManagedQueue
 from packages.ip_logging import Logger
 from packages.send import Send
 from packages.ip_cli import CLI
-from packages import ip_utils
+import packages.ip_utils as ip_utils
 import constants
 
 import os

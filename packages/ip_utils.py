@@ -1,4 +1,3 @@
-import constants
 import os
 
 DATE = "DATE_FINISHED"
