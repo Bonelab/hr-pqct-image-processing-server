@@ -6,13 +6,13 @@ Created: 2023-05-19
 Dependencies: pytorch, Anaconda, torchvision, cuda toolkit
 """
 
-from packages.job import JobManager
-from packages.process import Processor
-from packages.queue_manager import ManagedQueue
-from packages.ip_logging import Logger
-from packages.send import Send
-from packages.ip_cli import CLI
-import packages.ip_utils as ip_utils
+from job import JobManager
+from process import Processor
+from queue_manager import ManagedQueue
+from ip_logging import Logger
+from send import Send
+from ip_cli import CLI
+import ip_utils as ip_utils
 import constants
 
 import os
