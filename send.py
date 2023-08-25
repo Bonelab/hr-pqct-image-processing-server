@@ -79,17 +79,18 @@ class Send:
             self._send_radius_tibia_final()
 
     def _send_radius_tibia_final(self):
-        sftp_cmd = ['sftp', '{}@{}:{}'.format(self.username, self.hostname, ip_utils.convert_path(self.destination))]
+        sftp_cmd = ['sftp', '{}@{}'.format(self.username, self.hostname)]
         masks = ip_utils.get_abs_paths(self.image_dir)
+        client_destination = ip_utils.convert_path(self.destination)
         print(masks[0])
         print(masks[1])
         self.logs.log_debug("Sending {} and {}".format(masks[0], masks[1]))
-        put_cmd1 = ['put {}'.format(masks[0])]
-        put_cmd2 = ['put {}'.format(masks[1])]
-
+        put_cmd1 = ['put', '{}'.format(masks[0]), client_destination]
+        put_cmd2 = ['put', '{}'.format(masks[1]), client_destination]
+        commands = put_cmd1 + put_cmd2 + ["quit"]
         # Use subprocess.Popen to execute the command
         p1 = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE, stdout=subprocess.STDOUT)
-        p1.communicate(input='\n'.join(put_cmd1).encode())
+        p1.communicate(input='\n'.join(commands).encode())
 
-        p2 = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE, stdout=subprocess.STDOUT)
-        p2.communicate(input='\n'.join(put_cmd2).encode())
+
+
