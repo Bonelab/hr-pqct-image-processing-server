@@ -80,6 +80,8 @@ class Send:
     def _send_radius_tibia_final(self):
         sftp_cmd = ['sftp {}@{}:{}'.format(self.username, self.hostname, ip_utils.convert_path(self.destination))]
         masks = ip_utils.get_abs_paths(self.image_dir)
+        print(masks[0])
+        print(masks[1])
         self.logs.log_debug("Sending {} and {}".format(masks[0], masks[1]))
         put_cmd1 = ['put {}'.format(masks[0])]
         put_cmd2 = ['put {}'.format(masks[1])]
