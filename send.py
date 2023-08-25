@@ -63,8 +63,9 @@ class Send:
         self._prepare(base_dir)
         self.logs.log_debug("Sending {} to {} at {}".format(self.image_name, self.hostname, self.destination))
         try:
-            self.logs.log_debug("{} successfully transferred to {} at {}".format(self.image_name, self.hostname, self.destination))
             self._get_send_for_job()
+            self.logs.log_debug(
+                "{} successfully transferred to {} at {}".format(self.image_name, self.hostname, self.destination))
             self._reset()
             return True
         except Exception as e:
@@ -88,7 +89,6 @@ class Send:
         destination = ip_utils.convert_path(self.destination).replace("DK0", "DISK2")
         sftp_cmd = ['sftp', '{}@{}:{}'.format(self.username, self.hostname, destination)]
         masks = ip_utils.get_abs_paths(self.image_dir)
-        self.logs.log_debug("Sending {} and {}".format(masks[0], masks[1]))
         put_cmd1 = ['put ' + masks[0], "quit"]
         put_cmd2 = ['put ' + masks[1], "quit"]
         # Use subprocess.Popen to execute the command
