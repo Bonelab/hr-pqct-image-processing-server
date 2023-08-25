@@ -91,5 +91,4 @@ class Send:
         process = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
         process.communicate(input='\n'.join(put_cmd1).encode())
         process.communicate(input='\n'.join(put_cmd2).encode())
-        process.wait()
         f.close()
