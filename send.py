@@ -88,8 +88,8 @@ class Send:
         put_cmd2 = ['put {}'.format(masks[1])]
 
         # Use subprocess.Popen to execute the command
-        p1 = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
+        p1 = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE, stdout=subprocess.STDOUT)
         p1.communicate(input='\n'.join(put_cmd1).encode())
 
-        p2 = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
+        p2 = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE, stdout=subprocess.STDOUT)
         p2.communicate(input='\n'.join(put_cmd2).encode())
