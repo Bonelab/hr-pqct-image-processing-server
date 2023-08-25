@@ -85,8 +85,8 @@ class Send:
         print(masks[0])
         print(masks[1])
         self.logs.log_debug("Sending {} and {}".format(masks[0], masks[1]))
-        put_cmd1 = ['put' + masks[0]]
-        put_cmd2 = ['put' + masks[1]]
+        put_cmd1 = ['put ' + masks[0]]
+        put_cmd2 = ['put ' + masks[1]]
         # Use subprocess.Popen to execute the command
         p1 = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
         p1.communicate(input='\n'.join(put_cmd1).encode())
