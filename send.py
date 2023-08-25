@@ -90,7 +90,7 @@ class Send:
         # Use subprocess.Popen to execute the command
         p1 = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
         p1.communicate(input='\n'.join(put_cmd1).encode())
-        p2 = p1 = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
+        p2 = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
         p2.communicate(input='\n'.join(put_cmd2).encode())
 
 
