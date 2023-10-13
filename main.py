@@ -6,7 +6,7 @@ Created: 2023-05-19
 Dependencies: pytorch, Anaconda, torchvision, cuda toolkit
 """
 
-from job import JobManager
+from src.job import JobManager
 from src.process import Processor
 from src.queue_manager import ManagedQueue
 from src.ip_logging import Logger
