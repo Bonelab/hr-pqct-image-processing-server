@@ -14,7 +14,8 @@ FAILED = 'failed'
 DONE = 'processed'
 REC = 'rec'
 TMP = 'tmp'
-DIRS = [BATCHES, DEL, DEST, FAILED, DONE, REC, TMP]
+STATE = 'state'
+DIRS = [BATCHES, DEL, DEST, FAILED, DONE, REC, TMP, STATE]
 JOB_DIRS = [BATCHES, DEST, DONE, FAILED]
 
 
@@ -41,6 +42,12 @@ ADDR = (ip_addr, port)
 # Log Locations
 DEBUG = "/home/bonelab/bls/logs/debug.log"
 ERROR = "/home/bonelab/bls/logs/error.log"
+
+
+# Checkpoint Files
+QUEUE_CHECKPOINT = '/state/queue.txt'
+PROCESS_CHECKPOINT = '/state/process.txt'
+
 
 # Model setup parameters
 RAD_TIB_PATH_TO_ENV = "/home/bonelab/.conda/envs/bl_torch/bin/python"

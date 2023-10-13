@@ -8,8 +8,7 @@ It also handles things like movement of files within the program
 Created 2023-06-12
 """
 
-import ip_utils
-import constants
+from src import ip_utils, constants
 
 import os
 import shutil

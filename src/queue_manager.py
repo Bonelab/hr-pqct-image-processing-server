@@ -7,8 +7,9 @@ Created: 2023-06-20
 import os
 import threading
 from queue import Queue
-import constants
+import json
 
+import constants
 from job import JobData
 import ip_utils
 
@@ -100,7 +101,7 @@ class ManagedQueue:
                 self.JOB_QUEUE.put(item)
 
     # Functionality for jobs command
-    def get_jobs(self):
+    def get_state(self):
         """
         Method to return a list of jobs that are on the queue, primarily used by the CLI
         :return: Returns a list of jobs from the queue
@@ -111,3 +112,34 @@ class ManagedQueue:
             b.append(JobData(path))
             self.JOB_QUEUE.put(path)
         return b
+
+    # New features below here, still testing
+    def clear(self):
+        while not self.JOB_QUEUE.empty():
+            self.JOB_QUEUE.get()
+
+    def set_state(self, new_state):
+        self.clear()
+        for i in new_state:
+            self.JOB_QUEUE.put(i)
+
+    def set_checkpoint(self):
+        """
+        Sets the json checkpoint file to the state of the queue
+        :return:
+        """
+        state = self.get_state()
+        with open(constants.QUEUE_CHECKPOINT, "w") as checkpoint_file:
+            json.dump(state, checkpoint_file)
+
+    def get_checkpoint(self):
+        """
+        Used to set the state of the queue on startup
+        :return:
+        """
+        with open(constants.QUEUE_CHECKPOINT, "r") as checkpoint_file:
+            state = json.load(checkpoint_file)
+        self.set_state(state)
+
+
+

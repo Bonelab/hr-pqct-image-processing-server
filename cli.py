@@ -7,7 +7,7 @@ import pickle
 import argparse
 import sys
 
-import constants
+from src import constants
 
 JOBNAME = "EVAL_FNAME"
 FILE_TYPE = "FEXT"

@@ -92,7 +92,7 @@ class CLI:
         Gets current jobs on queue
         :return: None
         """
-        jobs = self.queue.get_jobs()
+        jobs = self.queue.get_state()
         if self.processor.current is not None:
             jobs.insert(0, self.processor.current)
         return jobs
@@ -101,7 +101,7 @@ class CLI:
     def _jobs_from_dir(directory):
         """
         Get jobs from a specific directory
-        :param directory: directory you want to get the jobs from
+        :param directory:  you want to get the jobs from
         :return: List of jobs as JobData
         """
         job_pths = ip_utils.get_abs_paths(directory)

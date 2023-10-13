@@ -7,19 +7,19 @@ Dependencies: pytorch, Anaconda, torchvision, cuda toolkit
 """
 
 from job import JobManager
-from process import Processor
-from queue_manager import ManagedQueue
-from ip_logging import Logger
-from send import Send
-from ip_cli import CLI
-import ip_utils as ip_utils
-import constants
+from src.process import Processor
+from src.queue_manager import ManagedQueue
+from src.ip_logging import Logger
+from src.send import Send
+from src.ip_cli import CLI
+from src import ip_utils as ip_utils, constants
 
 import os
 import time
 import threading
 import shutil
 import signal
+import daemon
 
 
 class Main:
@@ -107,15 +107,7 @@ class Main:
                     self.file_manager.move(job_path, constants.FAILED)
             time.sleep(1)
 
-    def handle_signal(self, sig, frame):
-        """
-        Method for handling sigint or sigterm (ctrl + c, terminating process)
-        :param sig:
-        :param frame:
-        :return: None
-        """
-        exit(0)
-
 
 if __name__ == "__main__":
-    Main()
+    with daemon.DaemonContext():    # Running with daemon contex to do signal handling
+        Main()
