@@ -44,9 +44,6 @@ class Main:
         Method to start the main threads for the program
         :return: None
         """
-        signal.signal(signal.SIGINT, self.handle_signal)
-        signal.signal(signal.SIGTERM, self.handle_signal)
-
         # Monitor directory thread
         threading.Thread(target=self.monitor, args=()).start()  # Passing fn as reference
         # Worker thread
