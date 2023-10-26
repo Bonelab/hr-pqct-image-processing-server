@@ -34,7 +34,7 @@ class Processor:
         :return: None
         """
         self.logs.log_debug("Clearing out destination dir")
-        files = ip_utils.get_abs_paths("/home/bonelab/bls/destination")
+        files = ip_utils.get_abs_paths("destination")
         for i in files:
             self.file_manager.move(i, "batches")
 
