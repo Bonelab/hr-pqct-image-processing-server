@@ -39,8 +39,8 @@ ADDR = (ip_addr, port)
 
 
 # Log Locations
-DEBUG = "/home/bonelab/bls/logs/debug.log"
-ERROR = "/home/bonelab/bls/logs/error.log"
+DEBUG = "/logs/debug.log"
+ERROR = "/logs/error.log"
 
 # Model setup parameters
 RAD_TIB_PATH_TO_ENV = "/home/bonelab/.conda/envs/bl_torch/bin/python"
