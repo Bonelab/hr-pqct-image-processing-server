@@ -6,8 +6,7 @@ Description: Handles communication with the external cli python program
 import os.path
 
 from job import JobData
-import ip_utils
-import constants
+import constants, ip_utils
 
 import pickle
 import socket
@@ -123,7 +122,7 @@ class CLI:
         Gets completed jobs and sends them to CLI
         :return: None
         """
-        comp = self._jobs_from_dir(os.path.join(constants.BASE_DIR, constants.DONE))
+        comp = self._jobs_from_dir(constants.DONE)
         self._send_to_cli(comp, "completed")
 
     def _handle_failed(self):
@@ -131,7 +130,7 @@ class CLI:
         Gets failed jobs and sends them to CLI
         :return: None
         """
-        fail = self._jobs_from_dir(os.path.join(constants.BASE_DIR, constants.FAILED))
+        fail = self._jobs_from_dir( constants.FAILED)
         self._send_to_cli(fail, "failed")
 
     def _handle_info(self, jobname):

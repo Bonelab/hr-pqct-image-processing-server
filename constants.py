@@ -5,7 +5,6 @@ Module to hold needed constants for this program
 """
 
 # Important Directories
-BASE_DIR = "/home/bonelab/bls"
 
 DEST = 'destination'
 BATCHES = 'batches'
@@ -40,8 +39,8 @@ ADDR = (ip_addr, port)
 
 
 # Log Locations
-DEBUG = "/home/bonelab/bls/logs/debug.log"
-ERROR = "/home/bonelab/bls/logs/error.log"
+DEBUG = "logs/debug.log"
+ERROR = "logs/error.log"
 
 
 # Checkpoint Files

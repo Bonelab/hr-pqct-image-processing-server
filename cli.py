@@ -7,7 +7,7 @@ import pickle
 import argparse
 import sys
 
-from src import constants
+import constants
 
 JOBNAME = "EVAL_FNAME"
 FILE_TYPE = "FEXT"
@@ -90,13 +90,15 @@ def create_parser():
 def handle_args(client, args):
     nm = vars(args)
     for key in nm:
-        if not (nm.get(key) is None or nm.get(key) is False):
+        if not (nm.get(key) is None or not nm.get(key) is False):
             cmd = [key]
             if isinstance(nm.get(key), list):
                 cmd = cmd + nm.get(key)
             else:
                 cmd.append(nm.get(key))
             send(cmd, client)
+        print("Please enter a command.")
+        exit(0)
 
 
 def handle_response(data):
@@ -124,6 +126,8 @@ def handle_response(data):
     elif command == "failed":
         print("Failed Jobs:")
         print_jobs(data[1])
+    else:
+        print("Please input a command")
     print()
 
 

@@ -4,22 +4,23 @@ Author: Ian Smith
 Description: Handles startup processes and contains all the main event loops for the program
 Created: 2023-05-19
 Dependencies: pytorch, Anaconda, torchvision, cuda toolkit
+Package Dependencies: psutil, daemon, pwd
 """
 
-from src.job import JobManager
-from src.process import Processor
-from src.queue_manager import ManagedQueue
-from src.ip_logging import Logger
-from src.send import Send
-from src.ip_cli import CLI
-from src import ip_utils as ip_utils, constants
+from job import JobManager
+from process import Processor
+from queue_manager import ManagedQueue
+from ip_logging import Logger
+from send import Send
+from ip_cli import CLI
+import constants, ip_utils
+
 
 import os
 import time
 import threading
 import shutil
-import signal
-import daemon
+#import daemon
 
 
 class Main:
@@ -106,5 +107,5 @@ class Main:
 
 
 if __name__ == "__main__":
-    with daemon.DaemonContext():    # Running with daemon contex to do signal handling
-        Main()
+    # with daemon.DaemonContext():    # Running with daemon contex to do signal handling
+    Main()

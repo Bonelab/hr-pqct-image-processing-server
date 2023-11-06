@@ -13,7 +13,6 @@ import constants
 from job import JobData
 import ip_utils
 
-
 class ManagedQueue:
     def __init__(self, logger):
         """
@@ -30,6 +29,7 @@ class ManagedQueue:
         After a restart/crash this method allows for the jobs that were on the queue to be re-queued
         :return:None
         """
+
         lis = ip_utils.get_abs_paths(constants.BATCHES)
         for item in lis:
             self.JOB_QUEUE.put(item)
@@ -43,6 +43,7 @@ class ManagedQueue:
         jd = JobData(job_dir)
         self.logs.log_debug("Enqueued {}".format(jd.image_file_name))
         self.JOB_QUEUE.put(job_dir)
+        self.set_checkpoint()
 
     def dequeue(self):
         """
@@ -51,6 +52,7 @@ class ManagedQueue:
         """
         jd = JobData(self.JOB_QUEUE.get())
         self.logs.log_debug("Dequeued {}".format(jd.image_file_name))
+        self.set_checkpoint()
         return jd.base
 
     def queue_to_list(self):
@@ -137,9 +139,13 @@ class ManagedQueue:
         Used to set the state of the queue on startup
         :return:
         """
+        # TODO Need to make sure that this returns list
         with open(constants.QUEUE_CHECKPOINT, "r") as checkpoint_file:
             state = json.load(checkpoint_file)
         self.set_state(state)
+
+
+
 
 
 

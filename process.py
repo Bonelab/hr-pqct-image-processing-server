@@ -4,8 +4,7 @@ Author: Ian Smith
 Description: This module should contain all operations related to calling/executing image processing algorithms.
 """
 
-import constants
-import ip_utils
+import constants, ip_utils
 from job import JobData
 
 import subprocess
@@ -33,8 +32,8 @@ class Processor:
         On startup, clears the destination directory of jobs
         :return: None
         """
-        self.logs.log_debug("Clearing out destination dir")
-        files = ip_utils.get_abs_paths("/home/bonelab/bls/destination")
+        self.logs.log_debug("Retrieving files from destination dir")
+        files = ip_utils.get_abs_paths(constants.DEST)
         for i in files:
             self.file_manager.move(i, "batches")
 
@@ -83,7 +82,7 @@ class Processor:
         if self.process.returncode == 0:
             self.logs.log_debug("radius-tibia-final job {} finished successfully".format(job_data.base_name))
         else:
-            raise subprocess.CalledProcessError
+            raise subprocess.CalledProcessError(self.process.returncode, cmd)
 
     def shutdown(self):
         """

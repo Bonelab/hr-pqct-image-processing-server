@@ -1,0 +1,12 @@
+2023-11-03 20:51:30,835 - DEBUG - Creating batches
+2023-11-03 20:51:30,835 - DEBUG - Creating del
+2023-11-03 20:51:30,835 - DEBUG - Creating destination
+2023-11-03 20:51:30,835 - DEBUG - Creating failed
+2023-11-03 20:51:30,835 - DEBUG - Creating processed
+2023-11-03 20:51:30,835 - DEBUG - Creating rec
+2023-11-03 20:51:30,835 - DEBUG - Creating tmp
+2023-11-03 20:51:30,835 - DEBUG - Creating state
+2023-11-03 20:51:30,835 - DEBUG - Clearing out destination dir
+2023-11-03 20:53:36,910 - DEBUG - Clearing out destination dir
+2023-11-05 11:52:25,423 - DEBUG - Retrieving files from destination dir
+2023-11-05 12:07:22,274 - DEBUG - Retrieving files from destination dir

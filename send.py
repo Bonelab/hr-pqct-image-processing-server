@@ -3,11 +3,14 @@ send.py
 Author: Ian Smith
 Description: Class to handle sending data back to the OpenVMS system
 """
+import shutil
 import subprocess
+import os
+import fnmatch
 
-import constants
+import constants, ip_utils
 from job import JobData
-import ip_utils
+
 
 
 class Send:
@@ -70,6 +73,7 @@ class Send:
             return True
         except Exception as e:
             self.logs.log_error("Transfer to {} of {} failed: Error {}".format(self.image_name, self.hostname, e))
+            shutil.move(base_dir, constants.FAILED)
             self._reset()
             return False
 
@@ -86,6 +90,18 @@ class Send:
         Send method for radius_tibia_final job type
         :return:
         """
+        # Checking that the images are actually there
+        file_patterns = ["*_CORT_MASK.AIM", "*_TRAB_MASK.AIM"]
+        matching_files = []
+
+        for root, dirs, files in os.walk(self.image_dir):
+            for file_pattern in file_patterns:
+                matching_files.extend(fnmatch.filter(files, file_pattern))
+
+        if not matching_files:
+            raise FileNotFoundError("Image masks not found in masks dir")
+
+        # Sending images here
         destination = ip_utils.convert_path(self.destination).replace("DK0", "DISK2")
         sftp_cmd = ['sftp', '{}@{}:{}'.format(self.username, self.hostname, destination)]
         masks = ip_utils.get_abs_paths(self.image_dir)
