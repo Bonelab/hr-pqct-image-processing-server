@@ -35,7 +35,7 @@ class Processor:
         self.logs.log_debug("Retrieving files from destination dir")
         files = ip_utils.get_abs_paths(constants.DEST)
         for i in files:
-            self.file_manager.move(i, "batches")
+            self.file_manager.move(i, constants.BATCHES)
 
     def process_image(self, job_base):
         """

@@ -71,7 +71,7 @@ class Main:
                 self.file_manager.cleanup(constants.FAILED)                       # week old
                 self.file_manager.cleanup(constants.DONE)
                 last = time.time()
-            file_list = ip_utils.get_abs_paths(constants.REC)
+            file_list = os.listdir(constants.REC)
             if len(file_list) != 0:
                 for file in file_list:
                     file = os.path.abspath(file)
@@ -81,7 +81,8 @@ class Main:
                             job_path = self.file_manager.move(job_dir, constants.BATCHES)
                             self.job_queue.enqueue(job_path)
                             break
-                        except FileNotFoundError:
+                        except FileNotFoundError as e:
+                            self.logs.log_error(f"Image file not found for {e}")
                             shutil.move(file, constants.FAILED)
                             break
             time.sleep(1)
@@ -107,5 +108,4 @@ class Main:
 
 
 if __name__ == "__main__":
-    # with daemon.DaemonContext():    # Running with daemon contex to do signal handling
     Main()
