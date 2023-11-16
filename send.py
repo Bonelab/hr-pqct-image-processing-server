@@ -8,9 +8,9 @@ import subprocess
 import os
 import fnmatch
 
-import constants, ip_utils
+import constants
+import ip_utils
 from job import JobData
-
 
 
 class Send:
@@ -83,7 +83,7 @@ class Send:
         :return:
         """
         if self.job_type == "radius_tibia_final":
-            pass  # self._send_radius_tibia_final()
+            pass  # self._send_radius_tibia_final() # commented out so that the files don't actually get sent while testing other parts
 
     def _send_radius_tibia_final(self):
         """

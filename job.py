@@ -126,7 +126,6 @@ class JobData:
                 f.write(f"$ {field} :== {self.data.get(field)} \n")
 
 
-
 class JobManager:
     """
     A class to handle necessary file operations within the system
@@ -212,6 +211,8 @@ class JobManager:
         cur_job_name = metadata.get("FILE_FNAME")  # TODO: Change this to the proper param
         count = 0
 
+        print(cur_job_name)
+
         for name in job_names:
             if cur_job_name in name:
                 count += 1
@@ -241,7 +242,6 @@ class JobManager:
         with open(file_path, 'r') as file:
             command_file = yaml.safe_load(file)
         return command_file
-
 
     @staticmethod
     def _parse_com(file_path):

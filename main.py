@@ -70,7 +70,7 @@ class Main:
                 self.file_manager.cleanup(constants.FAILED)                       # week old
                 self.file_manager.cleanup(constants.DONE)
                 last = time.time()
-            file_list = ip_utils.get_abs_paths(constants.REC)
+            file_list = os.listdir(constants.REC)
             if len(file_list) != 0:
                 for file in file_list:
                     file = 'rec/' + file
@@ -98,7 +98,7 @@ class Main:
                 job_path = self.job_queue.dequeue()  # First item is gotten from the queue
                 job_path = self.file_manager.move(job_path, constants.DEST)
                 is_successful = self.processor.process_image(job_path)
-                print(is_successful) # TODO: DEBUG
+                print(is_successful)  # TODO: DEBUG
                 if is_successful:
                     is_successful = self.transfer.send(job_path)
                     job_path = self.file_manager.move(job_path, constants.DONE)
