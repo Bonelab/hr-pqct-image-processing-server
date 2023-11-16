@@ -6,6 +6,7 @@ Created: 2023-05-19
 Dependencies: pytorch, Anaconda, torchvision, cuda toolkit
 Package Dependencies: psutil, daemon, pwd
 """
+import traceback
 
 from job import JobManager
 from process import Processor
@@ -84,6 +85,7 @@ class Main:
                             break
                         except FileNotFoundError as e:
                             self.logs.log_error(f"Image file not found for {e}")
+                            self.logs.log_error(traceback.format_exc())
                             shutil.move(file, constants.FAILED)
                             break
             time.sleep(1)

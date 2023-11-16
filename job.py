@@ -278,7 +278,7 @@ class JobManager:
             file_base = os.path.basename(file)
             if file_base.lower() == target.lower():
                 image_file_path = file
-                nm = data.get(constants.F_NAME)
+                nm = data.get(constants.TARGET_IMAGE)
                 self.logs.log_debug("{} Received".format(nm))
                 return com_file_path, image_file_path
         if image_file_path is None:
