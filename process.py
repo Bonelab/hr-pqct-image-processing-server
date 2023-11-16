@@ -73,9 +73,7 @@ class Processor:
         :return: None
         """
         job_type = job_data.data.get(constants.JOB_TYPE)
-        print(job_type)
         job_type = job_type.lower()
-        print(job_type)
         if job_type == "radius_tibia_final":
             self._radius_tibia_final(job_data)
         else:

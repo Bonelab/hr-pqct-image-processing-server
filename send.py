@@ -85,7 +85,7 @@ class Send:
         :return:
         """
         if self.job_type == "radius_tibia_final":
-            pass  # self._send_radius_tibia_final() # commented out so that the files don't actually get sent while testing other parts
+            self._send_radius_tibia_final()
 
     def _send_radius_tibia_final(self):
         """
