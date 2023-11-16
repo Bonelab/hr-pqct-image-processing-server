@@ -77,7 +77,6 @@ class Main:
                     file = 'rec/' + file
                     file = os.path.abspath(file)
                     if file.lower().endswith(".yaml"):  # change to .yaml?
-                        print(file)
                         try:
                             job_dir = self.file_manager.create_job_data(file)
                             job_path = self.file_manager.move(job_dir, constants.BATCHES)

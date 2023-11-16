@@ -55,6 +55,9 @@ class Processor:
         except FileNotFoundError as e:
             self.logs.log_error(f"FileNotFoundError: {e}")
             return False
+        except NotImplementedError as e:
+            self.logs.log_error(f"NotImplementedError: {e}")
+            return False
         except Exception as e:
             self.logs.log_error("An error has occurred with {}: {}".format(job_data.base_name, e))
             self.logs.log_error(traceback.format_exc())
@@ -69,9 +72,11 @@ class Processor:
         :param job_data: JobData
         :return: None
         """
-        job_type = job_data.data.get("JOB")
+        job_type = job_data.data.get(constants.JOB_TYPE).lower
         if job_type == "radius_tibia_final":
             self._radius_tibia_final(job_data)
+        else:
+            raise NotImplementedError(f"Job Type: {job_type} not implemented in this system.")
 
     def _radius_tibia_final(self, job_data):
         """

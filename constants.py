@@ -29,7 +29,7 @@ F_NAME = "EVAL_FNAME"
 TARGET_IMAGE = "TARGET_FILE"
 EXT = "FEXT"
 EVAL_FEXT = "EVAL_FEXT"
-JOB = "JOB"
+JOB_TYPE = "JOB_TYPE"
 
 
 # Socket details for communicating from CLI to daemon
