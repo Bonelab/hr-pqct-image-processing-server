@@ -20,7 +20,6 @@ import os
 import time
 import threading
 import shutil
-#import daemon
 
 
 class Main:
@@ -74,8 +73,10 @@ class Main:
             file_list = os.listdir(constants.REC)
             if len(file_list) != 0:
                 for file in file_list:
+                    file = 'rec/' + file
                     file = os.path.abspath(file)
-                    if file.lower().endswith(".com"):
+                    if file.lower().endswith(".yaml"):  # change to .yaml?
+                        print(file)
                         try:
                             job_dir = self.file_manager.create_job_data(file)
                             job_path = self.file_manager.move(job_dir, constants.BATCHES)
@@ -97,6 +98,7 @@ class Main:
                 job_path = self.job_queue.dequeue()  # First item is gotten from the queue
                 job_path = self.file_manager.move(job_path, constants.DEST)
                 is_successful = self.processor.process_image(job_path)
+                print(is_successful) # TODO: DEBUG
                 if is_successful:
                     is_successful = self.transfer.send(job_path)
                     job_path = self.file_manager.move(job_path, constants.DONE)

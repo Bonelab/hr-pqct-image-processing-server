@@ -7,7 +7,9 @@ Description: This module should contain all operations related to calling/execut
 import constants, ip_utils
 from job import JobData
 
+import os
 import subprocess
+import traceback
 
 
 class Processor:
@@ -15,6 +17,7 @@ class Processor:
     A class to handle the processing of images, uses a factory method to decide what type of job a job is based off of
     the job's metadata
     """
+
     def __init__(self, logger, file_manager):
         """
         Constructor method
@@ -49,8 +52,12 @@ class Processor:
             self._get_processor(job_data)
             self.current = None
             return True
+        except FileNotFoundError as e:
+            self.logs.log_error(f"FileNotFoundError: {e}")
+            return False
         except Exception as e:
             self.logs.log_error("An error has occurred with {}: {}".format(job_data.base_name, e))
+            self.logs.log_error(traceback.format_exc())
             return False
         finally:
             self.process = None
@@ -73,7 +80,18 @@ class Processor:
         :return: None
         """
         self.logs.log_debug("Processing {}".format(job_data.image_file_name))
-        # the first item in the list is the path to the python interpreter with the conda env and the 2nd is the path to run the model
+
+        print(os.path.exists(constants.RAD_TIB_PATH_TO_ENV))
+        print(os.path.exists(constants.RAD_TIB_PATH_TO_START))
+
+        # Checking that the path to the env to run the segmentation exists and that the path to segment.py exists
+        if not os.path.exists(constants.RAD_TIB_PATH_TO_ENV):  # Possible bug here on windows with os.path.exists https://docs.python.org/3/using/windows.html#known-issues
+            raise FileNotFoundError("Path to bl_torch python executable does not exist")
+        elif not os.path.exists(constants.RAD_TIB_PATH_TO_START):
+            raise FileNotFoundError("Path to HR-pQCT-Segmentation segment.py does not exist")
+
+        # The first item in the list is the path to the python interpreter with the conda env and the
+        # 2nd is the path to run the model
         cmd = [constants.RAD_TIB_PATH_TO_ENV, constants.RAD_TIB_PATH_TO_START, job_data.base,
                constants.RAD_TIB_TRAINED_MODELS, "--image-pattern", job_data.image_file_name.lower()]
 
@@ -91,4 +109,3 @@ class Processor:
         """
         if self.process is not None:
             self.process.kill()
-

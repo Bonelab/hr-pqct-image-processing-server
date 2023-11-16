@@ -88,17 +88,29 @@ def create_parser():
 
 
 def handle_args(client, args):
-    nm = vars(args)
-    for key in nm:
-        if not (nm.get(key) is None or not nm.get(key) is False):
+    # print(args)
+    # print(vars(args))
+    success = False
+    args_keys = vars(args)
+    print(args_keys)
+    for key in args_keys:
+        if not (args_keys.get(key) is None or args_keys.get(key) is False):
             cmd = [key]
-            if isinstance(nm.get(key), list):
-                cmd = cmd + nm.get(key)
+            # print(cmd)
+            # print(args_keys.get(key))
+            print("In if statement")
+            op = isinstance(args_keys.get(key), list)
+            print(op)
+            if isinstance(args_keys.get(key), list):
+                cmd = cmd + args_keys.get(key)
             else:
-                cmd.append(nm.get(key))
+                cmd.append(args_keys.get(key))
+                print("in else")
             send(cmd, client)
-        print("Please enter a command.")
-        exit(0)
+            success = True
+
+    if success == False:
+        raise NoCommandError
 
 
 def handle_response(data):
@@ -162,14 +174,24 @@ def cli():
         response_data = b''
         while True:
             chunk = client_connect.recv(1024)
+
             if not chunk:
+                break
+            elif chunk is None:
                 break
             response_data += chunk
 
         response = pickle.loads(response_data)
         handle_response(response)
+    except NoCommandError as e:
+        print("Please enter a command or use the -h flag to see available commands")
     except Exception as e:
         print("No Response From Server", e)
 
+
+class NoCommandError(Exception):
+    def __init__(self, message="No command provided by the user"):
+        self.message=message
+        super().__init__(self.message)
 
 cli()

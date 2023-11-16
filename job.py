@@ -7,6 +7,7 @@ sort of serves as a filemanager, with the ability to format files into the folde
 It also handles things like movement of files within the program
 Created 2023-06-12
 """
+import yaml
 
 import constants, ip_utils
 
@@ -59,7 +60,7 @@ class JobData:
         :param exc_tb:
         :return:
         """
-        self.write_com()
+        self._write_yaml()
 
     def initialize(self):
         """
@@ -68,7 +69,8 @@ class JobData:
         """
         self.com_file_name = self._find_com()
         self.com_file_path = os.path.join(self.base, self.com_file_name)
-        self.data = self._parse_com()
+        # self.data = self._parse_com()
+        self.data = self._parse_yaml()
         image_path = self._find_image()
         self.image_file_path = image_path
         self.image_file_name = self.data.get("TARGET_FILE")
@@ -90,8 +92,14 @@ class JobData:
         """
         contents = os.listdir(self.base)
         for file in contents:
-            if file.lower().endswith(".com"):
+            if file.lower().endswith(".yaml"):
                 return file
+        raise FileNotFoundError
+
+    def _parse_yaml(self):
+        with open(self.com_file_path, 'r') as file:
+            command_file = yaml.safe_load(file)
+        return command_file
 
     def _parse_com(self):
         command_file = {}
@@ -107,6 +115,10 @@ class JobData:
                     if split[1] != "":
                         command_file[split[0].strip()] = split[1].strip()
         return command_file
+
+    def _write_yaml(self):
+        with open(self.com_file_path, 'w') as file:
+            yaml.safe_dump(self.data, file, default_flow_style=False)
 
     def write_com(self):
         with open(self.com_file_path, 'w') as f:
@@ -194,9 +206,10 @@ class JobManager:
         :param com_file: com file
         :return: Returns the job name
         """
-        metadata = self._parse_com(com_file)
+        # metadata = self._parse_com(com_file)
+        metadata = self._parse_yaml(com_file)
         job_names = self._get_all_jobs()
-        cur_job_name = metadata.get("IPL_FNAME")
+        cur_job_name = metadata.get("FILE_FNAME")  # TODO: Change this to the proper param
         count = 0
 
         for name in job_names:
@@ -224,6 +237,12 @@ class JobManager:
                 job_names = list(map(lambda x: x.replace(path, jd.base_name), job_names))
         return job_names
 
+    def _parse_yaml(self, file_path):
+        with open(file_path, 'r') as file:
+            command_file = yaml.safe_load(file)
+        return command_file
+
+
     @staticmethod
     def _parse_com(file_path):
         command_file = {}
@@ -248,7 +267,8 @@ class JobManager:
         :return: returns the com and image file paths
         """
         dir_path = os.path.dirname(com_file_path)
-        data = self._parse_com(com_file_path)
+        # data = self._parse_com(com_file_path)
+        data = self._parse_yaml(com_file_path)
         pths = ip_utils.get_abs_paths(dir_path)
         target = data.get(constants.TARGET_IMAGE)
         if target is None or target.endswith(".ISQ"):

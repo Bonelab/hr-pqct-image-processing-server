@@ -83,7 +83,7 @@ class Send:
         :return:
         """
         if self.job_type == "radius_tibia_final":
-            self._send_radius_tibia_final()
+            pass  # self._send_radius_tibia_final()
 
     def _send_radius_tibia_final(self):
         """
@@ -112,6 +112,12 @@ class Send:
         p1.communicate(input='\n'.join(put_cmd1).encode())
         p2 = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
         p2.communicate(input='\n'.join(put_cmd2).encode())
+
+        if p1.returncode != 0:
+            raise subprocess.CalledProcessError(p1.returncode, sftp_cmd)
+        elif p2.returncode != 0:
+            raise subprocess.CalledProcessError(p2.returncode, sftp_cmd)
+
 
 
 

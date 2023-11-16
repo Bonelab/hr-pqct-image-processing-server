@@ -10,3 +10,75 @@
 2023-11-03 20:53:36,910 - DEBUG - Clearing out destination dir
 2023-11-05 11:52:25,423 - DEBUG - Retrieving files from destination dir
 2023-11-05 12:07:22,274 - DEBUG - Retrieving files from destination dir
+2023-11-15 14:20:52,369 - DEBUG - Retrieving files from destination dir
+2023-11-15 16:05:55,108 - DEBUG - Retrieving files from destination dir
+2023-11-15 16:06:24,530 - DEBUG - Retrieving files from destination dir
+2023-11-15 16:06:42,448 - DEBUG - Retrieving files from destination dir
+2023-11-15 16:09:02,342 - DEBUG - Retrieving files from destination dir
+2023-11-15 16:11:10,044 - DEBUG - Retrieving files from destination dir
+2023-11-15 16:18:32,481 - DEBUG - Retrieving files from destination dir
+2023-11-16 10:26:25,057 - DEBUG - Retrieving files from destination dir
+2023-11-16 10:27:19,247 - DEBUG - Retrieving files from destination dir
+2023-11-16 10:28:58,467 - DEBUG - Retrieving files from destination dir
+2023-11-16 10:31:56,903 - DEBUG - Retrieving files from destination dir
+2023-11-16 10:36:17,185 - DEBUG - Retrieving files from destination dir
+2023-11-16 10:39:51,250 - DEBUG - Retrieving files from destination dir
+2023-11-16 10:39:51,253 - DEBUG - None Received
+2023-11-16 10:39:51,253 - DEBUG - Formatting d0016410.aim
+2023-11-16 10:46:44,957 - DEBUG - Retrieving files from destination dir
+2023-11-16 10:46:44,959 - DEBUG - None Received
+2023-11-16 10:46:44,959 - DEBUG - Formatting d0016410.aim
+2023-11-16 10:47:25,079 - DEBUG - Retrieving files from destination dir
+2023-11-16 10:47:55,581 - DEBUG - Retrieving files from destination dir
+2023-11-16 10:47:55,584 - DEBUG - None Received
+2023-11-16 10:47:55,584 - DEBUG - Formatting d0016410.aim
+2023-11-16 10:58:51,606 - DEBUG - Retrieving files from destination dir
+2023-11-16 10:58:51,608 - DEBUG - None Received
+2023-11-16 10:58:51,608 - DEBUG - Formatting d0016410.aim
+2023-11-16 10:59:40,226 - DEBUG - Retrieving files from destination dir
+2023-11-16 11:00:40,625 - DEBUG - Retrieving files from destination dir
+2023-11-16 11:00:40,628 - DEBUG - None Received
+2023-11-16 11:00:40,628 - DEBUG - Formatting d0016410.aim
+2023-11-16 11:04:00,658 - DEBUG - Retrieving files from destination dir
+2023-11-16 11:06:02,990 - DEBUG - Retrieving files from destination dir
+2023-11-16 11:06:02,992 - DEBUG - None Received
+2023-11-16 11:06:02,993 - DEBUG - Formatting d0016410.aim
+2023-11-16 11:07:29,466 - DEBUG - Retrieving files from destination dir
+2023-11-16 11:07:29,469 - DEBUG - None Received
+2023-11-16 11:07:29,469 - DEBUG - Formatting d0016410.aim
+2023-11-16 11:16:47,265 - DEBUG - Retrieving files from destination dir
+2023-11-16 11:17:20,708 - DEBUG - Retrieving files from destination dir
+2023-11-16 11:17:20,711 - DEBUG - None Received
+2023-11-16 11:17:20,711 - DEBUG - Formatting d0016410.aim
+2023-11-16 11:17:20,722 - DEBUG - Enqueued D0016410.AIM
+2023-11-16 11:17:20,724 - DEBUG - Dequeued D0016410.AIM
+2023-11-16 11:17:20,733 - DEBUG - Sending D0016410.AIM to EMILY.UCALGARY.CA at None
+2023-11-16 11:17:20,733 - DEBUG - D0016410.AIM successfully transferred to EMILY.UCALGARY.CA at None
+2023-11-16 11:47:41,366 - DEBUG - Retrieving files from destination dir
+2023-11-16 11:47:41,369 - DEBUG - None Received
+2023-11-16 11:47:41,369 - DEBUG - Formatting d0016410.aim
+2023-11-16 11:47:41,377 - DEBUG - Enqueued D0016410.AIM
+2023-11-16 11:47:41,378 - DEBUG - Dequeued D0016410.AIM
+2023-11-16 11:47:41,388 - DEBUG - Sending D0016410.AIM to EMILY.UCALGARY.CA at None
+2023-11-16 11:47:41,388 - DEBUG - D0016410.AIM successfully transferred to EMILY.UCALGARY.CA at None
+2023-11-16 11:58:27,914 - DEBUG - Retrieving files from destination dir
+2023-11-16 11:58:27,917 - DEBUG - None Received
+2023-11-16 11:58:27,917 - DEBUG - Formatting d0016410.aim
+2023-11-16 11:58:27,925 - DEBUG - Enqueued D0016410.AIM
+2023-11-16 11:58:27,926 - DEBUG - Dequeued D0016410.AIM
+2023-11-16 11:58:27,935 - DEBUG - Sending D0016410.AIM to EMILY.UCALGARY.CA at None
+2023-11-16 11:58:27,935 - DEBUG - D0016410.AIM successfully transferred to EMILY.UCALGARY.CA at None
+2023-11-16 12:04:08,532 - DEBUG - Retrieving files from destination dir
+2023-11-16 12:04:08,535 - DEBUG - None Received
+2023-11-16 12:04:08,535 - DEBUG - Formatting d0016410.aim
+2023-11-16 12:04:08,543 - DEBUG - Enqueued D0016410.AIM
+2023-11-16 12:04:08,544 - DEBUG - Dequeued D0016410.AIM
+2023-11-16 12:04:08,553 - DEBUG - Sending D0016410.AIM to EMILY.UCALGARY.CA at None
+2023-11-16 12:04:08,553 - DEBUG - D0016410.AIM successfully transferred to EMILY.UCALGARY.CA at None
+2023-11-16 12:19:23,766 - DEBUG - Retrieving files from destination dir
+2023-11-16 12:19:23,768 - DEBUG - None Received
+2023-11-16 12:19:23,768 - DEBUG - Formatting d0016410.aim
+2023-11-16 12:19:23,776 - DEBUG - Enqueued D0016410.AIM
+2023-11-16 12:19:23,778 - DEBUG - Dequeued D0016410.AIM
+2023-11-16 12:19:23,787 - DEBUG - Sending D0016410.AIM to EMILY.UCALGARY.CA at None
+2023-11-16 12:19:23,787 - DEBUG - D0016410.AIM successfully transferred to EMILY.UCALGARY.CA at None

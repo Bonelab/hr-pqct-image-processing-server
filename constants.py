@@ -34,7 +34,7 @@ JOB = "JOB"
 
 # Socket details for communicating from CLI to daemon
 ip_addr = "127.0.0.1"
-port = 4000
+port = 4001
 ADDR = (ip_addr, port)
 
 
@@ -49,8 +49,8 @@ PROCESS_CHECKPOINT = '/state/process.txt'
 
 
 # Model setup parameters
-RAD_TIB_PATH_TO_ENV = "/home/ian.smith2/.conda/envs/bl_torch/bin/python"
-RAD_TIB_PATH_TO_START = "/data/repo/HR-pQCT-Segmentation/segment.py"
+RAD_TIB_PATH_TO_ENV = r"\C:\home\ian.smith2\.conda\envs\bl_torch\bin\python"      #"/home/ian.smith2/.conda/envs/bl_torch/bin/python"
+RAD_TIB_PATH_TO_START = r"\C:\data\repo\HR-pQCT-Segmentation\segment.py"  #r"/data/repo/HR-pQCT-Segmentation/segment.py"
 RAD_TIB_TRAINED_MODELS = "radius_tibia_final"
 
 
