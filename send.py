@@ -38,7 +38,9 @@ class Send:
             self.dat = jd.data
             self.image_dir = jd.proc_dir_path
             self.image_name = jd.image_file_name
-            self.job_type = jd.data.get(constants.JOB)
+            self.job_type = jd.data.get(constants.JOB_TYPE)
+            self.job_type = self.job_type.lower()
+
 
         self.username = self.dat.get("CLIENT_USERNAME")
         self.hostname = self.dat.get("CLIENT_HOSTNAME")

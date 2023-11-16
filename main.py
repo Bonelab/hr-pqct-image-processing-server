@@ -99,7 +99,6 @@ class Main:
                 job_path = self.job_queue.dequeue()  # First item is gotten from the queue
                 job_path = self.file_manager.move(job_path, constants.DEST)
                 is_successful = self.processor.process_image(job_path)
-                print(is_successful)  # TODO: DEBUG
                 if is_successful:
                     is_successful = self.transfer.send(job_path)
                     job_path = self.file_manager.move(job_path, constants.DONE)
