@@ -88,7 +88,7 @@ class Processor:
         self.logs.log_debug("Processing {}".format(job_data.image_file_name))
 
         # Checking that the path to the env to run the segmentation exists and that the path to segment.py exists
-        if not os.path.exists(constants.RAD_TIB_PATH_TO_ENV):  # Possible bug here on windows with os.path.exists https://docs.python.org/3/using/windows.html#known-issues
+        if not os.path.exists(constants.RAD_TIB_PATH_TO_ENV):
             raise FileNotFoundError("Path to bl_torch python executable does not exist")
         elif not os.path.exists(constants.RAD_TIB_PATH_TO_START):
             raise FileNotFoundError("Path to HR-pQCT-Segmentation segment.py does not exist")

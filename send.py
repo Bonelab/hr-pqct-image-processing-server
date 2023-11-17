@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import os
 import fnmatch
+import traceback
 
 import constants
 import ip_utils
@@ -41,10 +42,9 @@ class Send:
             self.job_type = jd.data.get(constants.JOB_TYPE)
             self.job_type = self.job_type.lower()
 
-
         self.username = self.dat.get("CLIENT_USERNAME")
         self.hostname = self.dat.get("CLIENT_HOSTNAME")
-        self.destination = self.dat.get("CLIENT_DESTINATION")
+        self.destination = self.dat.get("CLIENT_DIR")
 
     def _reset(self):
         """
@@ -65,27 +65,36 @@ class Send:
         :param base_dir: Base directory/reference to job data
         :return: True on success, False on fail
         """
+        success = False
         self._prepare(base_dir)
         self.logs.log_debug("Sending {} to {} at {}".format(self.image_name, self.hostname, self.destination))
         try:
             self._get_send_for_job()
             self.logs.log_debug(
                 "{} successfully transferred to {} at {}".format(self.image_name, self.hostname, self.destination))
-            self._reset()
-            return True
+            success = True
+        except NotImplementedError as e:
+            self.logs.log_error(f"NotImplementedError: {e}")
+            success = False
         except Exception as e:
             self.logs.log_error("Transfer to {} of {} failed: Error {}".format(self.image_name, self.hostname, e))
-            shutil.move(base_dir, constants.FAILED)
+            self.logs.log_error(traceback.format_exc())
+            success = False
+        finally:
             self._reset()
-            return False
+
+        return success
 
     def _get_send_for_job(self):
         """
         Selects method for sending, allows for sending in different formats
         :return:
         """
+        self.job_type = self.job_type.lower()
         if self.job_type == "radius_tibia_final":
             self._send_radius_tibia_final()
+        else:
+            raise NotImplementedError(f"Job Type: {self.job_type} not implemented in this system.")
 
     def _send_radius_tibia_final(self):
         """
