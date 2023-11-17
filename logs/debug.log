@@ -171,3 +171,75 @@
 2023-11-16 18:01:03,119 - DEBUG - Enqueued D0016410.AIM
 2023-11-16 18:01:03,120 - DEBUG - Dequeued D0016410.AIM
 2023-11-16 18:01:03,126 - DEBUG - Processing D0016410.AIM
+2023-11-16 19:01:23,225 - DEBUG - Retrieving files from destination dir
+2023-11-16 19:01:23,228 - DEBUG - D0016410.AIM Received
+2023-11-16 19:01:23,228 - DEBUG - Formatting d0016410.aim
+2023-11-16 19:01:23,240 - DEBUG - Enqueued D0016410.AIM
+2023-11-16 19:01:23,241 - DEBUG - Dequeued D0016410.AIM
+2023-11-16 19:01:23,247 - DEBUG - Processing D0016410.AIM
+2023-11-16 19:08:13,171 - DEBUG - Retrieving files from destination dir
+2023-11-16 19:08:13,173 - DEBUG - D0016410.AIM Received
+2023-11-16 19:08:13,173 - DEBUG - Formatting d0016410.aim
+2023-11-16 19:08:13,189 - DEBUG - Enqueued D0016410.AIM
+2023-11-16 19:08:13,190 - DEBUG - Dequeued D0016410.AIM
+2023-11-16 19:21:27,859 - DEBUG - Retrieving files from destination dir
+2023-11-16 19:22:43,558 - DEBUG - Retrieving files from destination dir
+2023-11-16 19:22:43,565 - DEBUG - D0016390.AIM Received
+2023-11-16 19:22:43,565 - DEBUG - Formatting d0016390.aim
+2023-11-16 19:22:43,568 - DEBUG - Dequeued d0016410.aim
+2023-11-16 19:24:10,896 - DEBUG - Retrieving files from destination dir
+2023-11-16 19:24:10,903 - DEBUG - D0016390.AIM Received
+2023-11-16 19:24:10,903 - DEBUG - Formatting d0016390.aim
+2023-11-16 19:24:10,905 - DEBUG - Dequeued d0016410.aim
+2023-11-16 19:25:22,967 - DEBUG - Retrieving files from destination dir
+2023-11-16 19:25:22,976 - DEBUG - D0016390.AIM Received
+2023-11-16 19:25:22,976 - DEBUG - Formatting d0016390.aim
+2023-11-16 19:25:22,977 - DEBUG - Dequeued d0016410.aim
+2023-11-16 19:26:21,398 - DEBUG - Retrieving files from destination dir
+2023-11-16 19:26:21,407 - DEBUG - D0016390.AIM Received
+2023-11-16 19:26:21,407 - DEBUG - Formatting d0016390.aim
+2023-11-16 19:26:21,407 - DEBUG - Dequeued d0016410.aim
+2023-11-16 19:26:40,412 - DEBUG - Retrieving files from destination dir
+2023-11-16 19:26:40,420 - DEBUG - D0016390.AIM Received
+2023-11-16 19:26:40,420 - DEBUG - Formatting d0016390.aim
+2023-11-16 19:26:40,422 - DEBUG - Dequeued d0016410.aim
+2023-11-16 19:28:50,728 - DEBUG - Retrieving files from destination dir
+2023-11-16 19:28:50,735 - DEBUG - D0016390.AIM Received
+2023-11-16 19:28:50,735 - DEBUG - Formatting d0016390.aim
+2023-11-16 19:28:50,738 - DEBUG - Dequeued d0016410.aim
+2023-11-16 19:29:12,246 - DEBUG - Retrieving files from destination dir
+2023-11-16 19:29:12,253 - DEBUG - D0016390.AIM Received
+2023-11-16 19:29:12,253 - DEBUG - Formatting d0016390.aim
+2023-11-16 19:29:12,256 - DEBUG - Dequeued d0016410.aim
+2023-11-16 19:29:44,951 - DEBUG - Retrieving files from destination dir
+2023-11-16 19:29:44,960 - DEBUG - D0016390.AIM Received
+2023-11-16 19:29:44,960 - DEBUG - Dequeued d0016410.aim
+2023-11-16 19:29:44,960 - DEBUG - Formatting d0016390.aim
+2023-11-16 19:29:56,291 - DEBUG - Retrieving files from destination dir
+2023-11-16 19:29:56,299 - DEBUG - D0016390.AIM Received
+2023-11-16 19:29:56,299 - DEBUG - Formatting d0016390.aim
+2023-11-16 19:29:56,299 - DEBUG - Dequeued d0016410.aim
+2023-11-16 19:30:03,922 - DEBUG - Retrieving files from destination dir
+2023-11-16 19:30:03,930 - DEBUG - D0016390.AIM Received
+2023-11-16 19:30:03,931 - DEBUG - Formatting d0016390.aim
+2023-11-16 19:30:03,931 - DEBUG - Dequeued d0016410.aim
+2023-11-16 19:31:03,538 - DEBUG - Retrieving files from destination dir
+2023-11-16 19:31:03,545 - DEBUG - D0016390.AIM Received
+2023-11-16 19:31:03,545 - DEBUG - Formatting d0016390.aim
+2023-11-16 19:31:03,548 - DEBUG - Dequeued d0016410.aim
+2023-11-16 19:31:39,724 - DEBUG - Retrieving files from destination dir
+2023-11-16 19:31:39,732 - DEBUG - D0016390.AIM Received
+2023-11-16 19:31:39,732 - DEBUG - Formatting d0016390.aim
+2023-11-16 19:31:39,733 - DEBUG - Dequeued d0016410.aim
+2023-11-16 19:32:14,188 - DEBUG - Retrieving files from destination dir
+2023-11-16 19:32:14,196 - DEBUG - D0016390.AIM Received
+2023-11-16 19:32:14,197 - DEBUG - Formatting d0016390.aim
+2023-11-16 19:32:14,197 - DEBUG - Dequeued d0016410.aim
+2023-11-16 19:34:56,514 - DEBUG - Retrieving files from destination dir
+2023-11-16 19:34:56,522 - DEBUG - D0016390.AIM Received
+2023-11-16 19:34:56,522 - DEBUG - Formatting d0016390.aim
+2023-11-16 19:34:56,524 - DEBUG - Dequeued d0016410.aim
+2023-11-16 19:34:56,548 - DEBUG - Enqueued d0016390.aim
+2023-11-16 19:34:57,550 - DEBUG - D0016410.AIM Received
+2023-11-16 19:34:57,550 - DEBUG - Formatting d0016410.aim
+2023-11-16 19:34:57,574 - DEBUG - Enqueued d0016410.aim
