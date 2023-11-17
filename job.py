@@ -73,14 +73,14 @@ class JobData:
         self.data = self._parse_yaml()
         image_path = self._find_image()
         self.image_file_path = image_path
-        self.image_file_name = self.data.get("TARGET_FILE")
+        self.image_file_name = self.data.get(constants.TARGET_IMAGE)
 
     def _find_image(self):
         """
         Function to find associated image file from the associated com file
         :return: returns path to associated image file
         """
-        image_name = self.data.get("TARGET_FILE")
+        image_name = self.data.get(constants.TARGET_IMAGE)
         image_path = os.path.join(self.base, image_name)
         if os.path.exists(image_path):
             return image_path
@@ -161,10 +161,12 @@ class JobManager:
             self.logs.log_debug("{} renamed to {}".format(os.path.basename(job_base), rename))
             new_base = shutil.move(new_path, destination)
         except shutil.Error:
-            rename = self._name_dir(job_base)
+            with JobData(job_base) as jd:
+                com_file = jd.com_file_path
+            rename = self._name_dir(com_file) + "\\"
             path = os.path.dirname(job_base)
             new_path = os.path.join(path, rename)
-            os.rename(job_base, rename)
+            os.rename(job_base, new_path)
             self.logs.log_debug("{} renamed to {}".format(os.path.basename(job_base), rename))
             new_base = shutil.move(new_path, destination)
         return os.path.abspath(new_base)
@@ -208,7 +210,7 @@ class JobManager:
         # metadata = self._parse_com(com_file)
         metadata = self._parse_yaml(com_file)
         job_names = self._get_all_jobs()
-        cur_job_name = metadata.get("FILE_FNAME")  # TODO: Change this to the proper param
+        cur_job_name = metadata.get(constants.F_NAME)  # TODO: Change this to the proper param
         count = 0
 
         for name in job_names:
