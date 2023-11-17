@@ -231,13 +231,11 @@ class JobManager:
         :return: returns the list of job names
         """
         job_names = []
-        folders = constants.JOB_DIRS
         for folder in constants.JOB_DIRS:
             job_names = job_names + ip_utils.get_abs_paths(folder)
         for path in job_names:
-            if os.path.isdir(path):
-                with JobData(path) as jd:
-                    job_names = list(map(lambda x: x.replace(path, jd.base_name), job_names))
+            with JobData(path) as jd:
+                job_names = list(map(lambda x: x.replace(path, jd.base_name), job_names))
         return job_names
 
     def _parse_yaml(self, file_path):
