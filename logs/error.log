@@ -84,4 +84,3 @@ FileNotFoundError: Image masks not found in masks dir
 FileNotFoundError: Image masks not found in masks dir
 
 2023-11-16 18:01:03,126 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
-2023-11-16 19:01:23,247 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist

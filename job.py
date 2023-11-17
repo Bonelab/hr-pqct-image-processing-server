@@ -73,14 +73,14 @@ class JobData:
         self.data = self._parse_yaml()
         image_path = self._find_image()
         self.image_file_path = image_path
-        self.image_file_name = self.data.get(constants.TARGET_IMAGE).lower()
+        self.image_file_name = self.data.get("TARGET_FILE")
 
     def _find_image(self):
         """
         Function to find associated image file from the associated com file
         :return: returns path to associated image file
         """
-        image_name = self.data.get(constants.TARGET_IMAGE)
+        image_name = self.data.get("TARGET_FILE")
         image_path = os.path.join(self.base, image_name)
         if os.path.exists(image_path):
             return image_path
@@ -207,8 +207,8 @@ class JobManager:
         """
         # metadata = self._parse_com(com_file)
         metadata = self._parse_yaml(com_file)
-        cur_job_name = metadata.get(constants.F_NAME)  # TODO: Change this to the proper param
         job_names = self._get_all_jobs()
+        cur_job_name = metadata.get("FILE_FNAME")  # TODO: Change this to the proper param
         count = 0
 
         for name in job_names:
@@ -232,7 +232,6 @@ class JobManager:
         for folder in constants.JOB_DIRS:
             job_names = job_names + ip_utils.get_abs_paths(folder)
         for path in job_names:
-            print(path)
             with JobData(path) as jd:
                 job_names = list(map(lambda x: x.replace(path, jd.base_name), job_names))
         return job_names
@@ -276,7 +275,7 @@ class JobManager:
         for file in pths:
             file_base = os.path.basename(file)
             if file_base.lower() == target.lower():
-                image_file_path = file.lower()
+                image_file_path = file
                 nm = data.get(constants.TARGET_IMAGE)
                 self.logs.log_debug("{} Received".format(nm))
                 return com_file_path, image_file_path
