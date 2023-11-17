@@ -80,7 +80,7 @@ class JobData:
         Function to find associated image file from the associated com file
         :return: returns path to associated image file
         """
-        image_name = self.data.get(constants.TARGET_IMAGE)
+        image_name = self.data.get(constants.TARGET_IMAGE).lower()
         image_path = os.path.join(self.base, image_name)
         if os.path.exists(image_path):
             return image_path
@@ -284,7 +284,6 @@ class JobManager:
         if image_file_path is None:
             nm = os.path.basename(com_file_path)
             self.logs.log_error('Could not find associated image file for {}'.format(nm))
-            os.remove(com_file_path)
             raise FileNotFoundError("Image file not found for {}".format(nm))
 
     def _ensure_directories_exist(self, dirs=None):

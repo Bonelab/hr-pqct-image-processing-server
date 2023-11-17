@@ -1,0 +1,109 @@
+2023-11-17 12:51:14,277 - ERROR - Could not find associated image file for d0016410_eval_ml_segmentation.yaml
+2023-11-17 12:51:14,277 - ERROR - Image file not found for Image file not found for d0016410_eval_ml_segmentation.yaml
+2023-11-17 12:51:14,278 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/main.py", line 81, in monitor
+    job_dir = self.file_manager.create_job_data(file)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/job.py", line 180, in create_job_data
+    com, img = self._create_association(com_file)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/job.py", line 288, in _create_association
+    raise FileNotFoundError("Image file not found for {}".format(nm))
+FileNotFoundError: Image file not found for d0016410_eval_ml_segmentation.yaml
+
+2023-11-17 12:58:39,566 - ERROR - Could not find associated image file for d0016410_eval_ml_segmentation.yaml
+2023-11-17 12:58:39,566 - ERROR - Image file not found for d0016410_eval_ml_segmentation.yaml
+2023-11-17 12:58:39,569 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/main.py", line 81, in monitor
+    job_dir = self.file_manager.create_job_data(file)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/job.py", line 180, in create_job_data
+    com, img = self._create_association(com_file)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/job.py", line 287, in _create_association
+    raise FileNotFoundError("Image file not found for {}".format(nm))
+FileNotFoundError: Image file not found for d0016410_eval_ml_segmentation.yaml
+
+2023-11-17 12:59:48,590 - ERROR - Could not find associated image file for d0016410_eval_ml_segmentation.yaml
+2023-11-17 12:59:48,591 - ERROR - Image file not found for d0016410_eval_ml_segmentation.yaml
+2023-11-17 12:59:48,591 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/main.py", line 81, in monitor
+    job_dir = self.file_manager.create_job_data(file)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/job.py", line 180, in create_job_data
+    com, img = self._create_association(com_file)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/job.py", line 287, in _create_association
+    raise FileNotFoundError("Image file not found for {}".format(nm))
+FileNotFoundError: Image file not found for d0016410_eval_ml_segmentation.yaml
+
+2023-11-17 13:04:01,582 - ERROR - Could not find associated image file for d0016410_eval_ml_segmentation.yaml
+2023-11-17 13:04:01,582 - ERROR - Image file not found for d0016410_eval_ml_segmentation.yaml
+2023-11-17 13:04:01,583 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/main.py", line 81, in monitor
+    job_dir = self.file_manager.create_job_data(file)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/job.py", line 180, in create_job_data
+    com, img = self._create_association(com_file)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/job.py", line 288, in _create_association
+    raise FileNotFoundError("Image file not found for {}".format(nm))
+FileNotFoundError: Image file not found for d0016410_eval_ml_segmentation.yaml
+
+2023-11-17 13:13:00,771 - ERROR - Could not find associated image file for d0016410_eval_ml_segmentation.yaml
+2023-11-17 13:13:00,771 - ERROR - Image file not found for d0016410_eval_ml_segmentation.yaml
+2023-11-17 13:13:00,773 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/main.py", line 81, in monitor
+    job_dir = self.file_manager.create_job_data(file)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/job.py", line 180, in create_job_data
+    com, img = self._create_association(com_file)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/job.py", line 288, in _create_association
+    raise FileNotFoundError("Image file not found for {}".format(nm))
+FileNotFoundError: Image file not found for d0016410_eval_ml_segmentation.yaml
+
+2023-11-17 13:15:01,646 - ERROR - Could not find associated image file for d0016410_eval_ml_segmentation.yaml
+2023-11-17 13:15:01,646 - ERROR - Image file not found for d0016410_eval_ml_segmentation.yaml
+2023-11-17 13:15:01,647 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/main.py", line 81, in monitor
+    job_dir = self.file_manager.create_job_data(file)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/job.py", line 180, in create_job_data
+    com, img = self._create_association(com_file)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/job.py", line 289, in _create_association
+    raise FileNotFoundError("Image file not found for {}".format(nm))
+FileNotFoundError: Image file not found for d0016410_eval_ml_segmentation.yaml
+
+2023-11-17 13:16:08,562 - ERROR - Could not find associated image file for d0016410_eval_ml_segmentation.yaml
+2023-11-17 13:16:08,562 - ERROR - Image file not found for d0016410_eval_ml_segmentation.yaml
+2023-11-17 13:16:08,562 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/main.py", line 83, in monitor
+    job_dir = self.file_manager.create_job_data(file)
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/job.py", line 180, in create_job_data
+    com, img = self._create_association(com_file)
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/job.py", line 289, in _create_association
+    raise FileNotFoundError("Image file not found for {}".format(nm))
+FileNotFoundError: Image file not found for d0016410_eval_ml_segmentation.yaml
+
+2023-11-17 13:41:10,202 - ERROR - Transfer to D0016410.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', 'XTREMECT2@EMILY.UCALGARY.CA:/DISK2/XTREMECT2/DATA/00003869/00020053/']' returned non-zero exit status 255.
+2023-11-17 13:41:10,209 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 128, in _send_radius_tibia_final
+    raise subprocess.CalledProcessError(p1.returncode, sftp_cmd)
+subprocess.CalledProcessError: Command '['sftp', 'XTREMECT2@EMILY.UCALGARY.CA:/DISK2/XTREMECT2/DATA/00003869/00020053/']' returned non-zero exit status 255.
+
+2023-11-17 13:44:22,696 - ERROR - Transfer to D0016410.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', 'XTREMECT2@EMILY.UCALGARY.CA:/DISK2/XTREMECT2/DATA/00003869/00020053/']' returned non-zero exit status 255.
+2023-11-17 13:44:22,697 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 128, in _send_radius_tibia_final
+    raise subprocess.CalledProcessError(p1.returncode, sftp_cmd)
+subprocess.CalledProcessError: Command '['sftp', 'XTREMECT2@EMILY.UCALGARY.CA:/DISK2/XTREMECT2/DATA/00003869/00020053/']' returned non-zero exit status 255.
+

@@ -1,0 +1,21 @@
+2023-11-17 12:47:16,186 - DEBUG - Retrieving files from destination dir
+2023-11-17 12:58:34,560 - DEBUG - Retrieving files from destination dir
+2023-11-17 13:03:55,579 - DEBUG - Retrieving files from destination dir
+2023-11-17 13:13:00,769 - DEBUG - Retrieving files from destination dir
+2023-11-17 13:15:01,645 - DEBUG - Retrieving files from destination dir
+2023-11-17 13:16:08,560 - DEBUG - Retrieving files from destination dir
+2023-11-17 13:38:01,756 - DEBUG - Retrieving files from destination dir
+2023-11-17 13:38:09,768 - DEBUG - D0016410.AIM Received
+2023-11-17 13:38:09,768 - DEBUG - Formatting d0016410.aim
+2023-11-17 13:38:09,774 - DEBUG - Enqueued D0016410.AIM
+2023-11-17 13:38:09,775 - DEBUG - Dequeued D0016410.AIM
+2023-11-17 13:38:09,778 - DEBUG - Processing D0016410.AIM
+2023-11-17 13:38:13,776 - DEBUG - D0016410.AIM Received
+2023-11-17 13:38:13,776 - DEBUG - Formatting d0016410.aim
+2023-11-17 13:38:13,783 - DEBUG - Enqueued D0016410.AIM
+2023-11-17 13:41:09,891 - DEBUG - radius-tibia-final job D0016410 finished successfully
+2023-11-17 13:41:09,895 - DEBUG - Sending D0016410.AIM to EMILY.UCALGARY.CA at DK0:[XTREMECT2.DATA.00003869.00020053]
+2023-11-17 13:41:11,217 - DEBUG - Dequeued D0016410.AIM
+2023-11-17 13:41:11,222 - DEBUG - Processing D0016410.AIM
+2023-11-17 13:44:22,395 - DEBUG - radius-tibia-final job D0016410-1 finished successfully
+2023-11-17 13:44:22,397 - DEBUG - Sending D0016410.AIM to EMILY.UCALGARY.CA at DK0:[XTREMECT2.DATA.00003869.00020053]
