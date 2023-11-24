@@ -90,7 +90,10 @@ class JobData:
         Finds com file within base directory
         :return: Returns the full path to the com file
         """
-        contents = os.listdir(self.base)
+        if os.path.isdir(self.base):
+            contents = os.listdir(self.base)
+        else:
+            contents = []
         for file in contents:
             if file.lower().endswith(".yaml"):
                 return file
@@ -234,29 +237,17 @@ class JobManager:
         for folder in constants.JOB_DIRS:
             job_names = job_names + ip_utils.get_abs_paths(folder)
         for path in job_names:
-            with JobData(path) as jd:
-                job_names = list(map(lambda x: x.replace(path, jd.base_name), job_names))
+            if os.path.isdir(path):
+                with JobData(path) as jd:
+                    job_names = list(map(lambda x: x.replace(path, jd.base_name), job_names))
+            else:
+                job_names.remove(path)
+                
         return job_names
 
     def _parse_yaml(self, file_path):
         with open(file_path, 'r') as file:
             command_file = yaml.safe_load(file)
-        return command_file
-
-    @staticmethod
-    def _parse_com(file_path):
-        command_file = {}
-        with open(file_path, 'r') as f:
-            lines = f.readlines()
-            for line in lines:
-                line = line.strip("$").strip()
-                if "!" in line:
-                    sp = line.split("!")
-                    line = sp[0]
-                if ":==" in line:
-                    split = line.split(":==")
-                    if split[1] != "":
-                        command_file[split[0].strip()] = split[1].strip()
         return command_file
 
     # Takes in an absolute path of the com file
@@ -266,20 +257,21 @@ class JobManager:
         :param com_file_path: com file name that you want to get the association for
         :return: returns the com and image file paths
         """
+        if os.path.isdir(com_file_path):
+            raise FileNotFoundError
+        
         dir_path = os.path.dirname(com_file_path)
-        # data = self._parse_com(com_file_path)
         data = self._parse_yaml(com_file_path)
-        pths = ip_utils.get_abs_paths(dir_path)
+        pths = os.listdir(dir_path)
         target = data.get(constants.TARGET_IMAGE)
         if target is None or target.endswith(".ISQ"):
             raise ValueError
         image_file_path = None
         for file in pths:
-            file_base = os.path.basename(file)
-            if file_base.lower() == target.lower():
+            if file.lower() == target.lower():
                 image_file_path = file
-                nm = data.get(constants.TARGET_IMAGE)
-                self.logs.log_debug("{} Received".format(nm))
+                image_file_path = os.path.join(dir_path, image_file_path)
+                self.logs.log_debug("{} Received".format(data.get(constants.TARGET_IMAGE)))
                 return com_file_path, image_file_path
         if image_file_path is None:
             nm = os.path.basename(com_file_path)
