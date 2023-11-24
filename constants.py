@@ -49,8 +49,8 @@ PROCESS_CHECKPOINT = '/state/process.txt'
 
 
 # Model setup parameters
-RAD_TIB_PATH_TO_ENV = "/home/iangs/miniconda3/envs/bl_torch/bin/python"
-RAD_TIB_PATH_TO_START = "/home/iangs/repos/HR-pQCT-Segmentation/segment.py"
+RAD_TIB_PATH_TO_ENV = r"/home/bonelab/.conda/envs/bl_torch/bin/python"
+RAD_TIB_PATH_TO_START = r"/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/segment.py"
 RAD_TIB_TRAINED_MODELS = "radius_tibia_final"
 
 
