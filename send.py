@@ -114,6 +114,7 @@ class Send:
 
         masks = ip_utils.get_abs_paths(self.image_dir)
         destination = ip_utils.convert_path(self.destination).replace("DK0", "DISK2")
+        
         batch_path = self.write_batch_file_radius_tibia(destination, self.image_dir, masks[0], masks[1])
         
         
@@ -158,19 +159,10 @@ class Send:
         """
         Takes in a list of sftp commands to generate a batch send file
         """
-        # Ensure masks dir is masks dir
-        dir_name = os.path.basename(path_to_masks_dir)
-        print(dir_name)
-        # if(dir_name != "masks"):
-        #     raise FileNotFoundError
-        full_dir_path  = os.path.abspath(dir_name)
-        
         batch_file_path = os.path.join(path_to_masks_dir, "batch.txt") 
-        
-        print(batch_file_path)
         with open(batch_file_path, 'w') as f:
             f.write("lcd " + full_dir_path + "\n")
-            f.write("cd " + destination_path  + "\n")
+            f.write("cd " + path_to_masks_dir  + "\n")
             f.write("put " + mask1_name + "\n")
             f.write("put " + mask2_name + "\n")
             f.write("exit")
