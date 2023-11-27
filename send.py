@@ -112,25 +112,70 @@ class Send:
         if not matching_files:
             raise FileNotFoundError("Image masks not found in masks dir")
 
-        # Sending images here
-        destination = ip_utils.convert_path(self.destination).replace("DK0", "DISK2")
-        sftp_cmd = ['sftp', '{}@{}:{}'.format(self.username, self.hostname, destination)]
         masks = ip_utils.get_abs_paths(self.image_dir)
-        put_cmd1 = ['put ' + masks[0], "quit"]
-        put_cmd2 = ['put ' + masks[1], "quit"]
-        # Use subprocess.Popen to execute the command
-        p1 = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
-        p1.communicate(input='\n'.join(put_cmd1).encode())
-        p2 = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE)
-        p2.communicate(input='\n'.join(put_cmd2).encode())
-
+        destination = ip_utils.convert_path(self.destination).replace("DK0", "DISK2")
+        batch_path = self.write_batch_file_radius_tibia(destination, self.image_dir, masks[0], masks[1])
+        
+        
+        vms_path_to_trab_mask = self.dat.get('FILE_TRAB_MASK_AIM').replace("DK0", "DISK2")
+        vms_path_to_cort_mask = self.dat.get('FILE_CORT_MASK_AIM').replace("DK0", "DISK2")
+        vms_aim_path = self.dat.get('FILE_AIM').replace("DK0", "DISK2")
+        
+        sftp_cmd = ['sftp', f'-b{batch_path}', 'xtremect2@emily.ucalgary.ca'] # Possibly add -i argument to point to key file 
+        
+        fix_trab_mask = ['ssh', '-p22', '-c3des-cbc', '-oKexAlgorithms=+diffie-hellman-group1-sha1', '-oHostKeyAlgorithms=+ssh-dss', f'{self.username}@{self.hostname}', f'set file/attr=(lrl:512, rfm:fix) {vms_path_to_trab_mask}']
+        fix_cort_mask = ['ssh', '-p22', '-c3des-cbc', '-oKexAlgorithms=+diffie-hellman-group1-sha1', '-oHostKeyAlgorithms=+ssh-dss', f'{self.username}@{self.hostname}', f'set file/attr=(lrl:512, rfm:fix) {vms_path_to_cort_mask}']
+        
+        masks_to_gobj = ['ssh', '-p22', '-c3des-cbc', '-oKexAlgorithms=+diffie-hellman-group1-sha1', '-oHostKeyAlgorithms=+ssh-dss', f'{self.username}@{self.hostname}', f'@COM:HIJACK_MASKS_TO_GOBJ.COM {vms_aim_path}']
+        
+        p1 = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE) # Sending masks as AIMs
+        
         if p1.returncode != 0:
+            p1.kill
             raise subprocess.CalledProcessError(p1.returncode, sftp_cmd)
-        elif p2.returncode != 0:
-            raise subprocess.CalledProcessError(p2.returncode, sftp_cmd)
+        
+        p2 = subprocess.Popen(fix_trab_mask, stdin=subprocess.PIPE) # Fixing trab mask attributes
+        
+        if p2.returncode != 0:
+            p2.kill
+            raise subprocess.CalledProcessError(p2.returncode, fix_trab_mask)
+        
+        p3 = subprocess.Popen(fix_cort_mask, stdin=subprocess.PIPE) # Fixing cort mask attributes
+        
+        if p3.returncode != 0:
+            p3.kill
+            raise subprocess.CalledProcessError(p3.returncode, fix_trab_mask)
+
+        p4 =  subprocess.Popen(masks_to_gobj, stdin=subprocess.PIPE) # Turning masks to GOBJ
+        
+        if p4.returncode != 0:
+            p4.kill
+            raise subprocess.CalledProcessError(p4.returncode, masks_to_gobj)
 
 
 
+    def write_batch_file_radius_tibia(self, destination_path, path_to_masks_dir, mask1_name, mask2_name):
+        """
+        Takes in a list of sftp commands to generate a batch send file
+        """
+        # Ensure masks dir is masks dir
+        dir_name = os.path.basename(path_to_masks_dir)
+        print(dir_name)
+        # if(dir_name != "masks"):
+        #     raise FileNotFoundError
+        full_dir_path  = os.path.abspath(dir_name)
+        
+        batch_file_path = os.path.join(path_to_masks_dir, "batch.txt") 
+        
+        print(batch_file_path)
+        with open(batch_file_path, 'w') as f:
+            f.write("lcd " + full_dir_path + "\n")
+            f.write("cd " + destination_path  + "\n")
+            f.write("put " + mask1_name + "\n")
+            f.write("put " + mask2_name + "\n")
+            f.write("exit")
+            
+        return batch_file_path
 
 
 

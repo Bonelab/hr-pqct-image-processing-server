@@ -104,29 +104,10 @@ class JobData:
             command_file = yaml.safe_load(file)
         return command_file
 
-    def _parse_com(self):
-        command_file = {}
-        with open(self.com_file_path, 'r') as f:
-            lines = f.readlines()
-            for line in lines:
-                line = line.strip("$").strip()
-                if "!" in line:
-                    sp = line.split("!")
-                    line = sp[0]
-                if ":==" in line:
-                    split = line.split(":==")
-                    if split[1] != "":
-                        command_file[split[0].strip()] = split[1].strip()
-        return command_file
-
     def _write_yaml(self):
         with open(self.com_file_path, 'w') as file:
             yaml.safe_dump(self.data, file, default_flow_style=False)
 
-    def write_com(self):
-        with open(self.com_file_path, 'w') as f:
-            for field in self.data:
-                f.write(f"$ {field} :== {self.data.get(field)} \n")
 
 
 class JobManager:
