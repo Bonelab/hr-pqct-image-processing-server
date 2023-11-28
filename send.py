@@ -130,25 +130,26 @@ class Send:
         masks_to_gobj = ['ssh', '-p22', '-c3des-cbc', '-oKexAlgorithms=+diffie-hellman-group1-sha1', '-oHostKeyAlgorithms=+ssh-dss', f'{self.username}@{self.hostname}', f'@COM:HIJACK_MASKS_TO_GOBJ.COM {vms_aim_path}']
         
         p1 = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE) # Sending masks as AIMs
+        p1.terminate()
         
         if p1.returncode != 0:
             p1.kill
             raise subprocess.CalledProcessError(p1.returncode, sftp_cmd)
         
         p2 = subprocess.Popen(fix_trab_mask, stdin=subprocess.PIPE) # Fixing trab mask attributes
-        
+        p2.terminate()
         if p2.returncode != 0:
             p2.kill
             raise subprocess.CalledProcessError(p2.returncode, fix_trab_mask)
         
         p3 = subprocess.Popen(fix_cort_mask, stdin=subprocess.PIPE) # Fixing cort mask attributes
-        
+        p3.terminate()
         if p3.returncode != 0:
             p3.kill
             raise subprocess.CalledProcessError(p3.returncode, fix_trab_mask)
 
         p4 =  subprocess.Popen(masks_to_gobj, stdin=subprocess.PIPE) # Turning masks to GOBJ
-        
+        p4.terminate()
         if p4.returncode != 0:
             p4.kill
             raise subprocess.CalledProcessError(p4.returncode, masks_to_gobj)
