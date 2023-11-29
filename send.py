@@ -166,7 +166,7 @@ class Send:
             f.write("cd " + destination_path + "\n")
             f.write("put " + mask1_name + "\n")
             f.write("put " + mask2_name + "\n")
-            f.write("exit")
+            f.write("exit\n")
         return batch_file_path
 
 
