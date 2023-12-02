@@ -129,30 +129,17 @@ class Send:
         
         masks_to_gobj = ['ssh', '-p22', '-c3des-cbc', '-oKexAlgorithms=+diffie-hellman-group1-sha1', '-oHostKeyAlgorithms=+ssh-dss', f'{self.username}@{self.hostname}', f'@COM:HIJACK_MASKS_TO_GOBJ.COM {vms_aim_path}']
         
-        p1 = subprocess.Popen(sftp_cmd, stdin=subprocess.PIPE) # Sending masks as AIMs
-        p1.terminate()
+        p1 = subprocess.Popen(sftp_cmd, check=True) # Sending masks as AIMs
+        p1.wait()
         
-        if p1.returncode != 0:
-            p1.kill
-            raise subprocess.CalledProcessError(p1.returncode, sftp_cmd)
+        p2 = subprocess.Popen(fix_trab_mask, check=True) # Fixing trab mask attributes
+        p2.wait()
         
-        p2 = subprocess.Popen(fix_trab_mask, stdin=subprocess.PIPE) # Fixing trab mask attributes
-        p2.terminate()
-        if p2.returncode != 0:
-            p2.kill
-            raise subprocess.CalledProcessError(p2.returncode, fix_trab_mask)
-        
-        p3 = subprocess.Popen(fix_cort_mask, stdin=subprocess.PIPE) # Fixing cort mask attributes
-        p3.terminate()
-        if p3.returncode != 0:
-            p3.kill
-            raise subprocess.CalledProcessError(p3.returncode, fix_trab_mask)
+        p3 = subprocess.Popen(fix_cort_mask, check=True) # Fixing cort mask attributes
+        p3.wait()
 
-        p4 =  subprocess.Popen(masks_to_gobj, stdin=subprocess.PIPE) # Turning masks to GOBJ
-        p4.terminate()
-        if p4.returncode != 0:
-            p4.kill
-            raise subprocess.CalledProcessError(p4.returncode, masks_to_gobj)
+        p4 =  subprocess.Popen(masks_to_gobj, check=True) # Turning masks to GOBJ
+        p4.wait()
 
 
 
@@ -164,9 +151,9 @@ class Send:
         with open(batch_file_path, 'w') as f:
             f.write("lcd " +  path_to_masks_dir + "\n")
             f.write("cd " + destination_path + "\n")
-            f.write("put " + mask1_name + "\n")
-            f.write("put " + mask2_name + "\n")
-            f.write("exit")
+            f.write("put " + os.path.basename(mask1_name) + "\n")
+            f.write("put " + os.path.basename(mask2_name) + "\n")
+            f.write("exit" + "\n")
         return batch_file_path
 
 
