@@ -130,16 +130,12 @@ class Send:
         masks_to_gobj = ['ssh', '-p22', '-c3des-cbc', '-oKexAlgorithms=+diffie-hellman-group1-sha1', '-oHostKeyAlgorithms=+ssh-dss', f'{self.username}@{self.hostname}', f'@COM:HIJACK_MASKS_TO_GOBJ.COM {vms_aim_path}']
         
         p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
-        p1.wait()
         
         p2 = subprocess.run(fix_trab_mask, check=True) # Fixing trab mask attributes
-        p2.wait()
         
         p3 = subprocess.run(fix_cort_mask, check=True) # Fixing cort mask attributes
-        p3.wait()
 
         p4 =  subprocess.run(masks_to_gobj, check=True) # Turning masks to GOBJ
-        p4.wait()
 
 
 
