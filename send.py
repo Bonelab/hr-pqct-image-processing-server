@@ -145,7 +145,7 @@ class Send:
         """
         batch_file_path = os.path.join(path_to_masks_dir, "batch.txt") 
         with open(batch_file_path, 'w') as f:
-            f.write("lcd " +  path_to_masks_dir + "\n")
+            # f.write("lcd " +  path_to_masks_dir + "\n")
             f.write("cd " + destination_path + "\n")
             f.write("put " + os.path.basename(mask1_name) + "\n")
             f.write("put " + os.path.basename(mask2_name) + "\n")
