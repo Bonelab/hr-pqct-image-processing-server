@@ -147,8 +147,8 @@ class Send:
         with open(batch_file_path, 'w') as f:
             # f.write("lcd " +  path_to_masks_dir + "\n")
             f.write("cd " + destination_path + "\n")
-            f.write("put " + os.path.basename(mask1_name) + "\n")
-            f.write("put " + os.path.basename(mask2_name) + "\n")
+            f.write("put " + mask1_name + "\n")
+            f.write("put " + mask2_name + "\n")
             f.write("exit" + "\n")
         return batch_file_path
 
