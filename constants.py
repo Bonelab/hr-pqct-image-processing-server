@@ -17,6 +17,7 @@ STATE = 'state'
 DIRS = [BATCHES, DEL, DEST, FAILED, DONE, REC, TMP, STATE]
 JOB_DIRS = [BATCHES, DEST, DONE, FAILED]
 
+PAUSED = True
 
 
 # Time before a file gets deleted in days
@@ -34,7 +35,7 @@ JOB_TYPE = "JOB_TYPE"
 
 # Socket details for communicating from CLI to daemon
 ip_addr = "127.0.0.1"
-port = 4001
+port = 4003
 ADDR = (ip_addr, port)
 
 
@@ -49,8 +50,8 @@ PROCESS_CHECKPOINT = '/state/process.txt'
 
 
 # Model setup parameters
-RAD_TIB_PATH_TO_ENV = r"/home/bonelab/.conda/envs/bl_torch/bin/python"
-RAD_TIB_PATH_TO_START = r"/home/bonelab/repos/Bonelab/HR-pQCT-Segmentation/segment.py"
+RAD_TIB_PATH_TO_ENV = r"/home/iangs/miniconda3/envs/bl_torch/bin/python"
+RAD_TIB_PATH_TO_START = r"/home/iangs/repos/HR-pQCT-Segmentation/segment.py"
 RAD_TIB_TRAINED_MODELS = "radius_tibia_final"
 
 

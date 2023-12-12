@@ -13,7 +13,7 @@ import socket
 
 
 class CLI:
-    def __init__(self, queue, processor, send, file_manager):
+    def __init__(self, queue, processor, send, file_manager, main_loop):
         """
         Constructor Method
         :param queue: Instance of main ManagedQueue
@@ -25,6 +25,7 @@ class CLI:
         self.processor = processor
         self.send = send
         self.file_manager = file_manager
+        self.main = main_loop
 
         self.server = None
         self._bind_socket()
@@ -85,6 +86,11 @@ class CLI:
             self._handle_remove(cmd[1])
         elif command == "failed":
             self._handle_failed()
+        elif command == "pause":
+            self._handle_pause()
+        elif command == "unpause":
+            self._handle_unpause()
+
 
     def _get_jobs(self):
         """
@@ -181,6 +187,22 @@ class CLI:
         self.queue.remove_from_queue(jobname)
         jbs = self._get_jobs()
         self._send_to_cli(jbs, "delete")
+        
+    def _handle_pause(self):
+        if self.main.paused == False:
+            self.main.set_processing_state(True)
+            self._send_to_cli("paused","pause")
+        else:
+            self._send_to_cli("already_paused","pause")
+        
+    
+    def _handle_unpause(self):
+        if self.main.paused == True:
+            self.main.set_processing_state(False)
+            self._send_to_cli("unpaused","unpause")
+        else:
+            self._send_to_cli("already_unpaused","unpause")
+        
 
     def _skip_current(self):
         """

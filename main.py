@@ -33,9 +33,10 @@ class Main:
         self.processor = Processor(self.logs, self.file_manager)
         self.job_queue = ManagedQueue(self.logs)
         self.transfer = Send(self.logs)
-        self.Cli = CLI(self.job_queue, self.processor, self.transfer, self.file_manager)
+        self.Cli = CLI(self.job_queue, self.processor, self.transfer, self.file_manager, self)
 
         self.running = True
+        self.paused = True
 
         self.start()
         self.logs.log_debug("Server Started")
@@ -51,6 +52,7 @@ class Main:
         threading.Thread(target=self.processing).start()
         # CLI thread
         threading.Thread(target=self.cli_handle(), args=()).start()
+        
 
     def cli_handle(self):
         """
@@ -59,6 +61,9 @@ class Main:
         """
         while self.running:
             self.Cli.cli()
+            
+    def set_processing_state(self, state):
+        self.paused = state
 
     def monitor(self):
         """
@@ -98,14 +103,19 @@ class Main:
         :return: None
         """
         while self.running:
+            
+            if self.paused:
+                time.sleep(1)
+                continue
+        
             if self.job_queue.JOB_QUEUE.not_empty:
                 job_path = self.job_queue.dequeue()  # First item is gotten from the queue
                 job_path = self.file_manager.move(job_path, constants.DEST)
                 is_successful = self.processor.process_image(job_path)
-                if is_successful:
-                    is_successful = self.transfer.send(job_path)
+                if is_successful: # If the image is processed successfully then it gets sent 
+                    is_successful = self.transfer.send(job_path) 
                     job_path = self.file_manager.move(job_path, constants.DONE)
-                    if not is_successful:
+                    if not is_successful: # Failed transfer of files will move the files to the failed directory
                         self.file_manager.move(job_path, constants.FAILED)
                 else:
                     self.file_manager.move(job_path, constants.FAILED)

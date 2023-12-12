@@ -48,3 +48,5 @@ batches/*
 destination/*
 __pycache__/*
 __pycache__/job.cpython-311.pyc
+trained_models/radius_tibia_final.yaml
+trained_models/radius_tibia_final.pth
