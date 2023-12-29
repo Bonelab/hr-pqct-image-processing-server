@@ -6,15 +6,14 @@ Description: Handles communication with the external cli python program
 import os.path
 
 from job import JobData
-import ip_utils
-import constants
+import constants, ip_utils
 
 import pickle
 import socket
 
 
 class CLI:
-    def __init__(self, queue, processor, send, file_manager):
+    def __init__(self, queue, processor, send, file_manager, main_loop):
         """
         Constructor Method
         :param queue: Instance of main ManagedQueue
@@ -26,6 +25,7 @@ class CLI:
         self.processor = processor
         self.send = send
         self.file_manager = file_manager
+        self.main = main_loop
 
         self.server = None
         self._bind_socket()
@@ -86,13 +86,18 @@ class CLI:
             self._handle_remove(cmd[1])
         elif command == "failed":
             self._handle_failed()
+        elif command == "pause":
+            self._handle_pause()
+        elif command == "unpause":
+            self._handle_unpause()
+
 
     def _get_jobs(self):
         """
         Gets current jobs on queue
         :return: None
         """
-        jobs = self.queue.get_jobs()
+        jobs = self.queue.get_state()
         if self.processor.current is not None:
             jobs.insert(0, self.processor.current)
         return jobs
@@ -101,7 +106,7 @@ class CLI:
     def _jobs_from_dir(directory):
         """
         Get jobs from a specific directory
-        :param directory: directory you want to get the jobs from
+        :param directory:  you want to get the jobs from
         :return: List of jobs as JobData
         """
         job_pths = ip_utils.get_abs_paths(directory)
@@ -123,7 +128,7 @@ class CLI:
         Gets completed jobs and sends them to CLI
         :return: None
         """
-        comp = self._jobs_from_dir(os.path.join(constants.BASE_DIR, constants.DONE))
+        comp = self._jobs_from_dir(constants.DONE)
         self._send_to_cli(comp, "completed")
 
     def _handle_failed(self):
@@ -131,7 +136,7 @@ class CLI:
         Gets failed jobs and sends them to CLI
         :return: None
         """
-        fail = self._jobs_from_dir(os.path.join(constants.BASE_DIR, constants.FAILED))
+        fail = self._jobs_from_dir( constants.FAILED)
         self._send_to_cli(fail, "failed")
 
     def _handle_info(self, jobname):
@@ -182,6 +187,22 @@ class CLI:
         self.queue.remove_from_queue(jobname)
         jbs = self._get_jobs()
         self._send_to_cli(jbs, "delete")
+        
+    def _handle_pause(self):
+        if self.main.paused == False:
+            self.main.set_processing_state(True)
+            self._send_to_cli("paused","pause")
+        else:
+            self._send_to_cli("already_paused","pause")
+        
+    
+    def _handle_unpause(self):
+        if self.main.paused == True:
+            self.main.set_processing_state(False)
+            self._send_to_cli("unpaused","unpause")
+        else:
+            self._send_to_cli("already_unpaused","unpause")
+        
 
     def _skip_current(self):
         """

@@ -7,9 +7,9 @@ sort of serves as a filemanager, with the ability to format files into the folde
 It also handles things like movement of files within the program
 Created 2023-06-12
 """
+import yaml
 
-import ip_utils
-import constants
+import constants, ip_utils
 
 import os
 import shutil
@@ -60,7 +60,7 @@ class JobData:
         :param exc_tb:
         :return:
         """
-        self.write_com()
+        self._write_yaml()
 
     def initialize(self):
         """
@@ -69,17 +69,18 @@ class JobData:
         """
         self.com_file_name = self._find_com()
         self.com_file_path = os.path.join(self.base, self.com_file_name)
-        self.data = self._parse_com()
+        # self.data = self._parse_com()
+        self.data = self._parse_yaml()
         image_path = self._find_image()
         self.image_file_path = image_path
-        self.image_file_name = self.data.get("TARGET_FILE")
+        self.image_file_name = self.data.get(constants.TARGET_IMAGE)
 
     def _find_image(self):
         """
         Function to find associated image file from the associated com file
         :return: returns path to associated image file
         """
-        image_name = self.data.get("TARGET_FILE")
+        image_name = self.data.get(constants.TARGET_IMAGE).lower()
         image_path = os.path.join(self.base, image_name)
         if os.path.exists(image_path):
             return image_path
@@ -89,30 +90,23 @@ class JobData:
         Finds com file within base directory
         :return: Returns the full path to the com file
         """
-        contents = os.listdir(self.base)
+        if os.path.isdir(self.base):
+            contents = os.listdir(self.base)
+        else:
+            contents = []
         for file in contents:
-            if file.lower().endswith(".com"):
+            if file.lower().endswith(".yaml"):
                 return file
+        raise FileNotFoundError
 
-    def _parse_com(self):
-        command_file = {}
-        with open(self.com_file_path, 'r') as f:
-            lines = f.readlines()
-            for line in lines:
-                line = line.strip("$").strip()
-                if "!" in line:
-                    sp = line.split("!")
-                    line = sp[0]
-                if ":==" in line:
-                    split = line.split(":==")
-                    if split[1] != "":
-                        command_file[split[0].strip()] = split[1].strip()
+    def _parse_yaml(self):
+        with open(self.com_file_path, 'r') as file:
+            command_file = yaml.safe_load(file)
         return command_file
 
-    def write_com(self):
-        with open(self.com_file_path, 'w') as f:
-            for field in self.data:
-                f.write(f"$ {field} :== {self.data.get(field)} \n")
+    def _write_yaml(self):
+        with open(self.com_file_path, 'w') as file:
+            yaml.safe_dump(self.data, file, default_flow_style=False)
 
 
 
@@ -151,10 +145,12 @@ class JobManager:
             self.logs.log_debug("{} renamed to {}".format(os.path.basename(job_base), rename))
             new_base = shutil.move(new_path, destination)
         except shutil.Error:
-            rename = self._name_dir(job_base)
+            with JobData(job_base) as jd:
+                com_file = jd.com_file_path
+            rename = self._name_dir(com_file) + "\\"
             path = os.path.dirname(job_base)
             new_path = os.path.join(path, rename)
-            os.rename(job_base, rename)
+            os.rename(job_base, new_path)
             self.logs.log_debug("{} renamed to {}".format(os.path.basename(job_base), rename))
             new_base = shutil.move(new_path, destination)
         return os.path.abspath(new_base)
@@ -195,9 +191,10 @@ class JobManager:
         :param com_file: com file
         :return: Returns the job name
         """
-        metadata = self._parse_com(com_file)
+        # metadata = self._parse_com(com_file)
+        metadata = self._parse_yaml(com_file)
         job_names = self._get_all_jobs()
-        cur_job_name = metadata.get("IPL_FNAME")
+        cur_job_name = metadata.get(constants.F_NAME)  # TODO: Change this to the proper param
         count = 0
 
         for name in job_names:
@@ -221,24 +218,17 @@ class JobManager:
         for folder in constants.JOB_DIRS:
             job_names = job_names + ip_utils.get_abs_paths(folder)
         for path in job_names:
-            with JobData(path) as jd:
-                job_names = list(map(lambda x: x.replace(path, jd.base_name), job_names))
+            if os.path.isdir(path):
+                with JobData(path) as jd:
+                    job_names = list(map(lambda x: x.replace(path, jd.base_name), job_names))
+            else:
+                job_names.remove(path)
+                
         return job_names
 
-    @staticmethod
-    def _parse_com(file_path):
-        command_file = {}
-        with open(file_path, 'r') as f:
-            lines = f.readlines()
-            for line in lines:
-                line = line.strip("$").strip()
-                if "!" in line:
-                    sp = line.split("!")
-                    line = sp[0]
-                if ":==" in line:
-                    split = line.split(":==")
-                    if split[1] != "":
-                        command_file[split[0].strip()] = split[1].strip()
+    def _parse_yaml(self, file_path):
+        with open(file_path, 'r') as file:
+            command_file = yaml.safe_load(file)
         return command_file
 
     # Takes in an absolute path of the com file
@@ -248,24 +238,25 @@ class JobManager:
         :param com_file_path: com file name that you want to get the association for
         :return: returns the com and image file paths
         """
+        if os.path.isdir(com_file_path):
+            raise FileNotFoundError
+        
         dir_path = os.path.dirname(com_file_path)
-        data = self._parse_com(com_file_path)
-        pths = ip_utils.get_abs_paths(dir_path)
+        data = self._parse_yaml(com_file_path)
+        pths = os.listdir(dir_path)
         target = data.get(constants.TARGET_IMAGE)
         if target is None or target.endswith(".ISQ"):
             raise ValueError
         image_file_path = None
         for file in pths:
-            file_base = os.path.basename(file)
-            if file_base.lower() == target.lower():
+            if file.lower() == target.lower():
                 image_file_path = file
-                nm = data.get(constants.F_NAME)
-                self.logs.log_debug("{} Received".format(nm))
+                image_file_path = os.path.join(dir_path, image_file_path)
+                self.logs.log_debug("{} Received".format(data.get(constants.TARGET_IMAGE)))
                 return com_file_path, image_file_path
         if image_file_path is None:
             nm = os.path.basename(com_file_path)
             self.logs.log_error('Could not find associated image file for {}'.format(nm))
-            os.remove(com_file_path)
             raise FileNotFoundError("Image file not found for {}".format(nm))
 
     def _ensure_directories_exist(self, dirs=None):

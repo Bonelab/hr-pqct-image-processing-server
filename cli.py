@@ -2,6 +2,26 @@
 # Author: Ian Smith
 # Description: Allows for communication with the main part of the image processing server while it is daemonized
 # Created: 2023-06-16
+'''
+Commands that can be used:
+
+-j, --jobs: Shows current jobs in the queue
+
+-i <jobname>, --info <jobname>: Gest info about a job
+
+-d, --delete: deletes a job from the queue
+
+-c, --completed: shows jobs that have successfully completed 
+
+-f, --failed: shows jobs that have failed recently 
+
+-p, --pause: pauses the processing on the server. if there is a job currently running it will finish before pausing
+
+-u, --unpause: unpauses the server if it is paused
+'''
+
+
+
 import socket
 import pickle
 import argparse
@@ -11,14 +31,13 @@ import constants
 
 JOBNAME = "EVAL_FNAME"
 FILE_TYPE = "FEXT"
-JOB_TYPE = "JOB"
+JOB_TYPE = "JOB_TYPE"
 CLIENT_ADDR = "CLIENT_HOSTNAME"
 ACCOUNT_NAME = "CLIENT_USERNAME"
 
 FORMAT = "utf-8"
 ip_addr = "127.0.0.1"
-PORT = 4000
-ADDR = (ip_addr, PORT)
+
 
 
 # Form [<command>, <arg1>, <arg2>, ..., <argn>]
@@ -60,6 +79,20 @@ def create_parser():
         help="Shows jobs completed within the last {} days".format(constants.TIME_TO_DELETE)
     )
     parser.add_argument(
+        "-p",
+        "--pause",
+        action="store_true",
+        default=False,
+        help="Pauses the processing of jobs. Server will still recieve jobs."
+    )
+    parser.add_argument(
+        "-u",
+        "--unpause",
+        action="store_true",
+        default=False,
+        help="Unpauses the processing of jobs if it is already paused"
+    )
+    parser.add_argument(
         "-i",
         "--info",
         metavar="JOBNAME",
@@ -88,15 +121,23 @@ def create_parser():
 
 
 def handle_args(client, args):
-    nm = vars(args)
-    for key in nm:
-        if not (nm.get(key) is None or nm.get(key) is False):
+    success = False
+    args_keys = vars(args)
+    for key in args_keys:
+        if not (args_keys.get(key) is None or args_keys.get(key) is False):
             cmd = [key]
-            if isinstance(nm.get(key), list):
-                cmd = cmd + nm.get(key)
+            # print(cmd)
+            # print(args_keys.get(key))
+            op = isinstance(args_keys.get(key), list)
+            if isinstance(args_keys.get(key), list):
+                cmd = cmd + args_keys.get(key)
             else:
-                cmd.append(nm.get(key))
+                cmd.append(args_keys.get(key))
             send(cmd, client)
+            success = True
+            
+    if success == False:
+        raise NoCommandError
 
 
 def handle_response(data):
@@ -124,6 +165,18 @@ def handle_response(data):
     elif command == "failed":
         print("Failed Jobs:")
         print_jobs(data[1])
+    elif command == "pause":
+        if data[1] == "paused":
+            print("Processing paused")
+        elif data[1] == "already_paused":
+            print("Processing is already paused, use -u to unpause")            
+    elif command == "unpause":
+        if data[1] == "unpaused":
+            print("Processsing unpaused")
+        elif data[1] == "already_unpaused":
+            print("Processing is already unpaused, use -p to pause")
+    else:
+        print("Please input a command")
     print()
 
 
@@ -152,20 +205,30 @@ def cli():
     args = create_parser().parse_args()
     try:
         client_connect = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client_connect.connect(ADDR)
+        client_connect.connect(constants.ADDR)
         handle_args(client_connect, args)
 
         response_data = b''
         while True:
             chunk = client_connect.recv(1024)
+
             if not chunk:
+                break
+            elif chunk is None:
                 break
             response_data += chunk
 
         response = pickle.loads(response_data)
         handle_response(response)
+    except NoCommandError as e:
+        print("Please enter a command or use the -h flag to see available commands")
     except Exception as e:
         print("No Response From Server", e)
 
+
+class NoCommandError(Exception):
+    def __init__(self, message="No command provided by the user"):
+        self.message=message
+        super().__init__(self.message)
 
 cli()

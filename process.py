@@ -4,11 +4,12 @@ Author: Ian Smith
 Description: This module should contain all operations related to calling/executing image processing algorithms.
 """
 
-import constants
-import ip_utils
+import constants, ip_utils
 from job import JobData
 
+import os
 import subprocess
+import traceback
 
 
 class Processor:
@@ -16,6 +17,7 @@ class Processor:
     A class to handle the processing of images, uses a factory method to decide what type of job a job is based off of
     the job's metadata
     """
+
     def __init__(self, logger, file_manager):
         """
         Constructor method
@@ -33,10 +35,10 @@ class Processor:
         On startup, clears the destination directory of jobs
         :return: None
         """
-        self.logs.log_debug("Clearing out destination dir")
-        files = ip_utils.get_abs_paths("destination")
+        self.logs.log_debug("Retrieving files from destination dir")
+        files = ip_utils.get_abs_paths(constants.DEST)
         for i in files:
-            self.file_manager.move(i, "batches")
+            self.file_manager.move(i, constants.BATCHES)
 
     def process_image(self, job_base):
         """
@@ -50,8 +52,15 @@ class Processor:
             self._get_processor(job_data)
             self.current = None
             return True
+        except FileNotFoundError as e:
+            self.logs.log_error(f"FileNotFoundError: {e}")
+            return False
+        except NotImplementedError as e:
+            self.logs.log_error(f"NotImplementedError: {e}")
+            return False
         except Exception as e:
             self.logs.log_error("An error has occurred with {}: {}".format(job_data.base_name, e))
+            self.logs.log_error(traceback.format_exc())
             return False
         finally:
             self.process = None
@@ -63,9 +72,12 @@ class Processor:
         :param job_data: JobData
         :return: None
         """
-        job_type = job_data.data.get("JOB")
+        job_type = job_data.data.get(constants.JOB_TYPE)
+        job_type = job_type.lower()
         if job_type == "radius_tibia_final":
             self._radius_tibia_final(job_data)
+        else:
+            raise NotImplementedError(f"Job Type: {job_type} not implemented in this system.")
 
     def _radius_tibia_final(self, job_data):
         """
@@ -74,7 +86,15 @@ class Processor:
         :return: None
         """
         self.logs.log_debug("Processing {}".format(job_data.image_file_name))
-        # the first item in the list is the path to the python interpreter with the conda env and the 2nd is the path to run the model
+
+        # Checking that the path to the env to run the segmentation exists and that the path to segment.py exists
+        if not os.path.exists(constants.RAD_TIB_PATH_TO_ENV):
+            raise FileNotFoundError("Path to bl_torch python executable does not exist")
+        elif not os.path.exists(constants.RAD_TIB_PATH_TO_START):
+            raise FileNotFoundError("Path to HR-pQCT-Segmentation segment.py does not exist")
+
+        # The first item in the list is the path to the python interpreter with the conda env and the
+        # 2nd is the path to run the model
         cmd = [constants.RAD_TIB_PATH_TO_ENV, constants.RAD_TIB_PATH_TO_START, job_data.base,
                constants.RAD_TIB_TRAINED_MODELS, "--image-pattern", job_data.image_file_name.lower()]
 
@@ -83,7 +103,7 @@ class Processor:
         if self.process.returncode == 0:
             self.logs.log_debug("radius-tibia-final job {} finished successfully".format(job_data.base_name))
         else:
-            raise subprocess.CalledProcessError
+            raise subprocess.CalledProcessError(self.process.returncode, cmd)
 
     def shutdown(self):
         """
@@ -92,4 +112,3 @@ class Processor:
         """
         if self.process is not None:
             self.process.kill()
-
