@@ -79,8 +79,8 @@ class JobData:
         Function to find associated image file from the associated com file
         :return: returns path to associated image file
         """
-        if self.data is None:
-            raise FileNotFoundError
+        # if self.data is None:
+        #     raise FileNotFoundError
         image_name = self.data.get(constants.TARGET_IMAGE).lower()
         image_path = os.path.join(self.base, image_name)
         if os.path.exists(image_path):
