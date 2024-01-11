@@ -88,6 +88,7 @@ class Main:
                             self.job_queue.enqueue(job_path)
                             break
                         except FileNotFoundError as e:
+                            self.logs.log_error(file)
                             self.logs.log_error(f"{e}")
                             self.logs.log_error(traceback.format_exc())
                             try:
