@@ -69,7 +69,6 @@ class JobData:
         """
         self.com_file_name = self._find_com()
         self.com_file_path = os.path.join(self.base, self.com_file_name)
-        # self.data = self._parse_com()
         self.data = self._parse_yaml()
         image_path = self._find_image()
         self.image_file_path = image_path
@@ -104,6 +103,7 @@ class JobData:
     def _parse_yaml(self):
         with open(self.com_file_path, 'r') as file:
             command_file = yaml.safe_load(file)
+            print(command_file)
         return command_file
 
     def _write_yaml(self):
