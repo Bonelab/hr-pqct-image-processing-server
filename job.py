@@ -101,9 +101,9 @@ class JobData:
         raise FileNotFoundError
 
     def _parse_yaml(self):
+        print(self.com_file_path)
         with open(self.com_file_path, 'r') as file:
             command_file = yaml.safe_load(file)
-            print(command_file)
         return command_file
 
     def _write_yaml(self):
