@@ -377,3 +377,563 @@ subprocess.CalledProcessError: Command '['sftp', 'XTREMECT2@EMILY.UCALGARY.CA:/D
     raise subprocess.CalledProcessError(p1.returncode, sftp_cmd)
 subprocess.CalledProcessError: Command '['sftp', 'XTREMECT2@EMILY.UCALGARY.CA:/DISK2/XTREMECT2/DATA/00003872/00020095/']' returned non-zero exit status 255.
 
+2024-01-19 12:48:08,597 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:48:09,606 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:48:10,614 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:48:11,624 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:48:12,637 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:48:13,686 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:48:14,700 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:48:15,706 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:48:16,729 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:48:17,760 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:48:18,821 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:48:19,827 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:48:20,839 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:48:21,871 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:48:22,907 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:48:23,939 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:48:24,972 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:48:26,008 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:48:27,044 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:48:28,085 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:54:50,230 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:54:51,282 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:54:52,325 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:54:53,370 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:54:54,420 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:54:55,470 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:54:56,521 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:54:57,574 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:54:58,629 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:54:59,687 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:55:00,745 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:55:01,805 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:55:02,867 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:55:03,933 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:55:04,999 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:55:06,068 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:55:07,134 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:55:08,205 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:55:09,281 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 12:55:10,355 - ERROR - FileNotFoundError: Path to bl_torch python executable does not exist
+2024-01-19 13:06:34,542 - ERROR - Transfer to D0016353.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016353-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 13:06:34,552 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016353-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-19 13:12:00,629 - ERROR - Transfer to D0016454.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016454-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 13:12:00,630 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016454-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-19 13:20:09,643 - ERROR - Transfer to D0016450.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016450-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 13:20:09,643 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016450-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-19 13:26:52,579 - ERROR - Transfer to D0016449.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016449-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 13:26:52,580 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016449-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-19 13:36:28,324 - ERROR - Transfer to D0016441.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016441-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 13:36:28,324 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016441-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-19 13:42:41,417 - ERROR - Transfer to D0016456.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016456-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 13:42:41,418 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016456-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-19 13:50:04,282 - ERROR - Transfer to D0016446.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016446-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 13:50:04,284 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016446-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-19 13:56:40,072 - ERROR - Transfer to D0016444.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016444-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 13:56:40,073 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016444-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-19 14:02:59,129 - ERROR - Transfer to D0016452.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016452-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 14:02:59,129 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016452-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-19 14:13:33,005 - ERROR - Transfer to D0016447.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016447-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 14:13:33,006 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016447-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-19 14:21:37,771 - ERROR - Transfer to D0016455.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016455-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 14:21:37,771 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016455-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-19 14:31:01,665 - ERROR - Transfer to D0016438.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016438-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 14:31:01,666 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016438-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-19 14:35:51,828 - ERROR - Transfer to D0016442.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016442-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 14:35:51,829 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016442-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-19 14:43:00,509 - ERROR - Transfer to D0016439.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016439-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 14:43:00,509 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016439-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-19 14:46:12,437 - ERROR - Transfer to D0016410.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016410-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 14:46:12,437 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016410-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-19 14:50:41,646 - ERROR - Transfer to D0016390.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016390-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 14:50:41,647 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016390-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-19 14:57:42,880 - ERROR - Transfer to D0016458.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016458-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 14:57:42,881 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016458-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-19 15:05:34,688 - ERROR - Transfer to D0016459.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016459-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 15:05:34,689 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016459-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-19 15:12:50,509 - ERROR - Transfer to D0016453.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016453-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 15:12:50,509 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016453-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-19 15:21:37,965 - ERROR - Transfer to D0016443.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016443-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-19 15:21:37,966 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016443-2/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 18:23:43,163 - ERROR - Transfer to D0016353.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016353-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 18:23:43,167 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016353-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 18:34:55,428 - ERROR - Transfer to D0016441.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016441-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 18:34:55,428 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016441-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 18:41:20,703 - ERROR - Transfer to D0016454.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016454-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 18:41:20,703 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016454-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 18:50:38,236 - ERROR - Transfer to D0016450.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016450-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 18:50:38,237 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016450-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 18:58:21,542 - ERROR - Transfer to D0016449.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016449-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 18:58:21,543 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016449-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 19:05:43,408 - ERROR - Transfer to D0016456.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016456-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 19:05:43,408 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016456-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 19:13:56,672 - ERROR - Transfer to D0016446.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016446-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 19:13:56,673 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016446-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 19:21:13,514 - ERROR - Transfer to D0016444.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016444-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 19:21:13,514 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016444-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 19:31:24,125 - ERROR - Transfer to D0016452.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016452-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 19:31:24,125 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016452-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 19:44:17,509 - ERROR - Transfer to D0016447.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016447-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 19:44:17,510 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016447-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 19:54:04,434 - ERROR - Transfer to D0016455.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016455-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 19:54:04,434 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016455-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 20:04:28,621 - ERROR - Transfer to D0016438.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016438-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 20:04:28,621 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016438-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 20:09:46,243 - ERROR - Transfer to D0016442.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016442-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 20:09:46,243 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016442-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 20:17:08,319 - ERROR - Transfer to D0016439.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016439-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 20:17:08,319 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016439-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 20:20:55,712 - ERROR - Transfer to D0016410.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016410-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 20:20:55,713 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016410-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 20:26:26,146 - ERROR - Transfer to D0016390.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016390-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 20:26:26,147 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016390-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 20:34:01,197 - ERROR - Transfer to D0016458.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016458-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 20:34:01,198 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016458-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 20:41:54,675 - ERROR - Transfer to D0016459.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016459-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 20:41:54,676 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016459-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 20:49:03,484 - ERROR - Transfer to D0016453.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016453-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 20:49:03,485 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016453-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+
+2024-01-21 20:57:39,890 - ERROR - Transfer to D0016443.AIM of EMILY.UCALGARY.CA failed: Error Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016443-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+2024-01-21 20:57:39,890 - ERROR - Traceback (most recent call last):
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 72, in send
+    self._get_send_for_job()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 95, in _get_send_for_job
+    self._send_radius_tibia_final()
+  File "/home/iangs/repos/HR-pQCT-Image-Processing-Server/send.py", line 132, in _send_radius_tibia_final
+    p1 = subprocess.run(sftp_cmd, check=True) # Sending masks as AIMs
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/iangs/miniconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['sftp', '-b/home/iangs/repos/HR-pQCT-Image-Processing-Server/destination/D0016443-3/masks/batch.txt', 'xtremect2@emily.ucalgary.ca']' returned non-zero exit status 255.
+

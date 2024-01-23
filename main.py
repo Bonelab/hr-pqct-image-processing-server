@@ -36,7 +36,7 @@ class Main:
         self.Cli = CLI(self.job_queue, self.processor, self.transfer, self.file_manager, self)
 
         self.running = True
-        self.paused = True
+        self.paused = False
 
         self.start()
         self.logs.log_debug("Server Started")
@@ -122,6 +122,6 @@ class Main:
                     self.file_manager.move(job_path, constants.FAILED)
             time.sleep(1)
 
-
+    
 if __name__ == "__main__":
     Main()

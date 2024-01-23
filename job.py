@@ -136,24 +136,33 @@ class JobManager:
             date_str = date.strftime("%Y-%m-%d")
             jd.data[constants.DATE] = date_str
 
-        try:
-            new_base = shutil.move(job_base, destination)
-        except FileExistsError:
-            rename = self._name_dir(job_base)
-            path = os.path.dirname(job_base)
-            new_path = os.path.join(path, rename)
-            os.rename(job_base, rename)
-            self.logs.log_debug("{} renamed to {}".format(os.path.basename(job_base), rename))
-            new_base = shutil.move(new_path, destination)
-        except shutil.Error:
-            with JobData(job_base) as jd:
-                com_file = jd.com_file_path
-            rename = self._name_dir(com_file) + "\\"
-            path = os.path.dirname(job_base)
-            new_path = os.path.join(path, rename)
-            os.rename(job_base, new_path)
-            self.logs.log_debug("{} renamed to {}".format(os.path.basename(job_base), rename))
-            new_base = shutil.move(new_path, destination)
+        i = 0
+        while True:
+            try:
+                new_base = shutil.move(job_base, destination)
+                break
+            except FileExistsError:
+                i = i + 1   
+                # rename = self._name_dir(job_base)
+                job_data = self._parse_yaml(com_file)
+                file_name_base = job_data.get(constants.F_NAME)
+                rename = file_name_base + f'-{i}'
+                path = os.path.dirname(job_base)
+                new_path = os.path.join(path, rename)
+                os.rename(job_base, rename)
+                self.logs.log_debug("{} renamed to {}".format(os.path.basename(job_base), rename))
+                new_base = shutil.move(new_path, destination)
+            except shutil.Error:
+                with JobData(job_base) as jd:
+                    com_file = jd.com_file_path
+                rename = self._name_dir(com_file) + "\\"
+                path = os.path.dirname(job_base)
+                new_path = os.path.join(path, rename)
+                os.rename(job_base, new_path)
+                self.logs.log_debug("{} renamed to {}".format(os.path.basename(job_base), rename))
+                new_base = shutil.move(new_path, destination)
+                break
+                
         return os.path.abspath(new_base)
 
     def create_job_data(self, com_file):
@@ -163,28 +172,50 @@ class JobManager:
         :return: returns the path of the formatted JobData
         """
         com, img = self._create_association(com_file)
-        base = self._format_job_data(com, img)
-        return base
-
-    def _format_job_data(self, com_file, image_file):
-        """
-        Method to move JobData files into the JobData dir also creates masks subdir
-        :param com_file: Com file to be moved
-        :param image_file: Image file to be moved
-        :return:
-        """
-        self.logs.log_debug("Formatting {}".format(os.path.basename(image_file)))
-        com_file = os.path.abspath(com_file)
+        
+        self.logs.log_debug("Formatting {}".format(os.path.basename(img)))
+        com = os.path.abspath(com)
         dir_name = os.path.dirname(com_file)
-        image_file = os.path.abspath(image_file)
+        img = os.path.abspath(img)
         base = os.path.join(dir_name, self._name_dir(com_file))
         os.mkdir(base)
-
         shutil.move(com_file, base)
-        shutil.move(image_file, base)
+        shutil.move(img, base)
         mask_dir = os.path.join(base, "masks")
         os.mkdir(mask_dir)
         return base
+
+
+    # def _format_job_data(self, com_file, image_file):
+    #     """
+    #     Method to move JobData files into the JobData dir also creates masks subdir
+    #     :param com_file: Com file to be moved
+    #     :param image_file: Image file to be moved
+    #     :return:
+    #     """
+    #     self.logs.log_debug("Formatting {}".format(os.path.basename(image_file)))
+    #     com_file = os.path.abspath(com_file)
+    #     dir_name = os.path.dirname(com_file)
+    #     image_file = os.path.abspath(image_file)
+    #     base = os.path.join(dir_name, self._name_dir(com_file))
+    #     os.mkdir(base)
+
+    #     shutil.move(com_file, base)
+    #     shutil.move(image_file, base)
+    #     mask_dir = os.path.join(base, "masks")
+    #     os.mkdir(mask_dir)
+    #     return base
+
+    def _create_name(self, com_file):
+        """
+        Names the directory when a job data directory is created 
+        :param com_file: name/path to a yaml command file that contains the job data
+        :return: the name for the job 
+        """
+        metadata = self._parse_yaml(com_file)
+        job_name = metadata.get(constants.F_NAME)
+        return job_name
+        
 
     def _name_dir(self, com_file):
         """
@@ -192,7 +223,6 @@ class JobManager:
         :param com_file: com file
         :return: Returns the job name
         """
-        # metadata = self._parse_com(com_file)
         metadata = self._parse_yaml(com_file)
         job_names = self._get_all_jobs()
         cur_job_name = metadata.get(constants.F_NAME)  # TODO: Change this to the proper param
